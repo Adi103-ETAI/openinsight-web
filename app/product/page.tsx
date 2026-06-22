@@ -145,7 +145,9 @@ export default function ProductPage() {
           </SectionReveal>
 
           <SectionReveal>
-            <Accordion items={architectureItems} />
+            <div className="product-architecture-accordion">
+              <Accordion items={architectureItems} />
+            </div>
           </SectionReveal>
         </div>
       </section>
@@ -214,6 +216,13 @@ export default function ProductPage() {
         .product-architecture {
           padding: var(--spacing-12) var(--spacing-6);
           background-color: var(--color-surface-2);
+        }
+
+        /* Breathing room between the "How DeepInsight thinks" heading and
+           the first accordion card (the mb-12 on the heading collapses inside
+           SectionReveal, so we restore the gap here). */
+        .product-architecture-accordion {
+          margin-top: var(--spacing-8);
         }
 
         .product-comparison-table {

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
+import Logo from './Logo'
 import styles from './InteractiveDemo.module.css'
 
 type Mode = 'fast' | 'deep'
@@ -218,7 +219,11 @@ export default function InteractiveDemo() {
         >
           <div className={styles.panelHeader}>
             <span className={styles.panelDot} aria-hidden="true" />
-            <span className={styles.panelTitle}>OpenInsight · {MODE_META[activeMode].label}</span>
+            <span className={styles.panelTitle}>
+              <Logo variant="header" theme="dark" className={styles.panelLogo} />
+              <span className={styles.panelSep} aria-hidden="true">·</span>
+              {MODE_META[activeMode].label}
+            </span>
             <span className={styles.panelBadge} data-mode={activeMode}>
               {MODE_META[activeMode].tag}
             </span>

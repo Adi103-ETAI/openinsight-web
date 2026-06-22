@@ -202,10 +202,32 @@
 
 .panelTitle {
   flex: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: var(--text-sm);
   font-weight: 600;
   letter-spacing: 0.4px;
   color: white;
+}
+
+/* The OpenInsight logo rendered inside the dark demo panel header.
+   Constrained to a small height so it reads as an inline brand mark. */
+.panelLogo {
+  height: 18px;
+  width: auto;
+  display: block;
+}
+
+.panelLogo svg {
+  display: block;
+  height: 18px;
+  width: auto;
+}
+
+.panelSep {
+  color: var(--color-text-3);
+  font-weight: 400;
 }
 
 .panelBadge {

@@ -80,20 +80,20 @@ export default function Home() {
         </svg>
 
         <div className="container flex flex-col items-center justify-center gap-8 hero-content">
-          <div className="animate-fade-in" style={{ animationDuration: '600ms' }}>
+          <div className="animate-fade-in hero-logo-wrap" style={{ animationDuration: '600ms' }}>
             <Logo variant="home" theme="dark" />
           </div>
-          <h1 className="text-white text-center max-w-2xl animate-fade-in text-balance" style={{ animationDelay: '150ms' }}>
+          <h1 className="text-white text-center max-w-2xl animate-fade-in text-balance mx-auto" style={{ animationDelay: '150ms' }}>
             Clinical knowledge,{' '}
             <span className="hero-gradient-text">when it matters most.</span>
           </h1>
           <p
-            className="text-white text-center max-w-2xl opacity-75 text-lg animate-fade-in"
+            className="text-white text-center max-w-2xl opacity-75 text-lg animate-fade-in mx-auto"
             style={{ fontSize: '20px', fontWeight: 300, animationDelay: '300ms' }}
           >
             OpenInsight gives Indian doctors instant answers grounded in ICMR guidelines, CDSCO approvals, and India-specific clinical evidence — right at the point of care.
           </p>
-          <div className="flex gap-4 justify-center flex-wrap animate-fade-in" style={{ animationDelay: '450ms' }}>
+          <div className="flex gap-4 justify-center items-center flex-wrap animate-fade-in" style={{ animationDelay: '450ms' }}>
             <Link href="/early-access" className="btn btn-accent-glow">
               Request Early Access
             </Link>
@@ -374,6 +374,20 @@ export default function Home() {
         .hero-section > .hero-content {
           position: relative;
           z-index: 2;
+          text-align: center;
+        }
+
+        /* Center the hero logo explicitly so it sits in the middle. */
+        .hero-logo-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+        }
+
+        /* Buttons share equal height & are centered as a group. */
+        .hero-content .btn {
+          min-height: 44px;
         }
 
         .scroll-indicator {
