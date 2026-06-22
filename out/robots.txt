@@ -1,5 +1,0 @@
-User-Agent: *
-Allow: /
-
-Host: https://openinsight.in
-Sitemap: https://openinsight.in/sitemap.xml
