@@ -991,29 +991,3 @@ label {
     transition: none;
   }
 }
-
-/* ================================================================
-   Brand "i" dot — matches the logo's terracotta tittle.
-   Usage: replace the lowercase "i" in "Insight" with
-   <span className="brand-i">ı</span> so the dot renders in
-   the brand accent color instead of the default text color.
-   ================================================================ */
-.brand-i {
-  position: relative;
-  display: inline-block;
-  font-style: normal;
-}
-
-.brand-i::after {
-  content: '';
-  position: absolute;
-  top: 0.16em;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0.14em;
-  height: 0.14em;
-  min-width: 4px;
-  min-height: 4px;
-  border-radius: 50%;
-  background-color: var(--color-accent);
-}

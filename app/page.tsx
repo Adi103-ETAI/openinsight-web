@@ -91,9 +91,9 @@ export default function Home() {
             className="text-white text-center max-w-2xl opacity-75 text-lg animate-fade-in"
             style={{ fontSize: '20px', fontWeight: 300, animationDelay: '300ms' }}
           >
-            OpenIns<span className="brand-i">ı</span>ght gives Indian doctors instant answers grounded in ICMR guidelines, CDSCO approvals, and India-specific clinical evidence — right at the point of care.
+            OpenInsight gives Indian doctors instant answers grounded in ICMR guidelines, CDSCO approvals, and India-specific clinical evidence — right at the point of care.
           </p>
-          <div className="flex gap-4 justify-center items-center flex-wrap animate-fade-in" style={{ animationDelay: '450ms' }}>
+          <div className="flex gap-4 justify-center flex-wrap animate-fade-in" style={{ animationDelay: '450ms' }}>
             <Link href="/early-access" className="btn btn-accent-glow">
               Request Early Access
             </Link>
@@ -220,7 +220,7 @@ export default function Home() {
           <SectionReveal>
             <div className="text-center mb-12">
               <p className="text-accent font-semibold text-sm uppercase tracking-wider">
-                What OpenIns<span className="brand-i">ı</span>ght Does
+                What OpenInsight Does
               </p>
               <h2 className="mt-4">
                 Everything a clinical consultation needs.
@@ -374,19 +374,6 @@ export default function Home() {
         .hero-section > .hero-content {
           position: relative;
           z-index: 2;
-          text-align: center;
-        }
-
-        /* Hero content block — centered as a cohesive group.
-           Buttons share equal height & are perfectly centered. */
-        .hero-content > .animate-fade-in {
-          width: 100%;
-          display: flex;
-          justify-content: center;
-        }
-
-        .hero-content .btn {
-          min-height: 44px;
         }
 
         .scroll-indicator {
