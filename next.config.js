@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'export',
   images: {
-    unoptimized: false,
+    unoptimized: true,
     formats: ['image/avif', 'image/webp'],
   },
   headers: async () => {

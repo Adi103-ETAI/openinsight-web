@@ -98,3 +98,435 @@
     gap: var(--spacing-1);
   }
 }
+
+/* ================================================================
+   ENHANCED FORM STYLING (Task 10-a)
+   - Subtle terracotta accent bar on left of focused inputs
+   - Improved focus states with label color shift
+   - Polished success state with animated checkmark
+   - Supporting styles for progress bar, checkboxes, etc.
+   ================================================================ */
+
+.formWrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  max-width: 100%;
+}
+
+/* Progress bar */
+.progressWrap {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: 10px 14px;
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.progressTrack {
+  flex: 1;
+  height: 8px;
+  background-color: var(--color-border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  position: relative;
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+  border-radius: var(--radius-pill);
+  transition: width var(--transition-normal);
+  position: relative;
+}
+
+.progressBar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  animation: progressShimmer 2s linear infinite;
+}
+
+@keyframes progressShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.progressLabel {
+  font-size: var(--text-xs);
+  color: var(--color-text-2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Draft note */
+.draftNote {
+  background-color: var(--color-accent-pale);
+  border: 1px solid rgba(197, 107, 74, 0.2);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: var(--text-sm);
+  color: var(--color-text-2);
+}
+
+.draftClear {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0 4px;
+  font-size: inherit;
+}
+
+.draftClear:hover {
+  color: var(--color-accent-2);
+}
+
+/* Hint text (under NMC input) */
+.hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-3);
+  font-style: italic;
+}
+
+/* Conditional field */
+.conditional {
+  animation: fadeInUp 300ms ease-out;
+}
+
+/* Accent bar on left of focused inputs */
+.formGroup {
+  position: relative;
+}
+
+.formGroup::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 3px;
+  height: 70%;
+  background: linear-gradient(180deg, var(--color-accent) 0%, #E0A678 100%);
+  border-radius: var(--radius-pill);
+  transition: transform var(--transition-fast);
+  pointer-events: none;
+  z-index: 2;
+  margin-top: 12px; /* offset for label height */
+}
+
+.formGroup:focus-within::before {
+  transform: translateY(-50%) scaleY(1);
+}
+
+.formGroup:focus-within label {
+  color: var(--color-accent);
+}
+
+/* Label hover/focus transition */
+.formGroup label {
+  transition: color var(--transition-fast);
+}
+
+/* Enhanced focus state */
+.formGroup input:focus,
+.formGroup select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(197, 107, 74, 0.14),
+              inset 0 0 0 1px rgba(197, 107, 74, 0.05);
+}
+
+/* Inputs that have content get a subtle accent left border */
+.formGroup input:not(:placeholder-shown),
+.formGroup select:not([value=""]):not(.empty) {
+  border-left-width: 3px;
+  border-left-color: var(--color-accent-pale);
+  transition: border-left-color var(--transition-fast),
+              border-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+.formGroup input:not(:placeholder-shown):focus,
+.formGroup select:not([value=""]):not(.empty):focus {
+  border-left-color: var(--color-accent);
+}
+
+/* Checkboxes */
+.checkboxGroup {
+  margin-top: var(--spacing-1);
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--color-text-2);
+  line-height: 1.5;
+  user-select: none;
+  margin-bottom: 0;
+  font-weight: 400;
+}
+
+.checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.checkboxMark {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 2px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all var(--transition-fast);
+  margin-top: 1px;
+}
+
+.checkboxMark svg {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all var(--transition-fast);
+}
+
+.checkbox input[type="checkbox"]:checked + .checkboxMark {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.checkbox input[type="checkbox"]:checked + .checkboxMark svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.checkbox input[type="checkbox"]:focus-visible + .checkboxMark {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.checkboxText {
+  flex: 1;
+}
+
+.inlineLink {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.inlineLink:hover {
+  color: var(--color-accent-2);
+}
+
+/* Review note */
+.reviewNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: var(--spacing-3);
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text-2);
+  line-height: 1.5;
+}
+
+.reviewNote strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.reviewIcon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Actions row */
+.actions {
+  display: flex;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+  margin-top: var(--spacing-2);
+}
+
+.secondaryBtn {
+  background-color: transparent;
+  color: var(--color-text-2);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 14px 24px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.secondaryBtn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.secondaryBtn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Saved toast */
+.savedToast {
+  background-color: var(--color-accent-pale);
+  color: var(--color-accent);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  animation: fadeInUp 300ms ease-out;
+}
+
+.continueLaterNote {
+  font-size: var(--text-xs);
+  color: var(--color-text-3);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* === Polished success state === */
+.success {
+  background: linear-gradient(180deg, var(--color-accent-pale) 0%, var(--color-surface) 100%);
+  padding: var(--spacing-6);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  position: relative;
+  border: 1px solid rgba(197, 107, 74, 0.2);
+  overflow: hidden;
+  animation: fadeInUp 400ms ease-out;
+}
+
+.success::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-accent) 0%, #E0A678 100%);
+}
+
+.success h3 {
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-2);
+  font-size: var(--text-2xl);
+  position: relative;
+}
+
+.success p {
+  color: var(--color-text-2);
+  font-size: var(--text-base);
+  position: relative;
+}
+
+.success strong {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* Animated checkmark circle */
+.successIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  margin: 0 auto var(--spacing-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: white;
+  animation: checkmarkPop 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.successIcon::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(197, 107, 74, 0.35);
+  opacity: 0;
+  animation: checkmarkRing 800ms ease-out 200ms both;
+}
+
+.successIcon svg polyline {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: checkmarkDraw 500ms cubic-bezier(0.65, 0, 0.45, 1) 300ms forwards;
+}
+
+@keyframes checkmarkPop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes checkmarkRing {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes checkmarkDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+.successNote {
+  margin-top: var(--spacing-3);
+  font-size: var(--text-xs);
+  color: var(--color-text-3);
+  font-style: italic;
+  position: relative;
+}
+
+/* === Reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  .successIcon,
+  .successIcon::after,
+  .successIcon svg polyline,
+  .progressBar::after,
+  .formGroup::before,
+  .formGroup label,
+  .formGroup input,
+  .formGroup select,
+  .conditional,
+  .savedToast,
+  .success {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .successIcon svg polyline {
+    stroke-dashoffset: 0 !important;
+  }
+
+  .formGroup:focus-within::before {
+    transform: translateY(-50%) scaleY(1) !important;
+  }
+}

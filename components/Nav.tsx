@@ -5,22 +5,62 @@ import Link from 'next/link'
 import Image from 'next/image'
 import styles from './Nav.module.css'
 
+const APP_URL = 'https://app.openinsight.in'
+
 export default function Nav() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 80)
+      const scrollY = window.scrollY
+      setIsScrolled(scrollY > 80)
+
+      // Compute scroll progress as percentage of the document that has been scrolled
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      if (docHeight > 0) {
+        const pct = Math.min(100, Math.max(0, (scrollY / docHeight) * 100))
+        setScrollProgress(pct)
+      } else {
+        setScrollProgress(0)
+      }
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    // Throttle via requestAnimationFrame for smoothness
+    let ticking = false
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll()
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
+    handleScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [])
 
   return (
     <>
       <nav className={`${styles.nav} ${isScrolled ? styles.scrolled : ''}`}>
+        {/* Scroll progress bar — terracotta, 3px thin, fills as user scrolls */}
+        <div
+          className={styles.scrollProgress}
+          style={{ width: `${scrollProgress}%` }}
+          role="progressbar"
+          aria-label="Page scroll progress"
+          aria-valuenow={Math.round(scrollProgress)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        />
         <div className={styles.container}>
           {/* Logo */}
           <Link href="/" className={styles.logo}>
@@ -49,10 +89,21 @@ export default function Nav() {
             </Link>
           </div>
 
-          {/* CTA Button */}
-          <Link href="/early-access" className="btn btn-primary">
-            Early Access
-          </Link>
+          {/* Desktop CTA Buttons */}
+          <div className={styles.ctaGroup}>
+            <a
+              href={APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`btn btn-ghost ${styles.launchBtn}`}
+              aria-label="Launch OpenInsight App (opens in a new tab)"
+            >
+              Launch App
+            </a>
+            <Link href="/early-access" className="btn btn-primary">
+              Early Access
+            </Link>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -84,6 +135,18 @@ export default function Nav() {
             <Link href="/about" onClick={() => setIsMobileMenuOpen(false)}>
               About
             </Link>
+            <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
+              Contact
+            </Link>
+            <a
+              href={APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Launch App ↗
+            </a>
             <Link
               href="/early-access"
               className="btn btn-primary"

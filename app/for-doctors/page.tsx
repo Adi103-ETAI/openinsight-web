@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import SectionReveal from '@/components/SectionReveal'
 import EarlyAccessForm from '@/components/EarlyAccessForm'
 
@@ -102,6 +103,11 @@ export default function ForDoctorsPage() {
             <p className="text-text-3 text-sm mt-8 leading-relaxed">
               <strong>Transparency note:</strong> OpenInsight may show sponsored educational content from pharmaceutical partners in a clearly labelled section — never in the clinical answer itself.
             </p>
+            <div className="mt-8">
+              <Link href="/evidence" className="btn btn-ghost-accent">
+                See our evidence sources →
+              </Link>
+            </div>
           </SectionReveal>
         </div>
       </section>

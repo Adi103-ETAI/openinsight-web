@@ -64,7 +64,7 @@ export default function EvidencePage() {
       </section>
 
       {/* What We Don't Do */}
-      <section className="what-we-dont-section">
+      <section className="what-we-dont-section bg-dot-grid">
         <div className="container">
           <SectionReveal>
             <div className="text-center mb-12">

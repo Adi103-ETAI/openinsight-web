@@ -1,0 +1,74 @@
+.button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 80; /* above content, below mobile nav (99) and cookie banner (90) */
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px) scale(0.85);
+  transition:
+    opacity var(--transition-normal),
+    visibility var(--transition-normal),
+    transform var(--transition-normal),
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  padding: 0;
+}
+
+.button.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.button:hover {
+  background-color: var(--color-accent-2);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.button:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-accent-2);
+  outline-offset: 3px;
+}
+
+/* Mobile: nudge slightly to avoid overlapping cookie banner */
+@media (max-width: 640px) {
+  .button {
+    bottom: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+    transform: none;
+  }
+
+  .button.visible {
+    transform: none;
+  }
+
+  .button:hover,
+  .button:active {
+    transform: none;
+  }
+}

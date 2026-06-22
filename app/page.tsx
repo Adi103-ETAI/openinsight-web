@@ -2,8 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import SectionReveal from '@/components/SectionReveal'
-import MockChatUI from '@/components/MockChatUI'
+import InteractiveDemo from '@/components/InteractiveDemo'
 import FeatureCard from '@/components/FeatureCard'
+import StatsCounter from '@/components/StatsCounter'
+import TestimonialsCarousel from '@/components/TestimonialsCarousel'
+import FAQAccordion from '@/components/FAQAccordion'
 
 export const metadata: Metadata = {
   title: 'OpenInsight | AI Clinical Decision Support for Indian Doctors',
@@ -57,7 +60,26 @@ export default function Home() {
     <div>
       {/* Hero Section */}
       <section className="hero-section">
-        <div className="container flex flex-col items-center justify-center gap-8">
+        {/* Animated gradient mesh background */}
+        <div className="hero-mesh-bg" aria-hidden="true" />
+
+        {/* Floating decorative medical crosses (left) */}
+        <svg className="hero-cross-deco tl" width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M16 4 H24 V16 H36 V24 H24 V36 H16 V24 H4 V16 H16 Z" fill="var(--color-accent)" />
+        </svg>
+        <svg className="hero-cross-deco br" width="28" height="28" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M16 4 H24 V16 H36 V24 H24 V36 H16 V24 H4 V16 H16 Z" fill="var(--color-accent)" />
+        </svg>
+
+        {/* Floating decorative EKG / pulse line (right) */}
+        <svg className="hero-ekg" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true">
+          <path
+            className="hero-ekg-path"
+            d="M0 100 L80 100 L100 100 L110 90 L120 110 L130 60 L140 140 L150 100 L200 100 L220 100 L240 100 L260 70 L270 130 L280 50 L290 150 L300 100 L360 100 L380 100 L400 80 L410 120 L420 100 L470 100 L490 100 L520 90 L530 110 L540 100 L600 100"
+          />
+        </svg>
+
+        <div className="container flex flex-col items-center justify-center gap-8 hero-content">
           <Image
             src="/logos/DarkGrey.png"
             alt="OpenInsight"
@@ -67,8 +89,9 @@ export default function Home() {
             className="animate-fade-in"
             style={{ animationDuration: '600ms' }}
           />
-          <h1 className="text-white text-center max-w-2xl animate-fade-in" style={{ animationDelay: '150ms' }}>
-            Clinical knowledge, when it matters most.
+          <h1 className="text-white text-center max-w-2xl animate-fade-in text-balance" style={{ animationDelay: '150ms' }}>
+            Clinical knowledge,{' '}
+            <span className="hero-gradient-text">when it matters most.</span>
           </h1>
           <p
             className="text-white text-center max-w-2xl opacity-75 text-lg animate-fade-in"
@@ -77,13 +100,22 @@ export default function Home() {
             OpenInsight gives Indian doctors instant answers grounded in ICMR guidelines, CDSCO approvals, and India-specific clinical evidence — right at the point of care.
           </p>
           <div className="flex gap-4 justify-center flex-wrap animate-fade-in" style={{ animationDelay: '450ms' }}>
-            <Link href="/early-access" className="btn btn-primary">
+            <Link href="/early-access" className="btn btn-accent-glow">
               Request Early Access
             </Link>
             <a href="#features" className="btn btn-secondary">
               See how it works ↓
             </a>
           </div>
+
+          {/* Trust badge row */}
+          <div className="hero-trust-row animate-fade-in" style={{ animationDelay: '600ms' }}>
+            <span className="hero-trust-item">Backed by ICMR guidelines</span>
+            <span className="hero-trust-item">CDSCO compliant</span>
+            <span className="hero-trust-item">NMC registered</span>
+            <span className="hero-trust-item">NTEP protocols</span>
+          </div>
+
           <div className="scroll-indicator">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
               <polyline points="6 9 12 15 18 9"></polyline>
@@ -117,15 +149,13 @@ export default function Home() {
             </div>
           </SectionReveal>
 
-          <SectionReveal>
-            <div className="grid grid-3">
-              {problemCards.map((card, idx) => (
-                <div key={idx} className="problem-card" style={{ animationDelay: `${idx * 100}ms` }}>
-                  <h4>{card.title}</h4>
-                  <p>{card.description}</p>
-                </div>
-              ))}
-            </div>
+          <SectionReveal staggerChildren className="grid grid-3">
+            {problemCards.map((card, idx) => (
+              <div key={idx} className="problem-card card-lift">
+                <h4>{card.title}</h4>
+                <p>{card.description}</p>
+              </div>
+            ))}
           </SectionReveal>
         </div>
       </section>
@@ -141,44 +171,51 @@ export default function Home() {
               <h2 className="mt-4">
                 Ask a clinical question. Get a structured, cited answer.
               </h2>
+              <p className="text-text-2 text-lg mt-4 max-w-2xl mx-auto">
+                Switch between Fast Search for quick lookups and DeepInsight for complex multi-agent
+                reasoning. Try a sample query — watch the response build in real time.
+              </p>
             </div>
           </SectionReveal>
 
           <SectionReveal>
-            <div className="demo-content">
-              <div className="demo-left">
-                <MockChatUI
-                  question="What is the first-line treatment for drug-resistant tuberculosis in an adult per NTEP guidelines?"
-                  response="According to NTEP 2022 guidelines, the preferred regimen for pre-XDR TB is BPaLM (Bedaquiline, Pretomanid, Linezolid, Moxifloxacin) for 6 months, followed by Levofloxacin for a total duration of 20 months. For XDR-TB, consider newer regimens based on drug susceptibility testing."
-                  sources={['NTEP 2022', 'ICMR DR-TB Guidelines', 'Lancet 2022']}
-                />
-              </div>
-              <div className="demo-right">
-                <div className="demo-steps">
-                  <div className="demo-step">
-                    <div className="demo-step-number">1</div>
-                    <div className="demo-step-content">
-                      <h4>Ask in plain language</h4>
-                      <p>Type your clinical question exactly as you'd ask a colleague. No special syntax.</p>
-                    </div>
-                  </div>
-                  <div className="demo-step">
-                    <div className="demo-step-number">2</div>
-                    <div className="demo-step-content">
-                      <h4>AI retrieves and synthesises</h4>
-                      <p>DeepInsight searches ICMR, CDSCO, PubMed, and licensed Indian clinical content, then synthesises a structured answer.</p>
-                    </div>
-                  </div>
-                  <div className="demo-step">
-                    <div className="demo-step-number">3</div>
-                    <div className="demo-step-content">
-                      <h4>Verified, cited response</h4>
-                      <p>Every claim is linked to its source. Disagree with the synthesis? See the raw evidence yourself.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <InteractiveDemo />
+          </SectionReveal>
+
+          <SectionReveal delay={100}>
+            <div className="demo-cta">
+              <a
+                href="https://app.openinsight.in"
+                className="btn btn-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Try the live demo →
+              </a>
+              <Link href="/product" className="btn btn-ghost">
+                See how it works
+              </Link>
             </div>
+          </SectionReveal>
+        </div>
+      </section>
+
+      {/* Stats / Impact Section */}
+      <section className="stats-section">
+        <div className="container">
+          <SectionReveal>
+            <div className="text-center mb-12">
+              <p className="text-accent font-semibold text-sm uppercase tracking-wider">
+                Built for Impact
+              </p>
+              <h2 className="mt-4">
+                Trusted by Indian doctors, every day.
+              </h2>
+            </div>
+          </SectionReveal>
+
+          <SectionReveal>
+            <StatsCounter />
           </SectionReveal>
         </div>
       </section>
@@ -213,19 +250,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonial Section */}
+      {/* Testimonials Section */}
       <section className="testimonial-section">
-        <div className="container flex flex-col items-center justify-center gap-6">
+        <div className="container">
           <SectionReveal>
-            <blockquote className="testimonial-quote">
-              "Exactly what I needed during a complicated TB case. NTEP and ICMR, all in one place."
-            </blockquote>
+            <div className="text-center mb-12">
+              <p className="text-accent font-semibold text-sm uppercase tracking-wider">
+                Voices from the Field
+              </p>
+              <h2 className="mt-4">
+                Indian doctors, in their own words.
+              </h2>
+              <p className="text-text-2 text-lg mt-4 max-w-2xl mx-auto">
+                From AIIMS Delhi to a PHC in Latur — physicians across India use OpenInsight to make
+                faster, better-cited clinical decisions.
+              </p>
+            </div>
           </SectionReveal>
 
           <SectionReveal>
-            <p className="testimonial-attribution">
-              Dr. [Name], Internal Medicine, Pune — <em>Beta tester</em>
-            </p>
+            <TestimonialsCarousel />
           </SectionReveal>
 
           <SectionReveal>
@@ -244,6 +288,39 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section id="faq" className="faq-section">
+        <div className="container">
+          <SectionReveal>
+            <div className="text-center mb-12">
+              <p className="text-accent font-semibold text-sm uppercase tracking-wider">
+                Frequently Asked
+              </p>
+              <h2 className="mt-4">
+                Questions Indian doctors ask us.
+              </h2>
+              <p className="text-text-2 text-lg mt-4 max-w-2xl mx-auto">
+                Clinical safety, data privacy, compliance, pricing. Honest answers from the
+                OpenInsight team.
+              </p>
+            </div>
+          </SectionReveal>
+
+          <SectionReveal>
+            <FAQAccordion />
+          </SectionReveal>
+
+          <SectionReveal delay={100}>
+            <div className="faq-footer">
+              <p>Still have a question?</p>
+              <Link href="/early-access" className="btn btn-ghost">
+                Talk to us →
+              </Link>
+            </div>
+          </SectionReveal>
+        </div>
+      </section>
+
       {/* CTA Banner */}
       <section className="cta-banner">
         <div className="container text-center">
@@ -253,7 +330,7 @@ export default function Home() {
           <p className="text-white opacity-75 text-lg mb-8">
             OpenInsight is free for verified medical practitioners. Request early access and be among the first Indian doctors to use it.
           </p>
-          <Link href="/early-access" className="btn btn-primary">
+          <Link href="/early-access" className="btn btn-shimmer">
             Request Early Access →
           </Link>
           <p className="text-white opacity-50 text-sm mt-4">
@@ -299,9 +376,10 @@ export default function Home() {
           pointer-events: none;
         }
 
-        .hero-section > .container {
+        .hero-section > .container,
+        .hero-section > .hero-content {
           position: relative;
-          z-index: 1;
+          z-index: 2;
         }
 
         .scroll-indicator {
@@ -346,47 +424,39 @@ export default function Home() {
           background-color: var(--color-surface);
         }
 
-        .demo-content {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: var(--spacing-8);
-          align-items: center;
+        .demo-cta {
+          display: flex;
+          gap: var(--spacing-2);
+          justify-content: center;
+          margin-top: var(--spacing-6);
+          flex-wrap: wrap;
         }
 
-        .demo-steps {
+        .stats-section {
+          padding-top: var(--spacing-12);
+          padding-bottom: var(--spacing-12);
+          background-color: var(--color-surface-2);
+        }
+
+        .faq-section {
+          padding-top: var(--spacing-12);
+          padding-bottom: var(--spacing-12);
+          background-color: var(--color-surface-2);
+        }
+
+        .faq-footer {
+          margin-top: var(--spacing-6);
           display: flex;
           flex-direction: column;
-          gap: var(--spacing-4);
-        }
-
-        .demo-step {
-          display: flex;
-          gap: var(--spacing-3);
-        }
-
-        .demo-step-number {
-          min-width: 40px;
-          width: 40px;
-          height: 40px;
-          display: flex;
           align-items: center;
-          justify-content: center;
-          background-color: var(--color-accent-pale);
-          color: var(--color-accent);
-          border-radius: 50%;
-          font-weight: 600;
-          flex-shrink: 0;
+          gap: var(--spacing-2);
+          text-align: center;
         }
 
-        .demo-step-content h4 {
-          margin: 0 0 8px 0;
-          color: var(--color-text);
-        }
-
-        .demo-step-content p {
-          margin: 0;
+        .faq-footer p {
           color: var(--color-text-2);
           font-size: var(--text-base);
+          margin: 0;
         }
 
         .features-section {
@@ -457,16 +527,9 @@ export default function Home() {
         }
 
         @media (max-width: 1024px) {
-          .demo-content {
-            grid-template-columns: 1fr;
-          }
-
-          .demo-left {
-            order: 2;
-          }
-
-          .demo-right {
-            order: 1;
+          .demo-cta {
+            flex-direction: column;
+            align-items: stretch;
           }
         }
 

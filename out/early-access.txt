@@ -1,0 +1,98 @@
+2:I[5878,["878","static/chunks/878-118f57b0be61a092.js","569","static/chunks/569-943e1f521ccf24e6.js","520","static/chunks/app/early-access/page-edc31ed938d392a6.js"],"Image"]
+3:I[2718,["878","static/chunks/878-118f57b0be61a092.js","569","static/chunks/569-943e1f521ccf24e6.js","520","static/chunks/app/early-access/page-edc31ed938d392a6.js"],"default"]
+4:I[8716,["878","static/chunks/878-118f57b0be61a092.js","569","static/chunks/569-943e1f521ccf24e6.js","520","static/chunks/app/early-access/page-edc31ed938d392a6.js"],"default"]
+6:I[4707,[],""]
+7:I[6423,[],""]
+9:I[9986,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","185","static/chunks/app/layout-23e6abb08bc80c04.js"],"default"]
+a:I[5937,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","185","static/chunks/app/layout-23e6abb08bc80c04.js"],"default"]
+b:I[8349,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","185","static/chunks/app/layout-23e6abb08bc80c04.js"],"default"]
+c:I[3748,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","185","static/chunks/app/layout-23e6abb08bc80c04.js"],"default"]
+d:I[7470,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","185","static/chunks/app/layout-23e6abb08bc80c04.js"],"default"]
+5:T76f,
+        .early-access-page {
+          min-height: 100vh;
+          display: flex;
+          align-items: stretch;
+        }
+
+        .early-access-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          width: 100%;
+        }
+
+        .early-access-left {
+          background-color: var(--color-dark);
+          padding: var(--spacing-8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .early-access-content {
+          max-width: 400px;
+        }
+
+        .early-access-right {
+          background-color: var(--color-surface);
+          padding: var(--spacing-8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .trust-signals {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-3);
+        }
+
+        .trust-signal {
+          display: flex;
+          align-items: flex-start;
+          gap: var(--spacing-2);
+          font-size: var(--text-sm);
+          color: white;
+          line-height: 1.5;
+        }
+
+        .checkmark {
+          color: var(--color-accent);
+          font-weight: 600;
+          flex-shrink: 0;
+        }
+
+        @media (max-width: 1024px) {
+          .early-access-container {
+            grid-template-columns: 1fr;
+          }
+
+          .early-access-left {
+            min-height: 300px;
+          }
+
+          .early-access-right {
+            min-height: auto;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .early-access-left {
+            padding: var(--spacing-4);
+          }
+
+          .early-access-right {
+            padding: var(--spacing-4);
+          }
+
+          .early-access-content {
+            max-width: 100%;
+          }
+
+          .early-access-left h1 {
+            font-size: var(--text-3xl);
+          }
+        }
+      8:T716,{"@context":"https://schema.org","@type":["MedicalBusiness","Organization"],"@id":"https://openinsight.in/#organization","name":"OpenInsight","alternateName":"SentArc Labs OpenInsight","description":"AI-powered clinical decision support platform for Indian doctors, delivering evidence-backed answers grounded in ICMR guidelines, CDSCO approvals, NTEP protocols, and India-specific clinical evidence.","url":"https://openinsight.in","logo":"https://openinsight.in/logos/DarkGrey.png","image":"https://openinsight.in/logos/DarkGrey.png","slogan":"Clinical knowledge, when it matters most.","foundingDate":"2024","founder":{"@type":"Person","name":"Aditya Singh","jobTitle":"Founder","worksFor":{"@type":"Organization","name":"SentArc Labs"}},"parentOrganization":{"@type":"Organization","name":"SentArc Labs","url":"https://openinsight.in","foundingLocation":{"@type":"Place","name":"Pune, India"}},"address":{"@type":"PostalAddress","addressLocality":"Pune","addressRegion":"Maharashtra","addressCountry":"IN"},"areaServed":{"@type":"Country","name":"India"},"knowsAbout":["Clinical decision support","Evidence-based medicine","ICMR guidelines","CDSCO drug approvals","NTEP protocols","Indian healthcare","Artificial intelligence in medicine","Retrieval-augmented generation"],"contactPoint":[{"@type":"ContactPoint","contactType":"customer support","email":"support@openinsight.in","areaServed":"IN","availableLanguage":["English","Hindi"]},{"@type":"ContactPoint","contactType":"sales","email":"hello@openinsight.in","areaServed":"IN","availableLanguage":["English","Hindi"]}],"sameAs":["https://twitter.com/openinsight","https://linkedin.com/company/openinsight","https://github.com/openinsight"],"potentialAction":{"@type":"Action","target":"https://openinsight.in/early-access","name":"Request Early Access"}}0:["AzOOzV83Z-5zzcxbyigcT",[[["",{"children":["early-access",{"children":["__PAGE__",{}]}]},"$undefined","$undefined",true],["",{"children":["early-access",{"children":["__PAGE__",{},[["$L1",["$","div",null,{"className":"early-access-page","children":[["$","div",null,{"className":"early-access-container","children":[["$","div",null,{"className":"early-access-left","children":["$","div",null,{"className":"early-access-content","children":[["$","$L2",null,{"src":"/logos/DarkGrey.png","alt":"OpenInsight","width":120,"height":40}],["$","h1",null,{"className":"text-white mt-8","children":"Be among the first."}],["$","p",null,{"className":"text-white text-lg opacity-75 mt-4","children":"OpenInsight is in closed beta for verified Indian medical practitioners. Request access and we'll be in touch within 48 hours."}],["$","div",null,{"className":"trust-signals mt-8","children":[["$","div",null,{"className":"trust-signal","children":[["$","span",null,{"className":"checkmark","children":"✓"}],["$","span",null,{"children":"Free for verified practitioners"}]]}],["$","div",null,{"className":"trust-signal","children":[["$","span",null,{"className":"checkmark","children":"✓"}],["$","span",null,{"children":"NMC registration required for access"}]]}],["$","div",null,{"className":"trust-signal","children":[["$","span",null,{"className":"checkmark","children":"✓"}],["$","span",null,{"children":"No pharmaceutical sponsorship in clinical answers"}]]}],["$","div",null,{"className":"trust-signal","children":[["$","span",null,{"className":"checkmark","children":"✓"}],["$","span",null,{"children":"Built on ICMR, CDSCO, and NTEP guidelines"}]]}]]}]]}]}],["$","div",null,{"className":"early-access-right","children":["$","$L3",null,{"children":["$","$L4",null,{}]}]}]]}],["$","style",null,{"children":"$5"}]]}],[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/922e6993fe17a725.css","precedence":"next","crossOrigin":"$undefined"}]]],null],null]},[null,["$","$L6",null,{"parallelRouterKey":"children","segmentPath":["children","early-access","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L7",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","notFoundStyles":"$undefined"}]],null]},[[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/1790acb2c995b2c8.css","precedence":"next","crossOrigin":"$undefined"}]],["$","html",null,{"lang":"en","suppressHydrationWarning":true,"children":[["$","head",null,{"children":[["$","meta",null,{"charSet":"utf-8"}],["$","meta",null,{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta",null,{"name":"theme-color","content":"#1C1B1A"}],["$","meta",null,{"name":"author","content":"SentArc Labs"}],["$","meta",null,{"name":"keywords","content":"clinical AI India, AI for doctors India, clinical decision support, ICMR guidelines, CDSCO drug database, NTEP protocols, evidence-based medicine India, medical AI assistant, Indian healthcare AI, differential diagnosis AI, drug interaction checker India, PubMed clinical search, Cochrane reviews, doctor decision support, point of care AI"}],["$","link",null,{"rel":"canonical","href":"https://openinsight.in"}],["$","link",null,{"rel":"icon","href":"/logos/DarkGrey.png","type":"image/png"}],["$","link",null,{"rel":"apple-touch-icon","href":"/logos/DarkGrey.png"}],["$","link",null,{"rel":"shortcut icon","href":"/logos/DarkGrey.png"}],["$","link",null,{"rel":"sitemap","href":"/sitemap.xml"}],["$","meta",null,{"name":"format-detection","content":"telephone=no, address=no, email=no"}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$8"}}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"@id\":\"https://openinsight.in/#website\",\"url\":\"https://openinsight.in\",\"name\":\"OpenInsight\",\"publisher\":{\"@id\":\"https://openinsight.in/#organization\"},\"inLanguage\":\"en-IN\"}"}}]]}],["$","body",null,{"children":[["$","$L9",null,{}],["$","$La",null,{}],["$","main",null,{"children":["$","$L6",null,{"parallelRouterKey":"children","segmentPath":["children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L7",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":"404"}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],"notFoundStyles":[]}]}],["$","$Lb",null,{}],["$","$Lc",null,{}],["$","$Ld",null,{}]]}]]}]],null],null],["$Le",null]]]]
+e:[["$","meta","0",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","1",{"charSet":"utf-8"}],["$","title","2",{"children":"Early Access | OpenInsight | OpenInsight"}],["$","meta","3",{"name":"description","content":"Request early access to OpenInsight. Join the beta for verified Indian medical practitioners."}],["$","meta","4",{"name":"application-name","content":"OpenInsight"}],["$","link","5",{"rel":"author","href":"https://openinsight.in"}],["$","meta","6",{"name":"author","content":"SentArc Labs"}],["$","meta","7",{"name":"keywords","content":"clinical AI India,AI for doctors India,clinical decision support,ICMR guidelines,CDSCO drug database,NTEP protocols,evidence-based medicine India,medical AI assistant,Indian healthcare AI,differential diagnosis AI,drug interaction checker India,PubMed clinical search,Cochrane reviews,doctor decision support,point of care AI"}],["$","meta","8",{"name":"creator","content":"SentArc Labs"}],["$","meta","9",{"name":"publisher","content":"SentArc Labs"}],["$","meta","10",{"name":"robots","content":"index, follow"}],["$","meta","11",{"name":"googlebot","content":"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"}],["$","meta","12",{"name":"category","content":"Healthcare Technology"}],["$","link","13",{"rel":"canonical","href":"https://openinsight.in"}],["$","meta","14",{"name":"format-detection","content":"telephone=no, address=no, email=no"}],["$","meta","15",{"property":"og:title","content":"OpenInsight | Precision Clinical AI for Indian Doctors"}],["$","meta","16",{"property":"og:description","content":"Clinical knowledge when it matters most. AI-powered clinical decision support built on ICMR guidelines, CDSCO approvals, and Indian clinical evidence."}],["$","meta","17",{"property":"og:url","content":"https://openinsight.in"}],["$","meta","18",{"property":"og:site_name","content":"OpenInsight"}],["$","meta","19",{"property":"og:locale","content":"en_IN"}],["$","meta","20",{"property":"og:image","content":"https://openinsight.in/logos/DarkGrey.png"}],["$","meta","21",{"property":"og:image:width","content":"1200"}],["$","meta","22",{"property":"og:image:height","content":"630"}],["$","meta","23",{"property":"og:image:alt","content":"OpenInsight — Precision Clinical AI for Indian Doctors"}],["$","meta","24",{"property":"og:type","content":"website"}],["$","meta","25",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","26",{"name":"twitter:creator","content":"@openinsight"}],["$","meta","27",{"name":"twitter:title","content":"OpenInsight | Precision Clinical AI for Indian Doctors"}],["$","meta","28",{"name":"twitter:description","content":"Clinical knowledge when it matters most. Evidence-backed AI assistant built on ICMR, CDSCO, and NTEP for Indian healthcare."}],["$","meta","29",{"name":"twitter:image","content":"https://openinsight.in/logos/DarkGrey.png"}],["$","link","30",{"rel":"shortcut icon","href":"/logos/DarkGrey.png"}],["$","link","31",{"rel":"icon","href":"/logos/DarkGrey.png","type":"image/png"}],["$","link","32",{"rel":"apple-touch-icon","href":"/logos/DarkGrey.png"}]]
+1:null

@@ -1,0 +1,247 @@
+2:I[5878,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","931","static/chunks/app/page-404d84ca36f82b02.js"],"Image"]
+3:I[2972,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","931","static/chunks/app/page-404d84ca36f82b02.js"],""]
+4:I[2718,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","931","static/chunks/app/page-404d84ca36f82b02.js"],"default"]
+5:I[8821,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","931","static/chunks/app/page-404d84ca36f82b02.js"],"default"]
+6:I[1485,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","931","static/chunks/app/page-404d84ca36f82b02.js"],"default"]
+7:I[6466,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","931","static/chunks/app/page-404d84ca36f82b02.js"],"default"]
+8:I[9931,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","931","static/chunks/app/page-404d84ca36f82b02.js"],"default"]
+b:I[9986,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","185","static/chunks/app/layout-23e6abb08bc80c04.js"],"default"]
+c:I[5937,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","185","static/chunks/app/layout-23e6abb08bc80c04.js"],"default"]
+d:I[4707,[],""]
+e:I[6423,[],""]
+f:I[8349,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","185","static/chunks/app/layout-23e6abb08bc80c04.js"],"default"]
+10:I[3748,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","185","static/chunks/app/layout-23e6abb08bc80c04.js"],"default"]
+11:I[7470,["972","static/chunks/972-a1597467b2f45725.js","878","static/chunks/878-118f57b0be61a092.js","185","static/chunks/app/layout-23e6abb08bc80c04.js"],"default"]
+9:T1685,
+        .hero-section {
+          background-color: var(--color-dark);
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .hero-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-image: 
+            repeating-linear-gradient(
+              0deg,
+              rgba(255, 255, 255, 0.03) 0px,
+              rgba(255, 255, 255, 0.03) 1px,
+              transparent 1px,
+              transparent 2px
+            ),
+            repeating-linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.03) 0px,
+              rgba(255, 255, 255, 0.03) 1px,
+              transparent 1px,
+              transparent 2px
+            );
+          background-size: 20px 20px;
+          pointer-events: none;
+        }
+
+        .hero-section > .container,
+        .hero-section > .hero-content {
+          position: relative;
+          z-index: 2;
+        }
+
+        .scroll-indicator {
+          position: absolute;
+          bottom: 32px;
+          left: 50%;
+          transform: translateX(-50%);
+          animation: chevronBounce 2s infinite;
+          color: white;
+        }
+
+        .problem-section {
+          background-color: var(--color-surface-2);
+          padding-top: var(--spacing-12);
+          padding-bottom: var(--spacing-12);
+        }
+
+        .problem-card {
+          background-color: var(--color-surface);
+          padding: var(--spacing-4);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-sm);
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-2);
+        }
+
+        .problem-card h4 {
+          color: var(--color-text);
+          margin: 0;
+        }
+
+        .problem-card p {
+          color: var(--color-text-2);
+          font-size: var(--text-base);
+          margin: 0;
+        }
+
+        .demo-section {
+          padding-top: var(--spacing-12);
+          padding-bottom: var(--spacing-12);
+          background-color: var(--color-surface);
+        }
+
+        .demo-cta {
+          display: flex;
+          gap: var(--spacing-2);
+          justify-content: center;
+          margin-top: var(--spacing-6);
+          flex-wrap: wrap;
+        }
+
+        .stats-section {
+          padding-top: var(--spacing-12);
+          padding-bottom: var(--spacing-12);
+          background-color: var(--color-surface-2);
+        }
+
+        .faq-section {
+          padding-top: var(--spacing-12);
+          padding-bottom: var(--spacing-12);
+          background-color: var(--color-surface-2);
+        }
+
+        .faq-footer {
+          margin-top: var(--spacing-6);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: var(--spacing-2);
+          text-align: center;
+        }
+
+        .faq-footer p {
+          color: var(--color-text-2);
+          font-size: var(--text-base);
+          margin: 0;
+        }
+
+        .features-section {
+          padding-top: var(--spacing-12);
+          padding-bottom: var(--spacing-12);
+          background-color: var(--color-surface-2);
+        }
+
+        .testimonial-section {
+          padding-top: var(--spacing-12);
+          padding-bottom: var(--spacing-12);
+          background-color: var(--color-surface);
+        }
+
+        .testimonial-quote {
+          font-family: var(--font-display);
+          font-size: var(--text-3xl);
+          line-height: var(--lh-3xl);
+          color: var(--color-text);
+          font-style: italic;
+          max-width: 800px;
+          text-align: center;
+          margin: 0;
+        }
+
+        .testimonial-attribution {
+          font-size: var(--text-sm);
+          color: var(--color-text-2);
+          text-align: center;
+          margin: 0;
+        }
+
+        .trust-badges {
+          display: flex;
+          gap: var(--spacing-2);
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .trust-badge {
+          display: inline-block;
+          background-color: var(--color-accent-pale);
+          color: var(--color-accent);
+          padding: 8px 16px;
+          border-radius: var(--radius-pill);
+          font-size: var(--text-xs);
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .trust-badge-sep {
+          color: var(--color-accent);
+        }
+
+        .cta-banner {
+          background-color: var(--color-dark);
+          padding: var(--spacing-12) var(--spacing-6);
+        }
+
+        .prose {
+          font-size: var(--text-lg);
+          line-height: var(--lh-base);
+        }
+
+        .prose p {
+          margin: 0;
+        }
+
+        @media (max-width: 1024px) {
+          .demo-cta {
+            flex-direction: column;
+            align-items: stretch;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .hero-section {
+            min-height: auto;
+            padding: var(--spacing-8) 0;
+          }
+
+          .hero-section img {
+            width: 140px !important;
+            height: auto !important;
+          }
+
+          .hero-section h1 {
+            font-size: var(--text-4xl);
+          }
+
+          .hero-section p {
+            font-size: 18px !important;
+          }
+
+          .scroll-indicator {
+            display: none;
+          }
+
+          .testimonial-quote {
+            font-size: var(--text-2xl);
+          }
+
+          .trust-badges {
+            gap: var(--spacing-1);
+          }
+
+          .trust-badge {
+            font-size: 10px;
+            padding: 6px 12px;
+          }
+        }
+      a:T716,{"@context":"https://schema.org","@type":["MedicalBusiness","Organization"],"@id":"https://openinsight.in/#organization","name":"OpenInsight","alternateName":"SentArc Labs OpenInsight","description":"AI-powered clinical decision support platform for Indian doctors, delivering evidence-backed answers grounded in ICMR guidelines, CDSCO approvals, NTEP protocols, and India-specific clinical evidence.","url":"https://openinsight.in","logo":"https://openinsight.in/logos/DarkGrey.png","image":"https://openinsight.in/logos/DarkGrey.png","slogan":"Clinical knowledge, when it matters most.","foundingDate":"2024","founder":{"@type":"Person","name":"Aditya Singh","jobTitle":"Founder","worksFor":{"@type":"Organization","name":"SentArc Labs"}},"parentOrganization":{"@type":"Organization","name":"SentArc Labs","url":"https://openinsight.in","foundingLocation":{"@type":"Place","name":"Pune, India"}},"address":{"@type":"PostalAddress","addressLocality":"Pune","addressRegion":"Maharashtra","addressCountry":"IN"},"areaServed":{"@type":"Country","name":"India"},"knowsAbout":["Clinical decision support","Evidence-based medicine","ICMR guidelines","CDSCO drug approvals","NTEP protocols","Indian healthcare","Artificial intelligence in medicine","Retrieval-augmented generation"],"contactPoint":[{"@type":"ContactPoint","contactType":"customer support","email":"support@openinsight.in","areaServed":"IN","availableLanguage":["English","Hindi"]},{"@type":"ContactPoint","contactType":"sales","email":"hello@openinsight.in","areaServed":"IN","availableLanguage":["English","Hindi"]}],"sameAs":["https://twitter.com/openinsight","https://linkedin.com/company/openinsight","https://github.com/openinsight"],"potentialAction":{"@type":"Action","target":"https://openinsight.in/early-access","name":"Request Early Access"}}0:["AzOOzV83Z-5zzcxbyigcT",[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],["",{"children":["__PAGE__",{},[["$L1",["$","div",null,{"children":[["$","section",null,{"className":"hero-section","children":[["$","div",null,{"className":"hero-mesh-bg","aria-hidden":"true"}],["$","svg",null,{"className":"hero-cross-deco tl","width":"40","height":"40","viewBox":"0 0 40 40","aria-hidden":"true","children":["$","path",null,{"d":"M16 4 H24 V16 H36 V24 H24 V36 H16 V24 H4 V16 H16 Z","fill":"var(--color-accent)"}]}],["$","svg",null,{"className":"hero-cross-deco br","width":"28","height":"28","viewBox":"0 0 40 40","aria-hidden":"true","children":["$","path",null,{"d":"M16 4 H24 V16 H36 V24 H24 V36 H16 V24 H4 V16 H16 Z","fill":"var(--color-accent)"}]}],["$","svg",null,{"className":"hero-ekg","viewBox":"0 0 600 200","preserveAspectRatio":"none","aria-hidden":"true","children":["$","path",null,{"className":"hero-ekg-path","d":"M0 100 L80 100 L100 100 L110 90 L120 110 L130 60 L140 140 L150 100 L200 100 L220 100 L240 100 L260 70 L270 130 L280 50 L290 150 L300 100 L360 100 L380 100 L400 80 L410 120 L420 100 L470 100 L490 100 L520 90 L530 110 L540 100 L600 100"}]}],["$","div",null,{"className":"container flex flex-col items-center justify-center gap-8 hero-content","children":[["$","$L2",null,{"src":"/logos/DarkGrey.png","alt":"OpenInsight","width":200,"height":70,"priority":true,"className":"animate-fade-in","style":{"animationDuration":"600ms"}}],["$","h1",null,{"className":"text-white text-center max-w-2xl animate-fade-in text-balance","style":{"animationDelay":"150ms"},"children":["Clinical knowledge,"," ",["$","span",null,{"className":"hero-gradient-text","children":"when it matters most."}]]}],["$","p",null,{"className":"text-white text-center max-w-2xl opacity-75 text-lg animate-fade-in","style":{"fontSize":"20px","fontWeight":300,"animationDelay":"300ms"},"children":"OpenInsight gives Indian doctors instant answers grounded in ICMR guidelines, CDSCO approvals, and India-specific clinical evidence — right at the point of care."}],["$","div",null,{"className":"flex gap-4 justify-center flex-wrap animate-fade-in","style":{"animationDelay":"450ms"},"children":[["$","$L3",null,{"href":"/early-access","className":"btn btn-accent-glow","children":"Request Early Access"}],["$","a",null,{"href":"#features","className":"btn btn-secondary","children":"See how it works ↓"}]]}],["$","div",null,{"className":"hero-trust-row animate-fade-in","style":{"animationDelay":"600ms"},"children":[["$","span",null,{"className":"hero-trust-item","children":"Backed by ICMR guidelines"}],["$","span",null,{"className":"hero-trust-item","children":"CDSCO compliant"}],["$","span",null,{"className":"hero-trust-item","children":"NMC registered"}],["$","span",null,{"className":"hero-trust-item","children":"NTEP protocols"}]]}],["$","div",null,{"className":"scroll-indicator","children":["$","svg",null,{"width":"24","height":"24","viewBox":"0 0 24 24","fill":"none","stroke":"white","strokeWidth":"2","children":["$","polyline",null,{"points":"6 9 12 15 18 9"}]}]}]]}]]}],["$","section",null,{"id":"problem","className":"problem-section","children":["$","div",null,{"className":"container","children":[["$","$L4",null,{"children":["$","div",null,{"className":"text-center mb-12","children":[["$","p",null,{"className":"text-accent font-semibold text-sm uppercase tracking-wider","children":"The Challenge"}],["$","h2",null,{"className":"mt-4","children":"Indian doctors deserve tools built for India."}]]}]}],["$","$L4",null,{"children":["$","div",null,{"className":"prose max-w-4xl mx-auto mb-12","children":[["$","p",null,{"className":"text-center text-text-2 text-lg leading-relaxed mb-6","children":"Most clinical AI tools are trained on Western populations, Western guidelines, and Western drug formularies. They reference UpToDate, NEJM, and FDA approvals — all useful, but incomplete for a doctor in Pune seeing a patient with tropical fever or prescribing a Jan Aushadhi generic."}],["$","p",null,{"className":"text-center text-text-2 text-lg leading-relaxed","children":"OpenInsight is built ground-up for the Indian clinical context: disease burden, drug availability, ICMR protocols, and the realities of Indian healthcare."}]]}]}],["$","$L4",null,{"staggerChildren":true,"className":"grid grid-3","children":[["$","div","0",{"className":"problem-card card-lift","children":[["$","h4",null,{"children":"Generic tools, wrong context"}],["$","p",null,{"children":"Most AI tools cite FDA approvals and UpToDate. Indian generics, CDSCO schedules, and NTEP protocols are missing."}]]}],["$","div","1",{"className":"problem-card card-lift","children":[["$","h4",null,{"children":"No time to read papers"}],["$","p",null,{"children":"A busy OPD leaves no time for literature review. Doctors need a synthesised answer in seconds, not citations to chase."}]]}],["$","div","2",{"className":"problem-card card-lift","children":[["$","h4",null,{"children":"MR-driven information"}],["$","p",null,{"children":"The medical representative is still the primary information channel for many Indian doctors. OpenInsight replaces that with evidence."}]]}]]}]]}]}],["$","section",null,{"id":"demo","className":"demo-section","children":["$","div",null,{"className":"container","children":[["$","$L4",null,{"children":["$","div",null,{"className":"text-center mb-12","children":[["$","p",null,{"className":"text-accent font-semibold text-sm uppercase tracking-wider","children":"How It Works"}],["$","h2",null,{"className":"mt-4","children":"Ask a clinical question. Get a structured, cited answer."}],["$","p",null,{"className":"text-text-2 text-lg mt-4 max-w-2xl mx-auto","children":"Switch between Fast Search for quick lookups and DeepInsight for complex multi-agent reasoning. Try a sample query — watch the response build in real time."}]]}]}],["$","$L4",null,{"children":["$","$L5",null,{}]}],["$","$L4",null,{"delay":100,"children":["$","div",null,{"className":"demo-cta","children":[["$","a",null,{"href":"https://app.openinsight.in","className":"btn btn-primary","target":"_blank","rel":"noopener noreferrer","children":"Try the live demo →"}],["$","$L3",null,{"href":"/product","className":"btn btn-ghost","children":"See how it works"}]]}]}]]}]}],["$","section",null,{"className":"stats-section","children":["$","div",null,{"className":"container","children":[["$","$L4",null,{"children":["$","div",null,{"className":"text-center mb-12","children":[["$","p",null,{"className":"text-accent font-semibold text-sm uppercase tracking-wider","children":"Built for Impact"}],["$","h2",null,{"className":"mt-4","children":"Trusted by Indian doctors, every day."}]]}]}],["$","$L4",null,{"children":["$","$L6",null,{}]}]]}]}],["$","section",null,{"id":"features","className":"features-section","children":["$","div",null,{"className":"container","children":[["$","$L4",null,{"children":["$","div",null,{"className":"text-center mb-12","children":[["$","p",null,{"className":"text-accent font-semibold text-sm uppercase tracking-wider","children":"What OpenInsight Does"}],["$","h2",null,{"className":"mt-4","children":"Everything a clinical consultation needs."}]]}]}],["$","$L4",null,{"children":["$","div",null,{"className":"grid grid-3","children":[["$","div","0",{"style":{"animationDelay":"0ms"},"className":"animate-fade-in-up","children":["$","div",null,{"className":"FeatureCard_card__sl028","children":[["$","div",null,{"className":"FeatureCard_icon__s3CQQ","children":["$","span",null,{"children":"◆"}]}],["$","h4",null,{"className":"FeatureCard_title__2OKE4","children":"India-first evidence"}],["$","p",null,{"className":"FeatureCard_description__Ls1_8","children":"ICMR guidelines, NTEP, NVBDCP, CDSCO drug database, State Treatment Guidelines. No default to UpToDate when an ICMR protocol exists."}]]}]}],["$","div","1",{"style":{"animationDelay":"50ms"},"className":"animate-fade-in-up","children":["$","div",null,{"className":"FeatureCard_card__sl028","children":[["$","div",null,{"className":"FeatureCard_icon__s3CQQ","children":["$","span",null,{"children":"◆"}]}],["$","h4",null,{"className":"FeatureCard_title__2OKE4","children":"DeepInsight mode"}],["$","p",null,{"className":"FeatureCard_description__Ls1_8","children":"Multi-agent pipeline that retrieves, cross-checks, and synthesises across sources for complex queries."}]]}]}],["$","div","2",{"style":{"animationDelay":"100ms"},"className":"animate-fade-in-up","children":["$","div",null,{"className":"FeatureCard_card__sl028","children":[["$","div",null,{"className":"FeatureCard_icon__s3CQQ","children":["$","span",null,{"children":"◆"}]}],["$","h4",null,{"className":"FeatureCard_title__2OKE4","children":"Fast Search mode"}],["$","p",null,{"className":"FeatureCard_description__Ls1_8","children":"Quick lookups for DDI checks, drug dosing, differential diagnosis. Instant, no multi-agent overhead."}]]}]}],["$","div","3",{"style":{"animationDelay":"150ms"},"className":"animate-fade-in-up","children":["$","div",null,{"className":"FeatureCard_card__sl028","children":[["$","div",null,{"className":"FeatureCard_icon__s3CQQ","children":["$","span",null,{"children":"◆"}]}],["$","h4",null,{"className":"FeatureCard_title__2OKE4","children":"Drug interaction checker"}],["$","p",null,{"className":"FeatureCard_description__Ls1_8","children":"Cross-reference India's CDSCO-approved generics. Catches interactions that Western tools miss."}]]}]}],["$","div","4",{"style":{"animationDelay":"200ms"},"className":"animate-fade-in-up","children":["$","div",null,{"className":"FeatureCard_card__sl028","children":[["$","div",null,{"className":"FeatureCard_icon__s3CQQ","children":["$","span",null,{"children":"◆"}]}],["$","h4",null,{"className":"FeatureCard_title__2OKE4","children":"Follow-up questions"}],["$","p",null,{"className":"FeatureCard_description__Ls1_8","children":"Continue the clinical conversation. Refine the differential. Ask about comorbidities."}]]}]}],["$","div","5",{"style":{"animationDelay":"250ms"},"className":"animate-fade-in-up","children":["$","div",null,{"className":"FeatureCard_card__sl028","children":[["$","div",null,{"className":"FeatureCard_icon__s3CQQ","children":["$","span",null,{"children":"◆"}]}],["$","h4",null,{"className":"FeatureCard_title__2OKE4","children":"Citable & shareable"}],["$","p",null,{"className":"FeatureCard_description__Ls1_8","children":"Every response generates a shareable citation-ready summary. Print for the patient or attach to notes."}]]}]}]]}]}]]}]}],["$","section",null,{"className":"testimonial-section","children":["$","div",null,{"className":"container","children":[["$","$L4",null,{"children":["$","div",null,{"className":"text-center mb-12","children":[["$","p",null,{"className":"text-accent font-semibold text-sm uppercase tracking-wider","children":"Voices from the Field"}],["$","h2",null,{"className":"mt-4","children":"Indian doctors, in their own words."}],["$","p",null,{"className":"text-text-2 text-lg mt-4 max-w-2xl mx-auto","children":"From AIIMS Delhi to a PHC in Latur — physicians across India use OpenInsight to make faster, better-cited clinical decisions."}]]}]}],["$","$L4",null,{"children":["$","$L7",null,{}]}],["$","$L4",null,{"children":["$","div",null,{"className":"trust-badges","children":[["$","span",null,{"className":"trust-badge","children":"ICMR Guidelines"}],["$","span",null,{"className":"trust-badge-sep","children":"·"}],["$","span",null,{"className":"trust-badge","children":"CDSCO Drug Data"}],["$","span",null,{"className":"trust-badge-sep","children":"·"}],["$","span",null,{"className":"trust-badge","children":"PubMed Central"}],["$","span",null,{"className":"trust-badge-sep","children":"·"}],["$","span",null,{"className":"trust-badge","children":"WHO India"}],["$","span",null,{"className":"trust-badge-sep","children":"·"}],["$","span",null,{"className":"trust-badge","children":"NTEP Protocols"}]]}]}]]}]}],["$","section",null,{"id":"faq","className":"faq-section","children":["$","div",null,{"className":"container","children":[["$","$L4",null,{"children":["$","div",null,{"className":"text-center mb-12","children":[["$","p",null,{"className":"text-accent font-semibold text-sm uppercase tracking-wider","children":"Frequently Asked"}],["$","h2",null,{"className":"mt-4","children":"Questions Indian doctors ask us."}],["$","p",null,{"className":"text-text-2 text-lg mt-4 max-w-2xl mx-auto","children":"Clinical safety, data privacy, compliance, pricing. Honest answers from the OpenInsight team."}]]}]}],["$","$L4",null,{"children":["$","$L8",null,{}]}],["$","$L4",null,{"delay":100,"children":["$","div",null,{"className":"faq-footer","children":[["$","p",null,{"children":"Still have a question?"}],["$","$L3",null,{"href":"/early-access","className":"btn btn-ghost","children":"Talk to us →"}]]}]}]]}]}],["$","section",null,{"className":"cta-banner","children":["$","div",null,{"className":"container text-center","children":[["$","h2",null,{"className":"text-white mb-4","children":"Built for Indian doctors. Free to use."}],["$","p",null,{"className":"text-white opacity-75 text-lg mb-8","children":"OpenInsight is free for verified medical practitioners. Request early access and be among the first Indian doctors to use it."}],["$","$L3",null,{"href":"/early-access","className":"btn btn-shimmer","children":"Request Early Access →"}],["$","p",null,{"className":"text-white opacity-50 text-sm mt-4","children":"No credit card. No subscription. NMC registration number required."}]]}]}],["$","style",null,{"children":"$9"}]]}],[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/73e67f3a60debb95.css","precedence":"next","crossOrigin":"$undefined"}]]],null],null]},[[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/1790acb2c995b2c8.css","precedence":"next","crossOrigin":"$undefined"}]],["$","html",null,{"lang":"en","suppressHydrationWarning":true,"children":[["$","head",null,{"children":[["$","meta",null,{"charSet":"utf-8"}],["$","meta",null,{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta",null,{"name":"theme-color","content":"#1C1B1A"}],["$","meta",null,{"name":"author","content":"SentArc Labs"}],["$","meta",null,{"name":"keywords","content":"clinical AI India, AI for doctors India, clinical decision support, ICMR guidelines, CDSCO drug database, NTEP protocols, evidence-based medicine India, medical AI assistant, Indian healthcare AI, differential diagnosis AI, drug interaction checker India, PubMed clinical search, Cochrane reviews, doctor decision support, point of care AI"}],["$","link",null,{"rel":"canonical","href":"https://openinsight.in"}],["$","link",null,{"rel":"icon","href":"/logos/DarkGrey.png","type":"image/png"}],["$","link",null,{"rel":"apple-touch-icon","href":"/logos/DarkGrey.png"}],["$","link",null,{"rel":"shortcut icon","href":"/logos/DarkGrey.png"}],["$","link",null,{"rel":"sitemap","href":"/sitemap.xml"}],["$","meta",null,{"name":"format-detection","content":"telephone=no, address=no, email=no"}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$a"}}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"@id\":\"https://openinsight.in/#website\",\"url\":\"https://openinsight.in\",\"name\":\"OpenInsight\",\"publisher\":{\"@id\":\"https://openinsight.in/#organization\"},\"inLanguage\":\"en-IN\"}"}}]]}],["$","body",null,{"children":[["$","$Lb",null,{}],["$","$Lc",null,{}],["$","main",null,{"children":["$","$Ld",null,{"parallelRouterKey":"children","segmentPath":["children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$Le",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":"404"}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],"notFoundStyles":[]}]}],["$","$Lf",null,{}],["$","$L10",null,{}],["$","$L11",null,{}]]}]]}]],null],null],["$L12",null]]]]
+12:[["$","meta","0",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","1",{"charSet":"utf-8"}],["$","title","2",{"children":"OpenInsight | AI Clinical Decision Support for Indian Doctors"}],["$","meta","3",{"name":"description","content":"Clinical knowledge, when it matters most. AI-powered clinical decision support built on ICMR guidelines, CDSCO approvals, and Indian clinical evidence."}],["$","meta","4",{"name":"application-name","content":"OpenInsight"}],["$","link","5",{"rel":"author","href":"https://openinsight.in"}],["$","meta","6",{"name":"author","content":"SentArc Labs"}],["$","meta","7",{"name":"keywords","content":"clinical AI India,AI for doctors India,clinical decision support,ICMR guidelines,CDSCO drug database,NTEP protocols,evidence-based medicine India,medical AI assistant,Indian healthcare AI,differential diagnosis AI,drug interaction checker India,PubMed clinical search,Cochrane reviews,doctor decision support,point of care AI"}],["$","meta","8",{"name":"creator","content":"SentArc Labs"}],["$","meta","9",{"name":"publisher","content":"SentArc Labs"}],["$","meta","10",{"name":"robots","content":"index, follow"}],["$","meta","11",{"name":"googlebot","content":"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"}],["$","meta","12",{"name":"category","content":"Healthcare Technology"}],["$","link","13",{"rel":"canonical","href":"https://openinsight.in"}],["$","meta","14",{"name":"format-detection","content":"telephone=no, address=no, email=no"}],["$","meta","15",{"property":"og:title","content":"OpenInsight | Precision Clinical AI for Indian Doctors"}],["$","meta","16",{"property":"og:description","content":"Clinical knowledge when it matters most. AI-powered clinical decision support built on ICMR guidelines, CDSCO approvals, and Indian clinical evidence."}],["$","meta","17",{"property":"og:url","content":"https://openinsight.in"}],["$","meta","18",{"property":"og:site_name","content":"OpenInsight"}],["$","meta","19",{"property":"og:locale","content":"en_IN"}],["$","meta","20",{"property":"og:image","content":"https://openinsight.in/logos/DarkGrey.png"}],["$","meta","21",{"property":"og:image:width","content":"1200"}],["$","meta","22",{"property":"og:image:height","content":"630"}],["$","meta","23",{"property":"og:image:alt","content":"OpenInsight — Precision Clinical AI for Indian Doctors"}],["$","meta","24",{"property":"og:type","content":"website"}],["$","meta","25",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","26",{"name":"twitter:creator","content":"@openinsight"}],["$","meta","27",{"name":"twitter:title","content":"OpenInsight | Precision Clinical AI for Indian Doctors"}],["$","meta","28",{"name":"twitter:description","content":"Clinical knowledge when it matters most. Evidence-backed AI assistant built on ICMR, CDSCO, and NTEP for Indian healthcare."}],["$","meta","29",{"name":"twitter:image","content":"https://openinsight.in/logos/DarkGrey.png"}],["$","link","30",{"rel":"shortcut icon","href":"/logos/DarkGrey.png"}],["$","link","31",{"rel":"icon","href":"/logos/DarkGrey.png","type":"image/png"}],["$","link","32",{"rel":"apple-touch-icon","href":"/logos/DarkGrey.png"}]]
+1:null
