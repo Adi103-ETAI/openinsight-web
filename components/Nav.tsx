@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Logo from './Logo'
 import styles from './Nav.module.css'
 
 const APP_URL = 'https://app.openinsight.in'
@@ -62,14 +62,11 @@ export default function Nav() {
           aria-valuemax={100}
         />
         <div className={styles.container}>
-          {/* Logo */}
-          <Link href="/" className={styles.logo}>
-            <Image
-              src={isScrolled ? '/logos/LightYellow.png' : '/logos/DarkGrey.png'}
-              alt="OpenInsight"
-              width={120}
-              height={40}
-              priority
+          {/* Logo — code-first SVG, adapts color to scroll state */}
+          <Link href="/" className={styles.logo} aria-label="OpenInsight home">
+            <Logo
+              variant="header"
+              theme={isScrolled ? 'light' : 'dark'}
             />
           </Link>
 
@@ -89,7 +86,7 @@ export default function Nav() {
             </Link>
           </div>
 
-          {/* Desktop CTA Buttons */}
+          {/* Desktop CTA Buttons — compact sizing */}
           <div className={styles.ctaGroup}>
             <a
               href={APP_URL}
@@ -100,7 +97,7 @@ export default function Nav() {
             >
               Launch App
             </a>
-            <Link href="/early-access" className="btn btn-primary">
+            <Link href="/early-access" className={`btn btn-primary ${styles.earlyBtn}`}>
               Early Access
             </Link>
           </div>

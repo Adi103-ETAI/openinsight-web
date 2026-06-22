@@ -1,5 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap');
 
+/* ─── Futura brand font (for the openInsight logo) ─── */
+@font-face {
+  font-family: 'FuturaLTPro-Light';
+  src: url('/fonts/FuturaLTPro-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FuturaLTPro-Medium';
+  src: url('/fonts/FuturaLTPro-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FuturaLTPro-Book';
+  src: url('/fonts/FuturaLTPro-Book.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Colors */
   --color-bg: #FAFAF8;
@@ -220,9 +243,9 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 32px;
+  padding: 10px 22px;
   border-radius: var(--radius-pill);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: 500;
   text-decoration: none;
   white-space: nowrap;

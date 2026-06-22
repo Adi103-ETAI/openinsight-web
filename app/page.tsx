@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
+import Logo from '@/components/Logo'
 import SectionReveal from '@/components/SectionReveal'
 import InteractiveDemo from '@/components/InteractiveDemo'
 import FeatureCard from '@/components/FeatureCard'
@@ -80,15 +80,9 @@ export default function Home() {
         </svg>
 
         <div className="container flex flex-col items-center justify-center gap-8 hero-content">
-          <Image
-            src="/logos/DarkGrey.png"
-            alt="OpenInsight"
-            width={200}
-            height={70}
-            priority
-            className="animate-fade-in"
-            style={{ animationDuration: '600ms' }}
-          />
+          <div className="animate-fade-in" style={{ animationDuration: '600ms' }}>
+            <Logo variant="home" theme="dark" />
+          </div>
           <h1 className="text-white text-center max-w-2xl animate-fade-in text-balance" style={{ animationDelay: '150ms' }}>
             Clinical knowledge,{' '}
             <span className="hero-gradient-text">when it matters most.</span>

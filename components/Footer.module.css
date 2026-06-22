@@ -70,9 +70,11 @@
   gap: var(--spacing-3);
 }
 
-.left img {
-  width: 120px;
+.left img,
+.left svg {
+  width: 140px;
   height: auto;
+  display: block;
 }
 
 .tagline {

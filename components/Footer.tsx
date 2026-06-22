@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Logo from './Logo'
 import styles from './Footer.module.css'
 
 const APP_URL = 'https://app.openinsight.in'
@@ -36,12 +36,7 @@ export default function Footer() {
       <div className={styles.container}>
         {/* Left Column */}
         <div className={styles.left}>
-          <Image
-            src="/logos/DarkGrey.png"
-            alt="OpenInsight"
-            width={120}
-            height={40}
-          />
+          <Logo variant="footer" theme="light" />
           <p className={styles.tagline}>
             Clinical knowledge, when it matters most.
           </p>

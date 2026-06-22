@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
+import Logo from '@/components/Logo'
 import EarlyAccessForm from '@/components/EarlyAccessForm'
 import SectionReveal from '@/components/SectionReveal'
 
@@ -15,12 +15,7 @@ export default function EarlyAccessPage() {
         {/* Left Side */}
         <div className="early-access-left">
           <div className="early-access-content">
-            <Image
-              src="/logos/DarkGrey.png"
-              alt="OpenInsight"
-              width={120}
-              height={40}
-            />
+            <Logo variant="header" theme="dark" />
             <h1 className="text-white mt-8">Be among the first.</h1>
             <p className="text-white text-lg opacity-75 mt-4">
               OpenInsight is in closed beta for verified Indian medical practitioners. Request access and we'll be in touch within 48 hours.
