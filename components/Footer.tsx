@@ -36,7 +36,7 @@ export default function Footer() {
       <div className={styles.container}>
         {/* Left Column */}
         <div className={styles.left}>
-          <Logo variant="footer" theme="light" />
+          <Logo variant="footer" theme="dark" />
           <p className={styles.tagline}>
             Clinical knowledge, when it matters most.
           </p>
@@ -138,7 +138,7 @@ export default function Footer() {
 
       {/* Bottom */}
       <div className={styles.bottom}>
-        <p>© 2025 SentArc Labs · Made in Pune, India</p>
+        <p>© 2026 SentArc Labs · Made in Pune, India</p>
       </div>
     </footer>
   )

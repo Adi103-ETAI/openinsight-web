@@ -42,7 +42,7 @@ export default function AboutPage() {
         <div className="container max-w-2xl mx-auto text-center">
           <SectionReveal>
             <h2>SentArc Labs</h2>
-            <div className="company-details mt-8">
+            <div className="company-details">
               <div className="company-detail">
                 <h4>Location</h4>
                 <p>Pune, India</p>
@@ -160,12 +160,16 @@ export default function AboutPage() {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: var(--spacing-6);
+          /* Generous separation from the "SentArc Labs" title above so the
+             column headers read as belonging to their own content, not the
+             title. (Fixes "too close to sentarclabs".) */
+          margin-top: var(--spacing-12);
         }
 
         .company-detail {
           display: flex;
           flex-direction: column;
-          gap: var(--spacing-2);
+          gap: var(--spacing-1);
         }
 
         .company-detail h4 {
