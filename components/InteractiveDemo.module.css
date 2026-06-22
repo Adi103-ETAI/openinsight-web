@@ -10,7 +10,9 @@
 .tabs {
   display: flex;
   gap: var(--spacing-1);
-  padding: var(--spacing-2);
+  /* Aligned with panel header (20px) + tab internal padding so the tab text
+     left edge lines up with the panel title text below it. */
+  padding: var(--spacing-2) var(--spacing-5);
   background-color: var(--color-surface-2);
   border-bottom: 1px solid var(--color-border);
 }
@@ -180,7 +182,8 @@
 .panelHeader {
   display: flex;
   align-items: center;
-  gap: var(--spacing-1);
+  gap: var(--spacing-2);
+  /* 20px horizontal padding matches the tabs row so left edges align. */
   padding: 14px 20px;
   border-bottom: 1px solid var(--color-border-dark);
   background-color: rgba(0, 0, 0, 0.15);

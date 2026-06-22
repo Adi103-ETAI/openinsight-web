@@ -40,7 +40,7 @@ export default function ProductPage() {
         <div className="container text-center">
           <h1>Two modes. One goal — the right answer.</h1>
           <p className="text-lg text-text-2 mt-4 max-w-2xl mx-auto">
-            OpenInsight has two query modes, optimised for how doctors actually think: fast lookups and deep clinical reasoning.
+            OpenIns<span className="brand-i">ı</span>ght has two query modes, optimised for how doctors actually think: fast lookups and deep clinical reasoning.
           </p>
         </div>
       </section>
@@ -104,7 +104,7 @@ export default function ProductPage() {
                 Built for India. Different by design.
               </h2>
               <p className="text-lg text-text-2 mt-4 max-w-2xl mx-auto">
-                See how OpenInsight stacks up against generic AI tools and established Western
+                See how OpenIns<span className="brand-i">ı</span>ght stacks up against generic AI tools and established Western
                 references — across the capabilities Indian doctors actually need.
               </p>
             </div>
@@ -140,12 +140,14 @@ export default function ProductPage() {
               <p className="text-accent font-semibold text-sm uppercase tracking-wider">
                 Behind the Scenes
               </p>
-              <h2 className="mt-4">How DeepInsight thinks</h2>
+              <h2 className="mt-4">How DeepIns<span className="brand-i">ı</span>ght thinks</h2>
             </div>
           </SectionReveal>
 
           <SectionReveal>
-            <Accordion items={architectureItems} />
+            <div className="product-architecture-accordion">
+              <Accordion items={architectureItems} />
+            </div>
           </SectionReveal>
         </div>
       </section>
@@ -214,6 +216,12 @@ export default function ProductPage() {
         .product-architecture {
           padding: var(--spacing-12) var(--spacing-6);
           background-color: var(--color-surface-2);
+        }
+
+        /* Breathing room between the "How DeepInsight thinks" heading and
+           the first accordion card (fixes cramped vertical spacing). */
+        .product-architecture-accordion {
+          margin-top: var(--spacing-8);
         }
 
         .product-comparison-table {
