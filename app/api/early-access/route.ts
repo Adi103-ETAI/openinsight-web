@@ -47,9 +47,23 @@ export async function POST(req: NextRequest) {
   if (!body.fullName?.trim()) errors.push('Full name is required')
   if (!body.email?.trim()) errors.push('Email is required')
   else if (!EMAIL_RE.test(body.email)) errors.push('Invalid email format')
+  if (!body.phone?.trim()) {
+    errors.push('Phone number is required')
+  } else {
+    const phoneDigits = body.phone.replace(/\D/g, '')
+    if (!/^\+?\d{10,13}$/.test(body.phone.trim()) || !(phoneDigits.length === 10 || phoneDigits.length === 12)) {
+      errors.push('Phone number must be a valid 10-digit mobile number')
+    }
+  }
   if (!body.persona || !PERSONAS.includes(body.persona as any)) {
     errors.push('Persona must be doctor, student, or professional')
   }
+  if (!body.specialty?.trim()) {
+    errors.push('Specialty is required')
+  } else if (body.specialty === 'other' && !body.otherSpecialty?.trim()) {
+    errors.push('Please specify your specialty when selecting "Other"')
+  }
+  if (!body.institution?.trim()) errors.push('Institution is required')
   if (!body.city?.trim()) errors.push('City is required')
   if (!body.agreeTerms) errors.push('You must agree to the Terms and Privacy Policy')
   // NMC optional, but validate format if provided

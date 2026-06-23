@@ -23,11 +23,15 @@ interface FormState {
 const STORAGE_KEY = 'openinsight_early_access_submissions'
 const DRAFT_KEY = 'openinsight_early_access_draft'
 
-// Note: NMC number is now OPTIONAL for validation phase — requested at beta verification
+// Phone, specialty, and institution are now REQUIRED for richer validation signal.
+// NMC number remains OPTIONAL for validation phase — requested at beta verification.
 const REQUIRED_FIELDS: (keyof FormState)[] = [
   'fullName',
   'email',
+  'phone',
   'persona',
+  'specialty',
+  'institution',
   'city',
 ]
 
@@ -163,8 +167,25 @@ export default function EarlyAccessForm() {
     if (!formState.persona) {
       next.persona = 'Please tell us who you are (doctor, student, or professional)'
     }
-    if (formState.specialty === 'other' && !formState.otherSpecialty.trim()) {
+    // Phone is now required — Indian mobile format (10 digits, or +91 prefixed)
+    const phoneDigits = formState.phone.replace(/\D/g, '')
+    if (!formState.phone.trim()) {
+      next.phone = 'Phone number is required'
+    } else if (
+      !/^\+?\d{10,13}$/.test(formState.phone.trim()) ||
+      !(phoneDigits.length === 10 || phoneDigits.length === 12)
+    ) {
+      next.phone = 'Enter a valid 10-digit mobile number (e.g., 9876543210 or +91 98765 43210)'
+    }
+    // Specialty is now required
+    if (!formState.specialty) {
+      next.specialty = 'Please select your specialty'
+    } else if (formState.specialty === 'other' && !formState.otherSpecialty.trim()) {
       next.otherSpecialty = 'Please specify your specialty'
+    }
+    // Institution is now required
+    if (!formState.institution.trim()) {
+      next.institution = 'Institution / hospital / clinic name is required'
     }
     if (!formState.city.trim()) next.city = 'City is required'
     // NMC number is now OPTIONAL — only validate format if provided
@@ -378,25 +399,35 @@ export default function EarlyAccessForm() {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="phone">Phone (Optional)</label>
+          <label htmlFor="phone">Phone *</label>
           <input
             type="tel"
             id="phone"
             name="phone"
             value={formState.phone}
             onChange={handleChange}
+            onFocus={handleFirstInteraction}
             placeholder="+91 XXXXX XXXXX"
             autoComplete="tel"
+            aria-required="true"
+            aria-invalid={!!errors.phone}
           />
+          {errors.phone ? (
+            <span className={styles.error}>{errors.phone}</span>
+          ) : (
+            <span className={styles.hint}>We&apos;ll only use this to verify your registration and send beta access details.</span>
+          )}
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="specialty">Specialty (Optional)</label>
+          <label htmlFor="specialty">Specialty *</label>
           <select
             id="specialty"
             name="specialty"
             value={formState.specialty}
             onChange={handleChange}
+            onFocus={handleFirstInteraction}
+            aria-required="true"
             aria-invalid={!!errors.specialty}
           >
             <option value="">Select your specialty</option>
@@ -432,16 +463,20 @@ export default function EarlyAccessForm() {
         )}
 
         <div className={styles.formGroup}>
-          <label htmlFor="institution">Institution (Optional)</label>
+          <label htmlFor="institution">Institution *</label>
           <input
             type="text"
             id="institution"
             name="institution"
             value={formState.institution}
             onChange={handleChange}
-            placeholder="Hospital / Clinic Name"
+            onFocus={handleFirstInteraction}
+            placeholder="Hospital / Clinic / College Name"
             autoComplete="organization"
+            aria-required="true"
+            aria-invalid={!!errors.institution}
           />
+          {errors.institution && <span className={styles.error}>{errors.institution}</span>}
         </div>
 
         <div className={styles.formGroup}>
