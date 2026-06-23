@@ -41,7 +41,15 @@ export default function AboutPage() {
       <section className="company-section">
         <div className="container max-w-2xl mx-auto text-center">
           <SectionReveal>
-            <h2>SentArc Labs</h2>
+            <h2 className="company-title">
+              <img
+                src="/logos/sentarc-symbol.svg"
+                alt=""
+                aria-hidden="true"
+                className="company-title-symbol"
+              />
+              <span>SentArc Labs</span>
+            </h2>
             <div className="company-details">
               <div className="company-detail">
                 <h4>Location</h4>
@@ -154,6 +162,27 @@ export default function AboutPage() {
 
         .company-section h2 {
           margin: 0;
+        }
+
+        /* SentArc symbol mark placed before the wordmark, matching the
+           sentarc-labs-wordmark-alt.svg proportion (symbol diameter ≈ 0.8×
+           cap-height, vertically centred on the text). */
+        .company-title {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.18em;
+          color: var(--color-text);
+        }
+
+        .company-title-symbol {
+          width: 0.82em;
+          height: 0.82em;
+          flex-shrink: 0;
+          display: block;
+          /* Nudge the symbol down slightly so its optical centre aligns
+             with the text's cap-height midline, like the reference wordmark. */
+          transform: translateY(0.04em);
         }
 
         .company-details {
