@@ -1,17 +1,20 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import styles from './EarlyAccessForm.module.css'
+import { track, identifyUser } from '@/lib/posthog/provider'
 
 interface FormState {
   fullName: string
   email: string
   phone: string
+  persona: string // 'doctor' | 'student' | 'professional'
   specialty: string
   otherSpecialty: string
   institution: string
   city: string
   nmcNumber: string
+  useCase: string // free text: "what would make you use this daily?"
   referral: string
   agreeTerms: boolean
   newsletter: boolean
@@ -20,23 +23,25 @@ interface FormState {
 const STORAGE_KEY = 'openinsight_early_access_submissions'
 const DRAFT_KEY = 'openinsight_early_access_draft'
 
+// Note: NMC number is now OPTIONAL for validation phase — requested at beta verification
 const REQUIRED_FIELDS: (keyof FormState)[] = [
   'fullName',
   'email',
-  'specialty',
+  'persona',
   'city',
-  'nmcNumber',
 ]
 
 const EMPTY_FORM: FormState = {
   fullName: '',
   email: '',
   phone: '',
+  persona: '',
   specialty: '',
   otherSpecialty: '',
   institution: '',
   city: '',
   nmcNumber: '',
+  useCase: '',
   referral: '',
   agreeTerms: false,
   newsletter: true,
@@ -83,9 +88,8 @@ export default function EarlyAccessForm() {
     if (
       formState.fullName === '' &&
       formState.email === '' &&
-      formState.specialty === '' &&
-      formState.city === '' &&
-      formState.nmcNumber === ''
+      formState.persona === '' &&
+      formState.city === ''
     ) {
       return
     }
@@ -105,10 +109,12 @@ export default function EarlyAccessForm() {
       'fullName',
       'email',
       'phone',
+      'persona',
       'specialty',
       'institution',
       'city',
       'nmcNumber',
+      'useCase',
       'referral',
     ]
     let filled = 0
@@ -127,7 +133,7 @@ export default function EarlyAccessForm() {
   }, [formState])
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const target = e.target
     const { name, value } = target
@@ -154,14 +160,15 @@ export default function EarlyAccessForm() {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email)) {
       next.email = 'Please enter a valid email address'
     }
-    if (!formState.specialty) next.specialty = 'Specialty is required'
+    if (!formState.persona) {
+      next.persona = 'Please tell us who you are (doctor, student, or professional)'
+    }
     if (formState.specialty === 'other' && !formState.otherSpecialty.trim()) {
       next.otherSpecialty = 'Please specify your specialty'
     }
     if (!formState.city.trim()) next.city = 'City is required'
-    if (!formState.nmcNumber.trim()) {
-      next.nmcNumber = 'NMC registration is required'
-    } else if (!/^\d{4,8}$/.test(formState.nmcNumber.trim())) {
+    // NMC number is now OPTIONAL — only validate format if provided
+    if (formState.nmcNumber.trim() && !/^\d{4,8}$/.test(formState.nmcNumber.trim())) {
       next.nmcNumber = 'Enter a valid NMC / State Medical Council number (4–8 digits)'
     }
     if (!formState.agreeTerms) {
@@ -170,7 +177,18 @@ export default function EarlyAccessForm() {
     return next
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const formStartedRef = useRef(false)
+
+  // Fire form_started event once, on first field interaction
+  const handleFirstInteraction = () => {
+    if (formStartedRef.current) return
+    formStartedRef.current = true
+    track('form_started', { form: 'early_access' })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const nextErrors = validate()
     if (Object.keys(nextErrors).length > 0) {
@@ -178,22 +196,61 @@ export default function EarlyAccessForm() {
       return
     }
 
-    // Persist to localStorage
+    setIsSubmitting(true)
+    setSubmitError(null)
+
     const submission = {
       ...formState,
       submittedAt: new Date().toISOString(),
     }
+
+    // Call the backend API (Vercel route handler → Supabase + Resend email).
+    // On failure, show error so the user can retry — do NOT silently succeed.
+    try {
+      const res = await fetch('/api/early-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(submission),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        setSubmitError(data.error || 'Something went wrong on our end. Please try again.')
+        setIsSubmitting(false)
+        return
+      }
+    } catch {
+      setSubmitError('Network error — please check your connection and try again.')
+      setIsSubmitting(false)
+      return
+    }
+
+    // Local audit trail (in addition to the DB row)
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
       const arr = raw ? JSON.parse(raw) : []
       const next = Array.isArray(arr) ? [...arr, submission] : [submission]
       localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
       setPersistedCount(next.length)
-      // Clear draft
       localStorage.removeItem(DRAFT_KEY)
     } catch {
-      /* storage may be full or unavailable; still show success in-memory */
+      /* storage may be full or unavailable; still show success */
     }
+
+    // Analytics: identify the user + fire submit event
+    identifyUser(formState.email, {
+      name: formState.fullName,
+      persona: formState.persona,
+      specialty: formState.specialty || undefined,
+      city: formState.city,
+    })
+    track('form_submitted', {
+      form: 'early_access',
+      persona: formState.persona,
+      has_specialty: !!formState.specialty,
+      has_nmc: !!formState.nmcNumber,
+      has_use_case: !!formState.useCase,
+      referral_source: formState.referral || undefined,
+    })
 
     setSubmitted(true)
   }
@@ -214,9 +271,9 @@ export default function EarlyAccessForm() {
             <polyline points="20 6 9 17 4 12" />
           </svg>
         </div>
-        <h3>Thank you, Dr. {formState.fullName.split(' ')[0]}!</h3>
+        <h3>Thank you, {formState.fullName.split(' ')[0]}!</h3>
         <p>
-          We&apos;ll review your NMC registration and send access details to{' '}
+          Your early access request is in. We&apos;ll review it and send access details to{' '}
           <strong>{formState.email}</strong> within 48 hours.
         </p>
         {persistedCount > 0 && (
@@ -263,6 +320,7 @@ export default function EarlyAccessForm() {
             name="fullName"
             value={formState.fullName}
             onChange={handleChange}
+            onFocus={handleFirstInteraction}
             placeholder="Dr. Your Name"
             autoComplete="name"
             aria-required="true"
@@ -287,6 +345,38 @@ export default function EarlyAccessForm() {
           {errors.email && <span className={styles.error}>{errors.email}</span>}
         </div>
 
+        {/* Persona — who is signing up? (critical for validation) */}
+        <div className={styles.formGroup}>
+          <label id="persona-label">I am a *</label>
+          <div className={styles.personaCards} role="radiogroup" aria-labelledby="persona-label">
+            {([
+              { value: 'doctor', label: 'Doctor', emoji: '🩺', desc: 'MBBS & above' },
+              { value: 'student', label: 'Medical Student', emoji: '📚', desc: 'MBBS / PG' },
+              { value: 'professional', label: 'Other Professional', emoji: '🏥', desc: 'Nursing, pharmacy, etc.' },
+            ] as const).map(opt => (
+              <label
+                key={opt.value}
+                className={`${styles.personaCard} ${formState.persona === opt.value ? styles.personaCardActive : ''}`}
+              >
+                <input
+                  type="radio"
+                  name="persona"
+                  value={opt.value}
+                  checked={formState.persona === opt.value}
+                  onChange={handleChange}
+                  className={styles.srOnly}
+                  aria-required="true"
+                  aria-invalid={!!errors.persona}
+                />
+                <span className={styles.personaEmoji} aria-hidden="true">{opt.emoji}</span>
+                <span className={styles.personaLabel}>{opt.label}</span>
+                <span className={styles.personaDesc}>{opt.desc}</span>
+              </label>
+            ))}
+          </div>
+          {errors.persona && <span className={styles.error}>{errors.persona}</span>}
+        </div>
+
         <div className={styles.formGroup}>
           <label htmlFor="phone">Phone (Optional)</label>
           <input
@@ -301,13 +391,12 @@ export default function EarlyAccessForm() {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="specialty">Specialty *</label>
+          <label htmlFor="specialty">Specialty (Optional)</label>
           <select
             id="specialty"
             name="specialty"
             value={formState.specialty}
             onChange={handleChange}
-            aria-required="true"
             aria-invalid={!!errors.specialty}
           >
             <option value="">Select your specialty</option>
@@ -372,7 +461,7 @@ export default function EarlyAccessForm() {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="nmcNumber">NMC / MCI Registration Number *</label>
+          <label htmlFor="nmcNumber">NMC / MCI Registration Number (Optional)</label>
           <input
             type="text"
             id="nmcNumber"
@@ -382,14 +471,28 @@ export default function EarlyAccessForm() {
             placeholder="e.g., 92501234"
             inputMode="numeric"
             pattern="\d{4,8}"
-            aria-required="true"
             aria-invalid={!!errors.nmcNumber}
           />
           {errors.nmcNumber ? (
             <span className={styles.error}>{errors.nmcNumber}</span>
           ) : (
-            <span className={styles.hint}>We verify NMC registration before granting access.</span>
+            <span className={styles.hint}>Optional for now — we'll verify your registration before beta access.</span>
           )}
+        </div>
+
+        {/* Use case — qualitative gold for validation */}
+        <div className={styles.formGroup}>
+          <label htmlFor="useCase">What would make you use OpenInsight daily? (Optional)</label>
+          <textarea
+            id="useCase"
+            name="useCase"
+            value={formState.useCase}
+            onChange={handleChange}
+            placeholder="e.g., Quick drug interaction checks, ICMR guideline lookups, differential diagnosis help..."
+            rows={3}
+            maxLength={500}
+          />
+          <span className={styles.hint}>{formState.useCase.length}/500 characters</span>
         </div>
 
         <div className={styles.formGroup}>
@@ -453,7 +556,7 @@ export default function EarlyAccessForm() {
           </label>
         </div>
 
-        {/* NMC review note */}
+        {/* Review note */}
         <div className={styles.reviewNote} role="note">
           <span className={styles.reviewIcon} aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
@@ -462,15 +565,22 @@ export default function EarlyAccessForm() {
             </svg>
           </span>
           <span>
-            <strong>We&apos;ll review your NMC registration</strong> and respond within 48 hours.
-            Your data is stored locally on this device for your convenience.
+            <strong>We review every request personally</strong> and respond within 48 hours.
+            Your data is stored securely and never shared.
           </span>
         </div>
+
+        {submitError && (
+          <div className={styles.submitError} role="alert">
+            {submitError}
+          </div>
+        )}
 
         <div className={styles.actions}>
           <button
             type="button"
             className={styles.secondaryBtn}
+            disabled={isSubmitting}
             onClick={() => {
               try {
                 localStorage.setItem(DRAFT_KEY, JSON.stringify(formState))
@@ -483,8 +593,8 @@ export default function EarlyAccessForm() {
           >
             Save &amp; continue later
           </button>
-          <button type="submit" className="btn btn-primary">
-            Request Early Access →
+          <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting…' : 'Request Early Access →'}
           </button>
         </div>
 

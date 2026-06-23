@@ -34,6 +34,8 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<FormErrors>({})
   const [submitted, setSubmitted] = useState(false)
   const [storedCount, setStoredCount] = useState(0)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -46,7 +48,7 @@ export default function ContactForm() {
     }
   }
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
     const newErrors: FormErrors = {}
@@ -72,19 +74,41 @@ export default function ContactForm() {
       return
     }
 
-    // Persist to localStorage (no backend on static export)
+    setIsSubmitting(true)
+    setSubmitError(null)
+
+    const entry = {
+      ...formState,
+      submittedAt: new Date().toISOString(),
+    }
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(entry),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        setSubmitError(data.error || 'Something went wrong. Please try again.')
+        setIsSubmitting(false)
+        return
+      }
+    } catch {
+      setSubmitError('Network error — please check your connection and try again.')
+      setIsSubmitting(false)
+      return
+    }
+
+    // Local audit trail
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
       const existing = raw ? (JSON.parse(raw) as Array<unknown>) : []
-      const entry = {
-        ...formState,
-        submittedAt: new Date().toISOString(),
-      }
-      const updated = [entry, ...existing].slice(0, 50) // keep last 50
+      const updated = [entry, ...existing].slice(0, 50)
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
       setStoredCount(updated.length)
     } catch {
-      // localStorage may be unavailable (private mode / SSR) — silently ignore
+      /* ignore */
     }
 
     setSubmitted(true)
@@ -209,8 +233,14 @@ export default function ContactForm() {
         )}
       </div>
 
-      <button type="submit" className="btn btn-primary">
-        Send Message →
+      {submitError && (
+        <div className={styles.errorBanner} role="alert">
+          {submitError}
+        </div>
+      )}
+
+      <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+        {isSubmitting ? 'Sending…' : 'Send Message →'}
       </button>
 
       {storedCount > 0 && (

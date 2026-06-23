@@ -5,6 +5,8 @@ import Footer from '@/components/Footer'
 import AnnouncementBanner from '@/components/AnnouncementBanner'
 import CookieConsent from '@/components/CookieConsent'
 import BackToTop from '@/components/BackToTop'
+import { PostHogProviderWrapper } from '@/lib/posthog/provider'
+import { ClarityScript } from '@/lib/clarity/script'
 
 const SITE_URL = 'https://openinsight.in'
 
@@ -224,12 +226,15 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <AnnouncementBanner />
-        <Nav />
-        <main>{children}</main>
-        <Footer />
-        <BackToTop />
-        <CookieConsent />
+        <ClarityScript />
+        <PostHogProviderWrapper>
+          <AnnouncementBanner />
+          <Nav />
+          <main>{children}</main>
+          <Footer />
+          <BackToTop />
+          <CookieConsent />
+        </PostHogProviderWrapper>
       </body>
     </html>
   )

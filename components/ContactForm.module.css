@@ -113,3 +113,14 @@
 .success .btn {
   margin-top: var(--spacing-2);
 }
+
+.errorBanner {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background-color: #FEE2E2;
+  border: 1px solid #FCA5A5;
+  color: #991B1B;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
