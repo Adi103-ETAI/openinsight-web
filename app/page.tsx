@@ -93,7 +93,7 @@ export default function Home() {
           >
             OpenInsight gives Indian doctors instant answers grounded in ICMR guidelines, CDSCO approvals, and India-specific clinical evidence — right at the point of care.
           </p>
-          <div className="flex gap-4 justify-center items-center flex-wrap animate-fade-in" style={{ animationDelay: '450ms' }}>
+          <div className="flex flex-center gap-4 animate-fade-in" style={{ animationDelay: '450ms', flexWrap: 'wrap' }}>
             <Link href="/early-access" className="btn btn-accent-glow">
               Request Early Access
             </Link>
@@ -441,7 +441,7 @@ export default function Home() {
         }
 
         .stats-section {
-          padding-top: var(--spacing-12);
+          padding-top: calc(var(--spacing-12) + var(--spacing-4));
           padding-bottom: var(--spacing-12);
           background-color: var(--color-surface-2);
         }
@@ -468,7 +468,7 @@ export default function Home() {
         }
 
         .features-section {
-          padding-top: var(--spacing-12);
+          padding-top: var(--spacing-8);
           padding-bottom: var(--spacing-12);
           background-color: var(--color-surface-2);
         }
