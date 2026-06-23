@@ -62,7 +62,7 @@ export default function Footer() {
               LinkedIn
             </a>
             <span className={styles.divider}>·</span>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <a href="https://www.instagram.com/sentarc.ai/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               Instagram
             </a>
           </div>
