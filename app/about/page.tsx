@@ -165,24 +165,27 @@ export default function AboutPage() {
         }
 
         /* SentArc symbol mark placed before the wordmark, matching the
-           sentarc-labs-wordmark-alt.svg proportion (symbol diameter ≈ 0.8×
-           cap-height, vertically centred on the text). */
+           sentarc-labs-wordmark-alt.svg layout. The whole wordmark is scaled
+           up (1.4x the h2 fluid size) and the symbol is sized larger than
+           the text so it reads as the dominant brand mark. */
         .company-title {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 0.18em;
+          gap: 0.22em;
           color: var(--color-text);
+          font-size: 1.4em;
+          line-height: 1.1;
         }
 
         .company-title-symbol {
-          width: 0.82em;
-          height: 0.82em;
+          width: 1.15em;
+          height: 1.15em;
           flex-shrink: 0;
           display: block;
           /* Nudge the symbol down slightly so its optical centre aligns
              with the text's cap-height midline, like the reference wordmark. */
-          transform: translateY(0.04em);
+          transform: translateY(0.03em);
         }
 
         .company-details {

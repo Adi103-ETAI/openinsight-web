@@ -62,8 +62,8 @@ export default function Footer() {
               LinkedIn
             </a>
             <span className={styles.divider}>·</span>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              GitHub
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              Instagram
             </a>
           </div>
 
