@@ -91,7 +91,7 @@ export default function Home() {
             className="text-white text-center max-w-2xl opacity-75 text-lg animate-fade-in mx-auto"
             style={{ fontSize: '20px', fontWeight: 300, animationDelay: '300ms' }}
           >
-            OpenInsight gives Indian doctors instant answers grounded in ICMR guidelines, CDSCO approvals, and India-specific clinical evidence — right at the point of care.
+            OpenInsight is an AI-powered medical search engine and clinical decision-support tool built specifically for healthcare professionals. It synthesizes vast amounts of peer-reviewed medical literature so doctors can make evidence-based treatment decisions — in seconds, not hours.
           </p>
           <div className="flex flex-center gap-4 animate-fade-in" style={{ animationDelay: '450ms', flexWrap: 'wrap' }}>
             <Link href="/early-access" className="btn btn-accent-glow">
