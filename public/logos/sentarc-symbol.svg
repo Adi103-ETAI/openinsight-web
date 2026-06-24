@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor">
+  <g transform="translate(50 50)">
+    <path d="M-2.00 -17.00L-1.90 -29.65L0 -40.00L1.90 -29.65L2.00 -17.00Z" transform="rotate(0)"/>
+    <path d="M-2.00 -17.00L-1.90 -29.65L0 -40.00L1.90 -29.65L2.00 -17.00Z" transform="rotate(45)"/>
+    <path d="M-2.00 -17.00L-1.90 -29.65L0 -40.00L1.90 -29.65L2.00 -17.00Z" transform="rotate(90)"/>
+    <path d="M-2.00 -17.00L-1.90 -29.65L0 -40.00L1.90 -29.65L2.00 -17.00Z" transform="rotate(135)"/>
+    <path d="M-2.00 -17.00L-1.90 -29.65L0 -40.00L1.90 -29.65L2.00 -17.00Z" transform="rotate(180)"/>
+    <path d="M-2.00 -17.00L-1.90 -29.65L0 -40.00L1.90 -29.65L2.00 -17.00Z" transform="rotate(225)"/>
+    <path d="M-2.00 -17.00L-1.90 -29.65L0 -40.00L1.90 -29.65L2.00 -17.00Z" transform="rotate(270)"/>
+    <path d="M-2.00 -17.00L-1.90 -29.65L0 -40.00L1.90 -29.65L2.00 -17.00Z" transform="rotate(315)"/>
+    <circle r="18.5" fill="none" stroke="currentColor" stroke-width="3"/>
+  </g>
+</svg>

@@ -1,0 +1,126 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  max-width: 100%;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.formGroup label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.required {
+  color: var(--color-accent);
+  margin-left: 2px;
+}
+
+.formGroup input,
+.formGroup textarea {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  width: 100%;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(197, 107, 74, 0.12);
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+  color: var(--color-text-3);
+}
+
+.formGroup input[aria-invalid="true"],
+.formGroup textarea[aria-invalid="true"] {
+  border-color: #E63946;
+}
+
+.error {
+  font-size: var(--text-sm);
+  color: #E63946;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.note {
+  font-size: var(--text-sm);
+  color: var(--color-text-3);
+  margin: 0;
+  text-align: center;
+}
+
+/* Success state */
+.success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-6);
+  background-color: var(--color-accent-pale);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(197, 107, 74, 0.25);
+}
+
+.successIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: var(--spacing-1);
+}
+
+.success h3 {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.success p {
+  margin: 0;
+  color: var(--color-text-2);
+  max-width: 420px;
+  font-size: var(--text-base);
+  line-height: var(--lh-base);
+}
+
+.success .btn {
+  margin-top: var(--spacing-2);
+}
+
+.errorBanner {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background-color: #FEE2E2;
+  border: 1px solid #FCA5A5;
+  color: #991B1B;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}

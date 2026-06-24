@@ -41,8 +41,16 @@ export default function AboutPage() {
       <section className="company-section">
         <div className="container max-w-2xl mx-auto text-center">
           <SectionReveal>
-            <h2>SentArc Labs</h2>
-            <div className="company-details mt-8">
+            <h2 className="company-title">
+              <img
+                src="/logos/sentarc-symbol.svg"
+                alt=""
+                aria-hidden="true"
+                className="company-title-symbol"
+              />
+              <span>SentArc Labs</span>
+            </h2>
+            <div className="company-details">
               <div className="company-detail">
                 <h4>Location</h4>
                 <p>Pune, India</p>
@@ -156,16 +164,49 @@ export default function AboutPage() {
           margin: 0;
         }
 
+        /* SentArc symbol mark placed before the wordmark, matching the
+           sentarc-labs-wordmark-alt.svg layout. The wordmark is scaled up
+           with a large absolute clamp (not em on the h2) so it genuinely
+           fills the section instead of looking lost in whitespace. The
+           symbol is sized larger than the text so it reads as the dominant
+           brand mark. */
+        .company-title {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.2em;
+          color: var(--color-text);
+          font-family: var(--font-display);
+          font-size: clamp(2.75rem, 6vw + 1rem, 5rem); /* 44px -> 80px fluid */
+          line-height: 1.05;
+          font-weight: 400;
+          letter-spacing: -0.015em;
+        }
+
+        .company-title-symbol {
+          width: 1.25em;
+          height: 1.25em;
+          flex-shrink: 0;
+          display: block;
+          /* Nudge the symbol down slightly so its optical centre aligns
+             with the text's cap-height midline, like the reference wordmark. */
+          transform: translateY(0.02em);
+        }
+
         .company-details {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: var(--spacing-6);
+          /* Generous separation from the "SentArc Labs" title above so the
+             column headers read as belonging to their own content, not the
+             title. (Fixes "too close to sentarclabs".) */
+          margin-top: var(--spacing-12);
         }
 
         .company-detail {
           display: flex;
           flex-direction: column;
-          gap: var(--spacing-2);
+          gap: var(--spacing-1);
         }
 
         .company-detail h4 {

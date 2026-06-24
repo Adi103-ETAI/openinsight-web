@@ -1,0 +1,125 @@
+.banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90; /* below mobile nav (99) but above content */
+  background-color: var(--color-dark);
+  color: white;
+  border-top: 3px solid var(--color-accent);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.12);
+  animation: slideUp 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform: translateY(100%);
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-3) var(--spacing-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+
+.text {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--lh-base);
+  color: rgba(255, 255, 255, 0.92);
+  flex: 1;
+  min: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex-shrink: 0;
+}
+
+.learnMore {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
+  background: none;
+  border: none;
+  padding: 8px 4px;
+}
+
+.learnMore:hover {
+  color: var(--color-accent);
+}
+
+.accept {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  color: white;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border: 2px solid var(--color-accent);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.accept:hover {
+  background-color: var(--color-accent-2);
+  border-color: var(--color-accent-2);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.accept:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+
+  .actions {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .accept {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner {
+    animation: none;
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .accept:hover,
+  .accept:focus-visible {
+    transform: none;
+  }
+}

@@ -2,57 +2,123 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import Logo from './Logo'
 import styles from './Nav.module.css'
+
+const APP_URL = 'https://app.openinsight.in'
 
 export default function Nav() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const pathname = usePathname()
+
+  // Home page has a dark hero at the top, so the nav starts transparent with
+  // light text/logo and switches to glass + dark text once scrolled.
+  // Every other page has a LIGHT surface at the top — if we kept the light
+  // text/logo it would be invisible. So we force the "light-on-glass" theme
+  // on all non-home pages from the very top.
+  const isHome = pathname === '/'
+  const useLight = isScrolled || !isHome // dark text/logo on a light surface
+
+  const navLinks = [
+    { href: '/for-doctors', label: 'For Doctors' },
+    { href: '/product', label: 'Product' },
+    { href: '/evidence', label: 'Evidence' },
+    { href: '/about', label: 'About' },
+  ]
+
+  const isActive = (href: string) =>
+    pathname === href || (href !== '/' && pathname.startsWith(href))
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 80)
+      const scrollY = window.scrollY
+      setIsScrolled(scrollY > 80)
+
+      // Compute scroll progress as percentage of the document that has been scrolled
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      if (docHeight > 0) {
+        const pct = Math.min(100, Math.max(0, (scrollY / docHeight) * 100))
+        setScrollProgress(pct)
+      } else {
+        setScrollProgress(0)
+      }
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    // Throttle via requestAnimationFrame for smoothness
+    let ticking = false
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll()
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
+    handleScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [])
 
   return (
     <>
-      <nav className={`${styles.nav} ${isScrolled ? styles.scrolled : ''}`}>
+      <nav className={`${styles.nav} ${useLight ? styles.scrolled : ''}`}>
+        {/* Scroll progress bar — terracotta, 3px thin, fills as user scrolls */}
+        <div
+          className={styles.scrollProgress}
+          style={{ width: `${scrollProgress}%` }}
+          role="progressbar"
+          aria-label="Page scroll progress"
+          aria-valuenow={Math.round(scrollProgress)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        />
         <div className={styles.container}>
-          {/* Logo */}
-          <Link href="/" className={styles.logo}>
-            <Image
-              src={isScrolled ? '/logos/LightYellow.png' : '/logos/DarkGrey.png'}
-              alt="OpenInsight"
-              width={120}
-              height={40}
-              priority
+          {/* Logo — code-first SVG, adapts color to scroll state & page bg */}
+          <Link href="/" className={styles.logo} aria-label="OpenInsight home">
+            <Logo
+              variant="header"
+              theme={useLight ? 'light' : 'dark'}
             />
           </Link>
 
           {/* Desktop Menu */}
           <div className={styles.menu}>
-            <Link href="/for-doctors" className={styles.navLink}>
-              For Doctors
-            </Link>
-            <Link href="/product" className={styles.navLink}>
-              Product
-            </Link>
-            <Link href="/evidence" className={styles.navLink}>
-              Evidence
-            </Link>
-            <Link href="/about" className={styles.navLink}>
-              About
-            </Link>
+            {navLinks.map(link => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`${styles.navLink} ${isActive(link.href) ? styles.active : ''}`}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
-          {/* CTA Button */}
-          <Link href="/early-access" className="btn btn-primary">
-            Early Access
-          </Link>
+          {/* Desktop CTA Buttons — compact sizing */}
+          <div className={styles.ctaGroup}>
+            <a
+              href={APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`btn btn-ghost ${styles.launchBtn}`}
+              aria-label="Launch OpenInsight App (opens in a new tab)"
+            >
+              Launch App
+            </a>
+            <Link href="/early-access" className={`btn btn-primary ${styles.earlyBtn}`}>
+              Early Access
+            </Link>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -84,6 +150,18 @@ export default function Nav() {
             <Link href="/about" onClick={() => setIsMobileMenuOpen(false)}>
               About
             </Link>
+            <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
+              Contact
+            </Link>
+            <a
+              href={APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Launch App ↗
+            </a>
             <Link
               href="/early-access"
               className="btn btn-primary"

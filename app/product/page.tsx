@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import SectionReveal from '@/components/SectionReveal'
 import Accordion from '@/components/Accordion'
+import ComparisonTable from '@/components/ComparisonTable'
 
 export const metadata: Metadata = {
   title: 'Product | OpenInsight',
@@ -90,6 +92,46 @@ export default function ProductPage() {
         </div>
       </section>
 
+      {/* Comparison table */}
+      <section className="product-comparison-table">
+        <div className="container">
+          <SectionReveal>
+            <div className="text-center mb-12">
+              <p className="text-accent font-semibold text-sm uppercase tracking-wider">
+                How We Compare
+              </p>
+              <h2 className="mt-4">
+                Built for India. Different by design.
+              </h2>
+              <p className="text-lg text-text-2 mt-4 max-w-2xl mx-auto">
+                See how OpenInsight stacks up against generic AI tools and established Western
+                references — across the capabilities Indian doctors actually need.
+              </p>
+            </div>
+          </SectionReveal>
+
+          <SectionReveal>
+            <ComparisonTable />
+          </SectionReveal>
+
+          <SectionReveal delay={100}>
+            <div className="comparison-cta">
+              <a
+                href="https://app.openinsight.in"
+                className="btn btn-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Launch the app →
+              </a>
+              <Link href="/early-access" className="btn btn-ghost">
+                Request early access
+              </Link>
+            </div>
+          </SectionReveal>
+        </div>
+      </section>
+
       {/* Architecture */}
       <section className="product-architecture">
         <div className="container">
@@ -103,7 +145,9 @@ export default function ProductPage() {
           </SectionReveal>
 
           <SectionReveal>
-            <Accordion items={architectureItems} />
+            <div className="product-architecture-accordion">
+              <Accordion items={architectureItems} />
+            </div>
           </SectionReveal>
         </div>
       </section>
@@ -172,6 +216,33 @@ export default function ProductPage() {
         .product-architecture {
           padding: var(--spacing-12) var(--spacing-6);
           background-color: var(--color-surface-2);
+        }
+
+        /* Breathing room between the "How DeepInsight thinks" heading and
+           the first accordion card (the mb-12 on the heading collapses inside
+           SectionReveal, so we restore the gap here). */
+        .product-architecture-accordion {
+          margin-top: var(--spacing-8);
+        }
+
+        .product-comparison-table {
+          padding: var(--spacing-12) var(--spacing-6);
+          background-color: var(--color-surface);
+        }
+
+        .comparison-cta {
+          display: flex;
+          gap: var(--spacing-2);
+          justify-content: center;
+          margin-top: var(--spacing-6);
+          flex-wrap: wrap;
+        }
+
+        @media (max-width: 640px) {
+          .comparison-cta {
+            flex-direction: column;
+            align-items: stretch;
+          }
         }
 
         @media (max-width: 1024px) {
