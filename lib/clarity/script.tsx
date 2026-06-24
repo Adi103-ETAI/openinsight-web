@@ -1,7 +1,6 @@
 'use client'
 
 import Script from 'next/script'
-import { useEffect } from 'react'
 
 const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID
 
@@ -10,29 +9,28 @@ const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID
  * Free, GDPR/CCPA compliant, doesn't capture form field values.
  *
  * If NEXT_PUBLIC_CLARITY_PROJECT_ID is unset, this renders nothing.
+ *
+ * IMPORTANT: Clarity only collects data from PUBLICLY ACCESSIBLE URLs.
+ * It will NOT record sessions on localhost or private network addresses.
+ * Deploy to Vercel (or any public domain) and visit the live URL — data
+ * will start flowing into the Clarity dashboard within a few minutes.
  */
 export function ClarityScript() {
-  useEffect(() => {
-    if (!CLARITY_ID) return
-    // Clarity's snippet, adapted for Next.js
-    ;(function (c: any, l: any, a: any, r: any, i: any) {
-      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) }
-      const t = l.createElement(r) as HTMLScriptElement
-      t.async = true
-      t.src = 'https://www.clarity.ms/tag/' + i
-      const y = l.getElementsByTagName(r)[0]
-      y.parentNode?.insertBefore(t, y)
-    })(window, document, 'clarity', 'script', CLARITY_ID)
-  }, [])
-
   if (!CLARITY_ID) return null
 
-  // Mark that Clarity is active (the script is injected by the effect above)
   return (
     <Script
-      id="clarity-init"
+      id="microsoft-clarity"
       strategy="afterInteractive"
-      dangerouslySetInnerHTML={{ __html: `window.clarity=window.clarity||function(){(window.clarity.q=window.clarity.q||[]).push(arguments)};` }}
+      dangerouslySetInnerHTML={{
+        __html: `
+          (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window,document,"clarity","script","${CLARITY_ID}");
+        `,
+      }}
     />
   )
 }

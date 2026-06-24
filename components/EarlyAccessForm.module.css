@@ -212,7 +212,10 @@
 .formGroup::before {
   content: '';
   position: absolute;
-  left: 0;
+  /* Position the bar OUTSIDE the input's left border with a visible gap.
+     left: -12px places the 3px-wide bar 9px to the left of the input,
+     so there's a clean breathing space between the bar and the field. */
+  left: -12px;
   top: 50%;
   transform: translateY(-50%) scaleY(0);
   width: 3px;
