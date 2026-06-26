@@ -138,7 +138,7 @@ export default function Footer() {
 
       {/* Bottom */}
       <div className={styles.bottom}>
-        <p>© 2026 SentArc Labs · Made in Pune, India</p>
+        <p>© 2026 SentArc Labs</p>
       </div>
     </footer>
   )

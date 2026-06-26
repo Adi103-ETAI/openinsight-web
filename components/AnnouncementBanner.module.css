@@ -10,21 +10,27 @@
 }
 
 .content {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 10px var(--spacing-6) 10px var(--spacing-4);
+  padding: 0 56px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--spacing-2);
-  min-height: 40px;
+  min-height: 44px;
 }
 
 .pulse {
+  position: absolute;
+  top: 50%;
+  left: 16px;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background-color: white;
   flex-shrink: 0;
+  transform: translateY(-50%);
   animation: pulse 2s ease-in-out infinite;
   box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
 }
@@ -35,8 +41,7 @@
   font-weight: 500;
   line-height: 1.4;
   color: white;
-  flex: 1;
-  min: 0;
+  text-align: center;
 }
 
 .link {
@@ -55,6 +60,10 @@
 }
 
 .close {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
   flex-shrink: 0;
   width: 28px;
   height: 28px;
@@ -72,7 +81,7 @@
 
 .close:hover {
   background-color: rgba(255, 255, 255, 0.32);
-  transform: rotate(90deg);
+  transform: translateY(-50%) rotate(90deg);
 }
 
 .close:focus-visible {
@@ -94,28 +103,36 @@
 @keyframes pulse {
   0%, 100% {
     box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
-    transform: scale(1);
+    transform: translateY(-50%) scale(1);
   }
   50% {
     box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
-    transform: scale(1.1);
+    transform: translateY(-50%) scale(1.1);
   }
 }
 
 /* Responsive */
 @media (max-width: 640px) {
   .content {
-    padding: 8px var(--spacing-3);
+    padding: 8px 44px 8px 12px;
+    justify-content: flex-start;
     gap: var(--spacing-1);
   }
 
   .text {
     font-size: var(--text-xs);
+    text-align: left;
+  }
+
+  /* Decorative pulse hidden on mobile to avoid overlap with left-aligned text */
+  .pulse {
+    display: none;
   }
 
   .close {
     width: 24px;
     height: 24px;
+    right: 10px;
   }
 }
 

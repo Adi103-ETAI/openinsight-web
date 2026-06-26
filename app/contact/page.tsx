@@ -5,7 +5,7 @@ import ContactForm from '@/components/ContactForm'
 export const metadata: Metadata = {
   title: 'Contact | OpenInsight',
   description:
-    'Get in touch with the OpenInsight team. Sales, support, partnerships, and feedback for the AI clinical decision support platform for Indian doctors.',
+    'Get in touch with the OpenInsight team. Sales, support, partnerships, and feedback for the AI clinical decision support platform for healthcare professionals.',
   alternates: { canonical: '/contact' },
 }
 
@@ -108,37 +108,13 @@ export default function ContactPage() {
                   </p>
                 </div>
 
-                <div className="info-card map-card">
+                <div className="info-card">
                   <h3 className="info-heading">Office</h3>
                   <address className="address">
                     SentArc Labs<br />
                     Pune, Maharashtra<br />
                     India
                   </address>
-                  {/* Static map placeholder — no external scripts to keep static export clean */}
-                  <div
-                    className="map-placeholder"
-                    role="img"
-                    aria-label="Map showing the location of Pune, India"
-                  >
-                    <div className="map-grid" aria-hidden="true" />
-                    <div className="map-pin" aria-hidden="true">
-                      <svg
-                        width="28"
-                        height="28"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                        <circle cx="12" cy="10" r="3" />
-                      </svg>
-                    </div>
-                    <span className="map-label">Pune, India</span>
-                  </div>
                 </div>
               </div>
             </SectionReveal>
@@ -152,8 +128,8 @@ export default function ContactPage() {
           <SectionReveal>
             <h2 className="text-white">Ready to try OpenInsight?</h2>
             <p className="text-white opacity-75 text-lg mt-4 max-w-2xl mx-auto">
-              Request early access and join the closed beta for verified Indian
-              medical practitioners.
+              Request early access and join the closed beta for verified healthcare
+              professionals.
             </p>
             <a href="/early-access" className="btn btn-primary mt-8">
               Request Early Access →
@@ -339,53 +315,6 @@ export default function ContactPage() {
           margin: 0 0 var(--spacing-3) 0;
         }
 
-        .map-placeholder {
-          position: relative;
-          height: 180px;
-          border-radius: var(--radius-md);
-          overflow: hidden;
-          background-color: var(--color-surface-2);
-          border: 1px solid var(--color-border);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-direction: column;
-          gap: var(--spacing-1);
-        }
-
-        .map-grid {
-          position: absolute;
-          inset: 0;
-          background-image:
-            linear-gradient(to right, rgba(197, 107, 74, 0.08) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(197, 107, 74, 0.08) 1px, transparent 1px);
-          background-size: 28px 28px;
-        }
-
-        .map-pin {
-          position: relative;
-          z-index: 1;
-          color: var(--color-accent);
-          animation: mapPinBounce 2.4s ease-in-out infinite;
-        }
-
-        .map-label {
-          position: relative;
-          z-index: 1;
-          background-color: var(--color-dark);
-          color: white;
-          font-size: var(--text-xs);
-          font-weight: 600;
-          padding: 4px 10px;
-          border-radius: var(--radius-pill);
-          letter-spacing: 0.5px;
-        }
-
-        @keyframes mapPinBounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-
         .contact-cta {
           background-color: var(--color-dark);
           padding: var(--spacing-12) var(--spacing-6);
@@ -423,11 +352,6 @@ export default function ContactPage() {
           }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-          .map-pin {
-            animation: none;
-          }
-        }
       `}</style>
     </div>
   )

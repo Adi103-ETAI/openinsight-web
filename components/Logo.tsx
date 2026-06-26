@@ -49,6 +49,7 @@ export default function Logo({
       className={className}
       aria-label="openInsight"
       role="img"
+      style={{ overflow: 'hidden' }}
     >
       {/* "open" — Futura Light 300, lowercase */}
       <text

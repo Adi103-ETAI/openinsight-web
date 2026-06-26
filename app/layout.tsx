@@ -13,27 +13,31 @@ const SITE_URL = 'https://openinsight.in'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'OpenInsight | Precision Clinical AI for Indian Doctors',
+    default: 'OpenInsight | AI Medical Search for Clinicians',
     template: '%s | OpenInsight',
   },
   description:
-    'OpenInsight is an AI-powered clinical decision support platform for Indian doctors. Evidence-backed answers grounded in ICMR guidelines, CDSCO approvals, NTEP protocols, and India-specific clinical evidence — at the point of care.',
+    'OpenInsight is an AI-powered medical search engine and clinical decision-support tool for healthcare professionals. Evidence-backed answers grounded in clinical guidelines, drug databases, and peer-reviewed literature — at the point of care.',
   applicationName: 'OpenInsight',
   authors: [{ name: 'SentArc Labs', url: SITE_URL }],
   creator: 'SentArc Labs',
   publisher: 'SentArc Labs',
   keywords: [
-    'clinical AI India',
-    'AI for doctors India',
+    'clinical AI',
+    'AI for doctors',
     'clinical decision support',
+    'medical search engine',
     'ICMR guidelines',
     'CDSCO drug database',
     'NTEP protocols',
-    'evidence-based medicine India',
+    'FDA drug labels',
+    'NICE guidelines',
+    'WHO guidelines',
+    'evidence-based medicine',
     'medical AI assistant',
-    'Indian healthcare AI',
+    'healthcare AI',
     'differential diagnosis AI',
-    'drug interaction checker India',
+    'drug interaction checker',
     'PubMed clinical search',
     'Cochrane reviews',
     'doctor decision support',
@@ -44,9 +48,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'OpenInsight | Precision Clinical AI for Indian Doctors',
+    title: 'OpenInsight | AI Medical Search for Clinicians',
     description:
-      'Clinical knowledge when it matters most. AI-powered clinical decision support built on ICMR guidelines, CDSCO approvals, and Indian clinical evidence.',
+      'Clinical knowledge when it matters most. Evidence-backed AI search for healthcare professionals.',
     url: SITE_URL,
     siteName: 'OpenInsight',
     type: 'website',
@@ -56,15 +60,15 @@ export const metadata: Metadata = {
         url: '/logos/DarkGrey.png',
         width: 1200,
         height: 630,
-        alt: 'OpenInsight — Precision Clinical AI for Indian Doctors',
+        alt: 'OpenInsight — AI Medical Search for Clinicians',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'OpenInsight | Precision Clinical AI for Indian Doctors',
+    title: 'OpenInsight | AI Medical Search for Clinicians',
     description:
-      'Clinical knowledge when it matters most. Evidence-backed AI assistant built on ICMR, CDSCO, and NTEP for Indian healthcare.',
+      'Clinical knowledge when it matters most. Evidence-backed AI search for healthcare professionals.',
     images: ['/logos/DarkGrey.png'],
     creator: '@openinsight',
   },
@@ -109,7 +113,7 @@ const jsonLd = {
   name: 'OpenInsight',
   alternateName: 'SentArc Labs OpenInsight',
   description:
-    'AI-powered clinical decision support platform for Indian doctors, delivering evidence-backed answers grounded in ICMR guidelines, CDSCO approvals, NTEP protocols, and India-specific clinical evidence.',
+    'AI-powered medical search engine and clinical decision-support tool for healthcare professionals, delivering evidence-backed answers grounded in clinical guidelines, drug databases, and peer-reviewed literature.',
   url: SITE_URL,
   logo: `${SITE_URL}/logos/DarkGrey.png`,
   image: `${SITE_URL}/logos/DarkGrey.png`,
@@ -139,17 +143,16 @@ const jsonLd = {
     addressRegion: 'Maharashtra',
     addressCountry: 'IN',
   },
-  areaServed: {
-    '@type': 'Country',
-    name: 'India',
-  },
   knowsAbout: [
     'Clinical decision support',
     'Evidence-based medicine',
     'ICMR guidelines',
     'CDSCO drug approvals',
     'NTEP protocols',
-    'Indian healthcare',
+    'FDA drug labels',
+    'NICE guidelines',
+    'WHO guidelines',
+    'Clinical medicine',
     'Artificial intelligence in medicine',
     'Retrieval-augmented generation',
   ],
@@ -158,14 +161,12 @@ const jsonLd = {
       '@type': 'ContactPoint',
       contactType: 'customer support',
       email: 'support@openinsight.in',
-      areaServed: 'IN',
       availableLanguage: ['English', 'Hindi'],
     },
     {
       '@type': 'ContactPoint',
       contactType: 'sales',
       email: 'hello@openinsight.in',
-      areaServed: 'IN',
       availableLanguage: ['English', 'Hindi'],
     },
   ],
@@ -203,10 +204,6 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#1C1B1A" />
         <meta name="author" content="SentArc Labs" />
-        <meta
-          name="keywords"
-          content="clinical AI India, AI for doctors India, clinical decision support, ICMR guidelines, CDSCO drug database, NTEP protocols, evidence-based medicine India, medical AI assistant, Indian healthcare AI, differential diagnosis AI, drug interaction checker India, PubMed clinical search, Cochrane reviews, doctor decision support, point of care AI"
-        />
         <link rel="canonical" href={SITE_URL} />
         <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon/favicon-32.png" type="image/png" sizes="32x32" />

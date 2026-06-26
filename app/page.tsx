@@ -9,14 +9,14 @@ import TestimonialsCarousel from '@/components/TestimonialsCarousel'
 import FAQAccordion from '@/components/FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'OpenInsight | AI Clinical Decision Support for Indian Doctors',
-  description: 'Clinical knowledge, when it matters most. AI-powered clinical decision support built on ICMR guidelines, CDSCO approvals, and Indian clinical evidence.',
+  title: 'OpenInsight | AI Medical Search for Clinicians',
+  description: 'Clinical knowledge, when it matters most. AI-powered medical search engine and clinical decision-support tool for healthcare professionals.',
 }
 
 const features = [
   {
-    title: 'India-first evidence',
-    description: 'ICMR guidelines, NTEP, NVBDCP, CDSCO drug database, State Treatment Guidelines. No default to UpToDate when an ICMR protocol exists.',
+    title: 'Context-aware evidence',
+    description: 'ICMR, NTEP, NVBDCP, CDSCO drug data, plus global literature. No blind default to a single reference when a more relevant one applies.',
   },
   {
     title: 'DeepInsight mode',
@@ -28,7 +28,7 @@ const features = [
   },
   {
     title: 'Drug interaction checker',
-    description: 'Cross-reference India\'s CDSCO-approved generics. Catches interactions that Western tools miss.',
+    description: 'Cross-reference CDSCO-approved generics and global drug labels. Catches interactions other tools miss.',
   },
   {
     title: 'Follow-up questions',
@@ -43,7 +43,7 @@ const features = [
 const problemCards = [
   {
     title: 'Generic tools, wrong context',
-    description: 'Most AI tools cite FDA approvals and UpToDate. Indian generics, CDSCO schedules, and NTEP protocols are missing.',
+    description: 'Most AI tools cite FDA approvals and UpToDate. Regional generics, national drug schedules, and local protocols are often missing.',
   },
   {
     title: 'No time to read papers',
@@ -51,7 +51,7 @@ const problemCards = [
   },
   {
     title: 'MR-driven information',
-    description: 'The medical representative is still the primary information channel for many Indian doctors. OpenInsight replaces that with evidence.',
+    description: 'In many regions, the medical representative is still the primary information channel for clinicians. OpenInsight replaces that with evidence.',
   },
 ]
 
@@ -112,10 +112,10 @@ export default function Home() {
                 {[
                   'ICMR guidelines', 'CDSCO', 'WHO', 'NICE',
                   'Cochrane Library', 'NEJM', 'The Lancet', 'JAMA',
-                  'BMJ', 'PubMed', 'UpToDate-style syntheses',
+                  'BMJ', 'PubMed',
                   'ICMR guidelines', 'CDSCO', 'WHO', 'NICE',
                   'Cochrane Library', 'NEJM', 'The Lancet', 'JAMA',
-                  'BMJ', 'PubMed', 'UpToDate-style syntheses',
+                  'BMJ', 'PubMed',
                 ].map((src, i) => (
                   <span className="hero-grounded-item" key={i}>
                     <svg
@@ -152,7 +152,7 @@ export default function Home() {
                 The Challenge
               </p>
               <h2 className="mt-4">
-                Indian doctors deserve tools built for India.
+                Clinicians deserve tools built for their context.
               </h2>
             </div>
           </SectionReveal>
@@ -160,10 +160,10 @@ export default function Home() {
           <SectionReveal>
             <div className="prose max-w-4xl mx-auto mb-12">
               <p className="text-center text-text-2 text-lg leading-relaxed mb-6">
-                Most clinical AI tools are trained on Western populations, Western guidelines, and Western drug formularies. They reference UpToDate, NEJM, and FDA approvals — all useful, but incomplete for a doctor in Pune seeing a patient with tropical fever or prescribing a Jan Aushadhi generic.
+                Most clinical AI tools are trained on Western populations, Western guidelines, and Western drug formularies. They reference UpToDate, NEJM, and FDA approvals — all useful, but incomplete for a clinician seeing a patient with regional disease patterns or prescribing locally available generics.
               </p>
               <p className="text-center text-text-2 text-lg leading-relaxed">
-                OpenInsight is built ground-up for the Indian clinical context: disease burden, drug availability, ICMR protocols, and the realities of Indian healthcare.
+                OpenInsight is built ground-up for clinical context: regional disease patterns, local drug availability, national guidelines, and the realities of everyday practice.
               </p>
             </div>
           </SectionReveal>
@@ -228,7 +228,7 @@ export default function Home() {
                 Built for Impact
               </p>
               <h2 className="mt-4">
-                Trusted by Indian doctors, every day.
+                Trusted by clinicians, every day.
               </h2>
             </div>
           </SectionReveal>
@@ -278,10 +278,10 @@ export default function Home() {
                 Voices from the Field
               </p>
               <h2 className="mt-4">
-                Indian doctors, in their own words.
+                Clinicians, in their own words.
               </h2>
               <p className="text-text-2 text-lg mt-4 max-w-2xl mx-auto">
-                From AIIMS Delhi to a PHC in Latur — physicians across India use OpenInsight to make
+                From teaching hospitals to rural clinics — clinicians use OpenInsight to make
                 faster, better-cited clinical decisions.
               </p>
             </div>
@@ -302,7 +302,7 @@ export default function Home() {
                 Frequently Asked
               </p>
               <h2 className="mt-4">
-                Questions Indian doctors ask us.
+                Questions clinicians ask us.
               </h2>
               <p className="text-text-2 text-lg mt-4 max-w-2xl mx-auto">
                 Clinical safety, data privacy, compliance, pricing. Honest answers from the
@@ -330,16 +330,16 @@ export default function Home() {
       <section className="cta-banner">
         <div className="container text-center">
           <h2 className="text-white mb-4">
-            Built for Indian doctors. Free to use.
+            Built for clinicians. Free to use.
           </h2>
           <p className="text-white opacity-75 text-lg mb-8">
-            OpenInsight is free for verified medical practitioners. Request early access and be among the first Indian doctors to use it.
+            OpenInsight is free for verified healthcare professionals. Request early access and be among the first to use it.
           </p>
           <Link href="/early-access" className="btn btn-shimmer">
             Request Early Access →
           </Link>
           <p className="text-white opacity-50 text-sm mt-4">
-            No credit card. No subscription. NMC registration number required.
+            No credit card. No subscription. Professional registration required.
           </p>
         </div>
       </section>
