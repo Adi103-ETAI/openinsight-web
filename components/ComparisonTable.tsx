@@ -18,10 +18,10 @@ interface Row {
 
 const ROWS: Row[] = [
   {
-    feature: 'India-first evidence (ICMR / NTEP / NVBDCP)',
+    feature: 'Contextual evidence (national + global)',
     generic: { status: 'no', text: 'Defaults to FDA / Western sources' },
-    uptodate: { status: 'partial', text: 'Limited India coverage' },
-    openinsight: { status: 'yes', text: 'Ground-up ICMR / NTEP / NVBDCP' },
+    uptodate: { status: 'partial', text: 'Limited regional coverage' },
+    openinsight: { status: 'yes', text: 'National guidelines + global literature' },
   },
   {
     feature: 'CDSCO drug database',
@@ -30,16 +30,16 @@ const ROWS: Row[] = [
     openinsight: { status: 'yes', text: 'Full CDSCO-approved generics' },
   },
   {
-    feature: 'Drug interactions (Indian generics)',
+    feature: 'Drug interactions (regional generics)',
     generic: { status: 'no', text: 'Western brand names' },
     uptodate: { status: 'partial', text: 'Generic name only' },
-    openinsight: { status: 'yes', text: 'Indian brand + Jan Aushadhi aware' },
+    openinsight: { status: 'yes', text: 'Local brands + generic equivalents' },
   },
   {
-    feature: 'Cost for Indian doctors',
-    generic: { status: 'text', text: '₹2,000+ / month or USD-denominated' },
-    uptodate: { status: 'text', text: '~₹18,000+ / year (institutional)' },
-    openinsight: { status: 'yes', text: 'Free for verified NMC-registered doctors' },
+    feature: 'Cost for clinicians',
+    generic: { status: 'text', text: 'USD 20+ / month' },
+    uptodate: { status: 'text', text: '~USD 200+ / year (institutional)' },
+    openinsight: { status: 'yes', text: 'Free for verified healthcare professionals' },
   },
   {
     feature: 'Offline capability',
@@ -60,10 +60,10 @@ const ROWS: Row[] = [
     openinsight: { status: 'yes', text: 'Native Hindi + 4 regional languages (roadmap)' },
   },
   {
-    feature: 'NMC / MCI verification & compliance',
+    feature: 'Practitioner verification & compliance',
     generic: { status: 'no', text: 'No practitioner verification' },
     uptodate: { status: 'partial', text: 'Institutional licensing' },
-    openinsight: { status: 'yes', text: 'NMC registration verified at sign-up' },
+    openinsight: { status: 'yes', text: 'Professional registration verified at sign-up' },
   },
   {
     feature: 'DeepInsight multi-agent mode',
@@ -124,13 +124,13 @@ export default function ComparisonTable() {
               <span className={styles.colSubtitle}>ChatGPT, Gemini, etc.</span>
             </th>
             <th scope="col" className={styles.col}>
-              <span className={styles.colTitle}>UpToDate / Western</span>
+              <span className={styles.colTitle}>UpToDate / References</span>
               <span className={styles.colSubtitle}>Established references</span>
             </th>
             <th scope="col" className={`${styles.col} ${styles.colHighlight}`}>
               <span className={styles.badge}>Recommended</span>
               <span className={styles.colTitle}>OpenInsight</span>
-              <span className={styles.colSubtitle}>Built for India</span>
+              <span className={styles.colSubtitle}>Built for clinicians</span>
             </th>
           </tr>
         </thead>

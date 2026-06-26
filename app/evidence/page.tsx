@@ -23,7 +23,7 @@ export default function EvidencePage() {
       {/* Hero */}
       <section className="evidence-hero">
         <div className="container text-center">
-          <h1>India's clinical knowledge, organised.</h1>
+          <h1>Clinical knowledge, organised.</h1>
           <p className="text-lg text-text-2 mt-4 max-w-2xl mx-auto">
             OpenInsight is only as good as its sources. Here's exactly what we include — and why.
           </p>
@@ -38,7 +38,7 @@ export default function EvidencePage() {
               <p className="text-accent font-semibold text-sm uppercase tracking-wider">
                 Our Data Sources
               </p>
-              <h2 className="mt-4">Curated, prioritised, India-first</h2>
+              <h2 className="mt-4">Curated, prioritised, clinically relevant</h2>
             </div>
           </SectionReveal>
 
@@ -118,7 +118,7 @@ export default function EvidencePage() {
               {[
                 { level: 'RCT', description: 'Randomised Controlled Trial — highest quality for intervention evidence' },
                 { level: 'Meta-analysis', description: 'Systematic review of multiple studies — comprehensive synthesis' },
-                { level: 'National Guideline', description: 'ICMR, NTEP, CDSCO — authoritative for India' },
+                { level: 'National Guideline', description: 'ICMR, NTEP, CDSCO — authoritative national & regulatory sources' },
                 { level: 'Expert Consensus', description: 'Specialist panel recommendation — when evidence is limited' },
                 { level: 'Case Series', description: 'Observational data — lower evidence but valuable for rare conditions' },
               ].map((item, idx) => (

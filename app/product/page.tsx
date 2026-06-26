@@ -101,11 +101,11 @@ export default function ProductPage() {
                 How We Compare
               </p>
               <h2 className="mt-4">
-                Built for India. Different by design.
+                Built for context. Different by design.
               </h2>
               <p className="text-lg text-text-2 mt-4 max-w-2xl mx-auto">
-                See how OpenInsight stacks up against generic AI tools and established Western
-                references — across the capabilities Indian doctors actually need.
+                See how OpenInsight stacks up against generic AI tools and established
+                references — across the capabilities clinicians actually need.
               </p>
             </div>
           </SectionReveal>
