@@ -5,7 +5,7 @@ import SectionReveal from '@/components/SectionReveal'
 
 export const metadata: Metadata = {
   title: 'Early Access | OpenInsight',
-  description: 'Request early access to OpenInsight. Join the beta for verified Indian medical practitioners.',
+  description: 'Request early access to OpenInsight. Join the beta for verified healthcare professionals.',
 }
 
 export default function EarlyAccessPage() {
@@ -18,7 +18,7 @@ export default function EarlyAccessPage() {
             <Logo variant="header" theme="dark" />
             <h1 className="text-white mt-8">Be among the first.</h1>
             <p className="text-white text-lg opacity-75 mt-4">
-              OpenInsight is in closed beta for verified Indian medical practitioners. Request access and we'll be in touch within 48 hours.
+              OpenInsight is in closed beta for verified healthcare professionals. Request access and we'll be in touch within 48 hours.
             </p>
 
             <div className="trust-signals mt-8">
@@ -36,7 +36,7 @@ export default function EarlyAccessPage() {
               </div>
               <div className="trust-signal">
                 <span className="checkmark">✓</span>
-                <span>Built on ICMR, CDSCO, and NTEP guidelines</span>
+                <span>Built on clinical guidelines, drug databases, and peer-reviewed literature</span>
               </div>
             </div>
           </div>
