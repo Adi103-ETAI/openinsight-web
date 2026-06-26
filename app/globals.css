@@ -262,6 +262,11 @@ button {
 .btn-primary:hover {
   background-color: var(--color-accent-2);
   border-color: var(--color-accent-2);
+  /* color: white must be set explicitly here because the global `a:hover`
+     rule (specificity 0,1,1) would otherwise override `.btn-primary`'s
+     `color: white` (0,1,0), turning the label the same shade as the hover
+     background and making it invisible. `.btn-primary:hover` is (0,2,0). */
+  color: white;
   transform: scale(1.02);
   box-shadow: var(--shadow-md);
 }
@@ -278,6 +283,7 @@ button {
 
 .btn-secondary:hover {
   background-color: rgba(255, 255, 255, 0.1);
+  color: white;
   transform: scale(1.02);
 }
 
@@ -671,6 +677,7 @@ label {
 .btn-accent-glow:hover {
   background-color: var(--color-accent-2);
   border-color: var(--color-accent-2);
+  color: white;
   transform: scale(1.02);
   box-shadow: 0 0 28px rgba(197, 107, 74, 0.55), 0 8px 20px rgba(0, 0, 0, 0.15);
 }
@@ -730,6 +737,7 @@ label {
 .btn-shimmer:hover {
   background-color: var(--color-accent-2);
   border-color: var(--color-accent-2);
+  color: white;
   transform: scale(1.02);
   box-shadow: var(--shadow-md);
 }

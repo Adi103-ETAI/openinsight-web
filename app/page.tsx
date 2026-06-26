@@ -400,6 +400,10 @@ export default function Home() {
           position: relative;
           z-index: 2;
           text-align: center;
+          /* Reserve space below the last flex child (the marquee) so the
+             absolutely-positioned scroll-indicator chevron sits BELOW the
+             marquee instead of overlapping it. */
+          padding-bottom: 64px;
         }
 
         /* Center the hero logo explicitly so it sits in the middle. */
@@ -417,7 +421,7 @@ export default function Home() {
 
         .scroll-indicator {
           position: absolute;
-          bottom: 32px;
+          bottom: 16px;
           left: 50%;
           transform: translateX(-50%);
           animation: chevronBounce 2s infinite;
