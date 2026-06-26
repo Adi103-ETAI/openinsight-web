@@ -104,12 +104,35 @@ export default function Home() {
             </a>
           </div>
 
-          {/* Trust badge row */}
-          <div className="hero-trust-row animate-fade-in" style={{ animationDelay: '600ms' }}>
-            <span className="hero-trust-item">Backed by ICMR guidelines</span>
-            <span className="hero-trust-item">CDSCO compliant</span>
-            <span className="hero-trust-item">NMC registered</span>
-            <span className="hero-trust-item">NTEP protocols</span>
+          {/* Grounded-in-literature sliding marquee */}
+          <div className="hero-grounded animate-fade-in" style={{ animationDelay: '600ms' }}>
+            <p className="hero-grounded-label">Grounded in the literature clinicians already trust</p>
+            <div className="hero-grounded-marquee" aria-hidden="false">
+              <div className="hero-grounded-track">
+                {[
+                  'ICMR guidelines', 'CDSCO', 'WHO', 'NICE',
+                  'Cochrane Library', 'NEJM', 'The Lancet', 'JAMA',
+                  'BMJ', 'PubMed', 'UpToDate-style syntheses',
+                  'ICMR guidelines', 'CDSCO', 'WHO', 'NICE',
+                  'Cochrane Library', 'NEJM', 'The Lancet', 'JAMA',
+                  'BMJ', 'PubMed', 'UpToDate-style syntheses',
+                ].map((src, i) => (
+                  <span className="hero-grounded-item" key={i}>
+                    <svg
+                      className="hero-grounded-icon"
+                      width="14" height="14" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" strokeWidth="2"
+                      strokeLinecap="round" strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                    {src}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="scroll-indicator">

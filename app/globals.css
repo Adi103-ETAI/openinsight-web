@@ -873,39 +873,90 @@ label {
   100% { background-position: 5% 10%, -8% 5%, 6% -8%, -5% -10%; }
 }
 
-/* --- Trust badge row for hero --- */
-.hero-trust-row {
-  display: flex;
-  gap: var(--spacing-3);
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: var(--spacing-4);
+/* --- "Grounded in the literature" sliding marquee (hero) --- */
+.hero-grounded {
+  margin-top: var(--spacing-5);
+  width: 100%;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.hero-trust-item {
+.hero-grounded-label {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(245, 240, 232, 0.5);
+  margin: 0 0 14px;
+}
+
+.hero-grounded-marquee {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  /* fade both edges so items slide in/out softly */
+ -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 12%,
+    #000 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 12%,
+    #000 88%,
+    transparent 100%
+  );
+}
+
+.hero-grounded-track {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  width: max-content;
+  /* duplicate set of items => seamless infinite loop */
+  animation: heroMarquee 38s linear infinite;
+  will-change: transform;
+}
+
+.hero-grounded-track:hover {
+  animation-play-state: paused;
+}
+
+.hero-grounded-item {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
-  border-radius: var(--radius-pill);
-  background-color: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(250, 250, 248, 0.85);
-  font-size: var(--text-xs);
+  color: rgba(250, 250, 248, 0.82);
+  font-size: 15px;
   font-weight: 500;
-  letter-spacing: 0.02em;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.hero-trust-item::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  box-shadow: 0 0 8px rgba(197, 107, 74, 0.6);
+.hero-grounded-icon {
+  color: var(--color-accent, #C56B4A);
   flex-shrink: 0;
+}
+
+@keyframes heroMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Reduced motion: freeze the marquee, show a static centered row */
+@media (prefers-reduced-motion: reduce) {
+  .hero-grounded-track {
+    animation: none !important;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
 }
 
 /* --- Floating EKG / pulse decorative element --- */
