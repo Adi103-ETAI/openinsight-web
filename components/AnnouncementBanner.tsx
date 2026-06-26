@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import styles from './AnnouncementBanner.module.css'
 
@@ -17,6 +17,7 @@ function setAnnouncementHeight(value: string) {
 export default function AnnouncementBanner() {
   const [visible, setVisible] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const bannerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -40,14 +41,27 @@ export default function AnnouncementBanner() {
     }
   }, [])
 
-  // Sync CSS variable with visibility so the fixed Nav can offset below the banner.
+  // Sync CSS variable with the banner's actual rendered height so the fixed
+  // Nav can offset below it precisely. Uses ResizeObserver to stay correct
+  // across responsive breakpoints and text wrapping.
   useEffect(() => {
-    if (visible) {
+    if (!visible) {
+      setAnnouncementHeight('0px')
+      return
+    }
+    const el = bannerRef.current
+    if (!el || typeof ResizeObserver === 'undefined') {
       setAnnouncementHeight('44px')
-    } else {
+      return
+    }
+    const update = () => setAnnouncementHeight(`${el.offsetHeight}px`)
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    return () => {
+      ro.disconnect()
       setAnnouncementHeight('0px')
     }
-    return () => setAnnouncementHeight('0px')
   }, [visible])
 
   const handleDismiss = () => {
@@ -63,6 +77,7 @@ export default function AnnouncementBanner() {
 
   return (
     <div
+      ref={bannerRef}
       className={styles.banner}
       role="region"
       aria-label="Announcement"
@@ -76,29 +91,29 @@ export default function AnnouncementBanner() {
             Apply today →
           </Link>
         </p>
-      </div>
-      <button
-        type="button"
-        className={styles.close}
-        onClick={handleDismiss}
-        aria-label="Dismiss announcement"
-        title="Dismiss"
-      >
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
+        <button
+          type="button"
+          className={styles.close}
+          onClick={handleDismiss}
+          aria-label="Dismiss announcement"
+          title="Dismiss"
         >
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-      </button>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
     </div>
   )
 }
