@@ -104,6 +104,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* Prevent horizontal scroll on mobile from any element overflow
+     (e.g. wide marquees, SVG text advance, decorative absolute elements).
+     Vertical scroll/anchor links still work normally. */
+  overflow-x: hidden;
 }
 
 body {
@@ -112,6 +116,7 @@ body {
   line-height: var(--lh-base);
   color: var(--color-text);
   background-color: var(--color-bg);
+  overflow-x: hidden;
 }
 
 h1 {
