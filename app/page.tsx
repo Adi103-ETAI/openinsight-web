@@ -112,10 +112,10 @@ export default function Home() {
                 {[
                   'ICMR guidelines', 'CDSCO', 'WHO', 'NICE',
                   'Cochrane Library', 'NEJM', 'The Lancet', 'JAMA',
-                  'BMJ', 'PubMed', 'UpToDate-style syntheses',
+                  'BMJ', 'PubMed',
                   'ICMR guidelines', 'CDSCO', 'WHO', 'NICE',
                   'Cochrane Library', 'NEJM', 'The Lancet', 'JAMA',
-                  'BMJ', 'PubMed', 'UpToDate-style syntheses',
+                  'BMJ', 'PubMed',
                 ].map((src, i) => (
                   <span className="hero-grounded-item" key={i}>
                     <svg
