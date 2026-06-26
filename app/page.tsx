@@ -95,7 +95,7 @@ export default function Home() {
             <span style={{ color: '#FFFFFF' }}>AI-powered medical search engine</span> and clinical decision-support tool built specifically for{' '}
             <span style={{ color: '#FFFFFF' }}>healthcare professionals</span>.
           </p>
-          <div className="flex flex-center gap-4 animate-fade-in" style={{ animationDelay: '450ms', flexWrap: 'wrap' }}>
+          <div className="flex flex-center gap-4 animate-fade-in" style={{ animationDelay: '450ms', flexWrap: 'wrap', marginTop: '2rem' }}>
             <Link href="/early-access" className="btn btn-accent-glow">
               Request Early Access
             </Link>
