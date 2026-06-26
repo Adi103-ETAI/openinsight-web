@@ -662,6 +662,10 @@ label {
   color: white;
   border: 2px solid var(--color-accent);
   animation: btnAccentPulse 2.4s ease-in-out infinite;
+  /* Isolate stacking context so the pulse box-shadow never renders above
+     the button label, keeping text fully visible at every animation frame. */
+  isolation: isolate;
+  z-index: 0;
 }
 
 .btn-accent-glow:hover {
@@ -712,7 +716,10 @@ label {
   );
   transform: translateX(-150%);
   transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1;
+  /* z-index: -1 keeps the shimmer sweep BEHIND the button's text content
+     (including bare text nodes that `> *` cannot elevate) but ABOVE the
+     button's own background-color, thanks to `isolation: isolate` above. */
+  z-index: -1;
   pointer-events: none;
 }
 
@@ -727,6 +734,8 @@ label {
   box-shadow: var(--shadow-md);
 }
 
+/* Elevate any wrapped child elements above the shimmer sweep.
+   (Bare text nodes are already protected by `::before { z-index: -1 }`.) */
 .btn-shimmer > * {
   position: relative;
   z-index: 2;
