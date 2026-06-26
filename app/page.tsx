@@ -290,20 +290,6 @@ export default function Home() {
           <SectionReveal>
             <TestimonialsCarousel />
           </SectionReveal>
-
-          <SectionReveal>
-            <div className="trust-badges">
-              <span className="trust-badge">ICMR Guidelines</span>
-              <span className="trust-badge-sep">·</span>
-              <span className="trust-badge">CDSCO Drug Data</span>
-              <span className="trust-badge-sep">·</span>
-              <span className="trust-badge">PubMed Central</span>
-              <span className="trust-badge-sep">·</span>
-              <span className="trust-badge">WHO India</span>
-              <span className="trust-badge-sep">·</span>
-              <span className="trust-badge">NTEP Protocols</span>
-            </div>
-          </SectionReveal>
         </div>
       </section>
 
@@ -526,29 +512,6 @@ export default function Home() {
           margin: 0;
         }
 
-        .trust-badges {
-          display: flex;
-          gap: var(--spacing-2);
-          justify-content: center;
-          flex-wrap: wrap;
-        }
-
-        .trust-badge {
-          display: inline-block;
-          background-color: var(--color-accent-pale);
-          color: var(--color-accent);
-          padding: 8px 16px;
-          border-radius: var(--radius-pill);
-          font-size: var(--text-xs);
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .trust-badge-sep {
-          color: var(--color-accent);
-        }
-
         .cta-banner {
           background-color: var(--color-dark);
           padding: var(--spacing-12) var(--spacing-6);
@@ -595,15 +558,6 @@ export default function Home() {
 
           .testimonial-quote {
             font-size: var(--text-2xl);
-          }
-
-          .trust-badges {
-            gap: var(--spacing-1);
-          }
-
-          .trust-badge {
-            font-size: 10px;
-            padding: 6px 12px;
           }
         }
       `}</style>
