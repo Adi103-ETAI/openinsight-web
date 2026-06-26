@@ -3,7 +3,7 @@ import SectionReveal from '@/components/SectionReveal'
 
 export const metadata: Metadata = {
   title: 'About | OpenInsight',
-  description: 'Meet SentArc Labs. Built by someone who couldn\'t get in. Changing how Indian doctors access clinical evidence.',
+  description: 'Meet SentArc Labs. Built by someone who couldn\'t get in. Changing how clinicians access clinical evidence at the point of care.',
 }
 
 export default function AboutPage() {

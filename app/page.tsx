@@ -88,14 +88,14 @@ export default function Home() {
             <span className="hero-gradient-text">when it matters most.</span>
           </h1>
           <p
-            className="text-center max-w-2xl animate-fade-in mx-auto"
-            style={{ fontSize: '20px', fontWeight: 300, animationDelay: '300ms', color: 'rgba(245, 240, 232, 0.42)' }}
+            className="text-center max-w-2xl animate-fade-in mx-auto hero-subhead"
+            style={{ animationDelay: '300ms' }}
           >
-            <span style={{ color: '#FFFFFF' }}>OpenInsight</span> is an{' '}
-            <span style={{ color: '#FFFFFF' }}>AI-powered medical search engine</span> and clinical decision-support tool built specifically for{' '}
-            <span style={{ color: '#FFFFFF' }}>healthcare professionals</span>.
+            <span className="hero-subhead-highlight">OpenInsight</span> is an{' '}
+            <span className="hero-subhead-highlight">AI-powered medical search engine</span> and clinical decision-support tool built specifically for{' '}
+            <span className="hero-subhead-highlight">healthcare professionals</span>.
           </p>
-          <div className="flex flex-center gap-4 animate-fade-in" style={{ animationDelay: '450ms', flexWrap: 'wrap', marginTop: '2rem' }}>
+          <div className="flex flex-center gap-4 animate-fade-in hero-cta-row" style={{ animationDelay: '450ms' }}>
             <Link href="/early-access" className="btn btn-accent-glow">
               Request Early Access
             </Link>

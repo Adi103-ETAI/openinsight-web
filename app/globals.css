@@ -251,6 +251,14 @@ button {
   text-decoration: none;
   white-space: nowrap;
   gap: 8px;
+  /* Shared smooth transition for every variant. The `button` element
+     selector above already transitions, but most .btn usage is on <a>
+     (Link/anchor), which would otherwise snap on hover/focus/active. */
+  transition: background-color var(--transition-fast),
+              color var(--transition-fast),
+              border-color var(--transition-fast),
+              box-shadow 0.35s ease,
+              transform 0.2s ease;
 }
 
 .btn-primary {
@@ -273,6 +281,11 @@ button {
 
 .btn-primary:active {
   transform: scale(0.98);
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
 }
 
 .btn-secondary {
@@ -319,6 +332,15 @@ button {
 .btn-ghost:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
+}
+
+.btn-ghost:active {
+  transform: scale(0.98);
+}
+
+.btn-ghost:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
 }
 
 /* Forms */
@@ -652,15 +674,6 @@ label {
 }
 
 /* --- Gradient text utilities --- */
-.gradient-text {
-  background: linear-gradient(135deg, var(--color-accent) 0%, #D89876 50%, #E0A678 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  display: inline-block;
-}
-
 .hero-gradient-text {
   background: linear-gradient(
     90deg,
@@ -682,6 +695,22 @@ label {
 @keyframes heroGradientShift {
   0% { background-position: 0% center; }
   100% { background-position: 200% center; }
+}
+
+/* --- Hero subhead & CTA row (replaces hardcoded inline styles) --- */
+.hero-subhead {
+  font-size: 20px;
+  font-weight: 300;
+  color: rgba(245, 240, 232, 0.42);
+}
+
+.hero-subhead-highlight {
+  color: var(--color-surface); /* #FFFFFF — pops on the dark hero */
+}
+
+.hero-cta-row {
+  flex-wrap: wrap;
+  margin-top: 2rem;
 }
 
 /* --- Button system enhancements --- */
@@ -763,6 +792,10 @@ label {
   color: white;
   transform: scale(1.02);
   box-shadow: var(--shadow-md);
+}
+
+.btn-shimmer:active {
+  transform: scale(0.98);
 }
 
 /* Elevate any wrapped child elements above the shimmer sweep.
