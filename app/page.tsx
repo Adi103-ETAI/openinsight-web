@@ -92,7 +92,8 @@ export default function Home() {
             style={{ fontSize: '20px', fontWeight: 300, animationDelay: '300ms', color: 'rgba(245, 240, 232, 0.42)' }}
           >
             <span style={{ color: '#FFFFFF' }}>OpenInsight</span> is an{' '}
-            <span style={{ color: '#FFFFFF' }}>AI-powered medical search engine</span> and clinical decision-support tool built specifically for healthcare professionals.
+            <span style={{ color: '#FFFFFF' }}>AI-powered medical search engine</span> and clinical decision-support tool built specifically for{' '}
+            <span style={{ color: '#FFFFFF' }}>healthcare professionals</span>.
           </p>
           <div className="flex flex-center gap-4 animate-fade-in" style={{ animationDelay: '450ms', flexWrap: 'wrap' }}>
             <Link href="/early-access" className="btn btn-accent-glow">
