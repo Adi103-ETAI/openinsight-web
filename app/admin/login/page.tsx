@@ -8,47 +8,31 @@ export default function AdminLoginPage() {
   const supabase = createClient()
   const router = useRouter()
   const [email, setEmail] = useState('')
-  const [otp, setOtp] = useState('')
-  const [step, setStep] = useState<'email' | 'otp'>('email')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [info, setInfo] = useState<string | null>(null)
 
-  const handleSendOtp = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email.trim()) return
+    if (!email.trim() || !password) return
     setLoading(true)
     setError(null)
 
-    const { error } = await supabase.auth.signInWithOtp({
+    const { error } = await supabase.auth.signInWithPassword({
       email: email.trim().toLowerCase(),
-      options: { shouldCreateUser: false },
+      password,
     })
 
     setLoading(false)
     if (error) {
-      setError(error.message)
-      return
-    }
-    setInfo('Check your email — we sent a 6-digit code.')
-    setStep('otp')
-  }
-
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!otp.trim()) return
-    setLoading(true)
-    setError(null)
-
-    const { error } = await supabase.auth.verifyOtp({
-      email: email.trim().toLowerCase(),
-      token: otp.trim(),
-      type: 'email',
-    })
-
-    setLoading(false)
-    if (error) {
-      setError(error.message)
+      // Supabase returns "Invalid login credentials" for wrong password OR
+      // non-existent user. Give a helpful hint.
+      if (/invalid login credentials/i.test(error.message)) {
+        setError('Wrong email or password. If you don’t have an account yet, ask the project owner to create one for you in Supabase → Authentication → Users.')
+      } else {
+        setError(error.message)
+      }
       return
     }
     router.push('/admin')
@@ -97,127 +81,100 @@ export default function AdminLoginPage() {
             color: '#FECACA',
             fontSize: '13px',
             marginBottom: '16px',
+            lineHeight: 1.45,
           }} role="alert">{error}</div>
         )}
-        {info && !error && (
-          <div style={{
-            padding: '10px 12px',
-            backgroundColor: 'rgba(197,107,74,0.15)',
-            border: '1px solid rgba(197,107,74,0.4)',
-            borderRadius: '8px',
-            color: '#F4E6DF',
-            fontSize: '13px',
-            marginBottom: '16px',
-          }}>{info}</div>
-        )}
 
-        {step === 'email' ? (
-          <form onSubmit={handleSendOtp}>
-            <label htmlFor="email" style={{ display: 'block', fontSize: '13px', color: '#8A8884', marginBottom: '6px' }}>Admin email</label>
+        <form onSubmit={handleLogin}>
+          <label htmlFor="email" style={{ display: 'block', fontSize: '13px', color: '#8A8884', marginBottom: '6px' }}>Admin email</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            autoComplete="email"
+            required
+            style={{
+              width: '100%',
+              padding: '10px 12px',
+              backgroundColor: '#1C1B1A',
+              border: '1px solid #2F2E2C',
+              borderRadius: '8px',
+              color: '#FAFAF8',
+              fontSize: '14px',
+              marginBottom: '16px',
+            }}
+          />
+
+          <label htmlFor="password" style={{ display: 'block', fontSize: '13px', color: '#8A8884', marginBottom: '6px' }}>Password</label>
+          <div style={{ position: 'relative', marginBottom: '20px' }}>
             <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              autoComplete="email"
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder="••••••••"
+              autoComplete="current-password"
               required
               style={{
                 width: '100%',
-                padding: '10px 12px',
+                padding: '10px 44px 10px 12px',
                 backgroundColor: '#1C1B1A',
                 border: '1px solid #2F2E2C',
                 borderRadius: '8px',
                 color: '#FAFAF8',
                 fontSize: '14px',
-                marginBottom: '16px',
               }}
             />
-            <button
-              type="submit"
-              disabled={loading}
-              style={{
-                width: '100%',
-                padding: '12px',
-                backgroundColor: '#C56B4A',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: 600,
-                cursor: loading ? 'not-allowed' : 'pointer',
-                opacity: loading ? 0.6 : 1,
-              }}
-            >
-              {loading ? 'Sending…' : 'Send login code →'}
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleVerifyOtp}>
-            <label htmlFor="otp" style={{ display: 'block', fontSize: '13px', color: '#8A8884', marginBottom: '6px' }}>6-digit code</label>
-            <input
-              type="text"
-              id="otp"
-              value={otp}
-              onChange={e => setOtp(e.target.value)}
-              placeholder="123456"
-              inputMode="numeric"
-              pattern="\d{6}"
-              maxLength={6}
-              required
-              style={{
-                width: '100%',
-                padding: '10px 12px',
-                backgroundColor: '#1C1B1A',
-                border: '1px solid #2F2E2C',
-                borderRadius: '8px',
-                color: '#FAFAF8',
-                fontSize: '16px',
-                letterSpacing: '0.3em',
-                textAlign: 'center',
-                marginBottom: '16px',
-              }}
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              style={{
-                width: '100%',
-                padding: '12px',
-                backgroundColor: '#C56B4A',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: 600,
-                cursor: loading ? 'not-allowed' : 'pointer',
-                opacity: loading ? 0.6 : 1,
-              }}
-            >
-              {loading ? 'Verifying…' : 'Verify & enter →'}
-            </button>
             <button
               type="button"
-              onClick={() => { setStep('email'); setOtp(''); setInfo(null); setError(null) }}
+              onClick={() => setShowPassword(v => !v)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
               style={{
-                width: '100%',
-                padding: '8px',
-                marginTop: '8px',
+                position: 'absolute',
+                right: '8px',
+                top: '50%',
+                transform: 'translateY(-50%)',
                 background: 'none',
                 border: 'none',
                 color: '#8A8884',
-                fontSize: '12px',
+                fontSize: '11px',
+                fontWeight: 600,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
                 cursor: 'pointer',
+                padding: '4px 6px',
               }}
             >
-              ← Use a different email
+              {showPassword ? 'HIDE' : 'SHOW'}
             </button>
-          </form>
-        )}
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              width: '100%',
+              padding: '12px',
+              backgroundColor: '#C56B4A',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: loading ? 'not-allowed' : 'pointer',
+              opacity: loading ? 0.6 : 1,
+            }}
+          >
+            {loading ? 'Signing in…' : 'Sign in →'}
+          </button>
+        </form>
 
         <p style={{ fontSize: '11px', color: '#5A5955', marginTop: '24px', lineHeight: 1.5 }}>
-          Only emails in the ADMIN_EMAILS allowlist can access this dashboard.
-          If you can&apos;t log in, ask the project owner to add your email.
+          Admin access is password-protected. Accounts are created manually in Supabase →
+          Authentication → Users, and the email must be in the <code style={{ color: '#8A8884' }}>ADMIN_EMAILS</code> allowlist.
+          If you can&apos;t log in, ask the project owner to set up your account.
         </p>
       </div>
     </div>

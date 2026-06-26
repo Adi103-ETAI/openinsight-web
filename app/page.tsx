@@ -88,10 +88,13 @@ export default function Home() {
             <span className="hero-gradient-text">when it matters most.</span>
           </h1>
           <p
-            className="text-white text-center max-w-2xl opacity-75 text-lg animate-fade-in mx-auto"
-            style={{ fontSize: '20px', fontWeight: 300, animationDelay: '300ms' }}
+            className="text-center max-w-2xl animate-fade-in mx-auto"
+            style={{ fontSize: '20px', fontWeight: 300, animationDelay: '300ms', color: 'rgba(245, 240, 232, 0.42)' }}
           >
-            OpenInsight is an AI-powered medical search engine and clinical decision-support tool built specifically for healthcare professionals. It synthesizes vast amounts of peer-reviewed medical literature so doctors can make evidence-based treatment decisions — in seconds, not hours.
+            <span style={{ color: '#FFFFFF' }}>OpenInsight</span> is an{' '}
+            <span style={{ color: '#FFFFFF' }}>AI-powered medical search engine</span> and{' '}
+            <span style={{ color: '#FFFFFF' }}>clinical decision-support tool</span> built specifically for{' '}
+            <span style={{ color: '#FFFFFF' }}>healthcare professionals</span>.
           </p>
           <div className="flex flex-center gap-4 animate-fade-in" style={{ animationDelay: '450ms', flexWrap: 'wrap' }}>
             <Link href="/early-access" className="btn btn-accent-glow">
