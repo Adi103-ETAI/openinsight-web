@@ -88,12 +88,14 @@ export default function Home() {
             <span className="hero-gradient-text">when it matters most.</span>
           </h1>
           <p
-            className="text-white text-center max-w-2xl opacity-75 text-lg animate-fade-in mx-auto"
-            style={{ fontSize: '20px', fontWeight: 300, animationDelay: '300ms' }}
+            className="text-center max-w-2xl animate-fade-in mx-auto hero-subhead"
+            style={{ animationDelay: '300ms' }}
           >
-            OpenInsight gives Indian doctors instant answers grounded in ICMR guidelines, CDSCO approvals, and India-specific clinical evidence — right at the point of care.
+            <span className="hero-subhead-highlight">OpenInsight</span> is an{' '}
+            <span className="hero-subhead-highlight">AI-powered medical search engine</span> and clinical decision-support tool built specifically for{' '}
+            <span className="hero-subhead-highlight">healthcare professionals</span>.
           </p>
-          <div className="flex flex-center gap-4 animate-fade-in" style={{ animationDelay: '450ms', flexWrap: 'wrap' }}>
+          <div className="flex flex-center gap-4 animate-fade-in hero-cta-row" style={{ animationDelay: '450ms' }}>
             <Link href="/early-access" className="btn btn-accent-glow">
               Request Early Access
             </Link>
@@ -102,12 +104,35 @@ export default function Home() {
             </a>
           </div>
 
-          {/* Trust badge row */}
-          <div className="hero-trust-row animate-fade-in" style={{ animationDelay: '600ms' }}>
-            <span className="hero-trust-item">Backed by ICMR guidelines</span>
-            <span className="hero-trust-item">CDSCO compliant</span>
-            <span className="hero-trust-item">NMC registered</span>
-            <span className="hero-trust-item">NTEP protocols</span>
+          {/* Grounded-in-literature sliding marquee */}
+          <div className="hero-grounded animate-fade-in" style={{ animationDelay: '600ms' }}>
+            <p className="hero-grounded-label">Grounded in the literature clinicians already trust</p>
+            <div className="hero-grounded-marquee" aria-hidden="false">
+              <div className="hero-grounded-track">
+                {[
+                  'ICMR guidelines', 'CDSCO', 'WHO', 'NICE',
+                  'Cochrane Library', 'NEJM', 'The Lancet', 'JAMA',
+                  'BMJ', 'PubMed', 'UpToDate-style syntheses',
+                  'ICMR guidelines', 'CDSCO', 'WHO', 'NICE',
+                  'Cochrane Library', 'NEJM', 'The Lancet', 'JAMA',
+                  'BMJ', 'PubMed', 'UpToDate-style syntheses',
+                ].map((src, i) => (
+                  <span className="hero-grounded-item" key={i}>
+                    <svg
+                      className="hero-grounded-icon"
+                      width="14" height="14" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" strokeWidth="2"
+                      strokeLinecap="round" strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                    {src}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="scroll-indicator">
@@ -265,20 +290,6 @@ export default function Home() {
           <SectionReveal>
             <TestimonialsCarousel />
           </SectionReveal>
-
-          <SectionReveal>
-            <div className="trust-badges">
-              <span className="trust-badge">ICMR Guidelines</span>
-              <span className="trust-badge-sep">·</span>
-              <span className="trust-badge">CDSCO Drug Data</span>
-              <span className="trust-badge-sep">·</span>
-              <span className="trust-badge">PubMed Central</span>
-              <span className="trust-badge-sep">·</span>
-              <span className="trust-badge">WHO India</span>
-              <span className="trust-badge-sep">·</span>
-              <span className="trust-badge">NTEP Protocols</span>
-            </div>
-          </SectionReveal>
         </div>
       </section>
 
@@ -375,6 +386,10 @@ export default function Home() {
           position: relative;
           z-index: 2;
           text-align: center;
+          /* Reserve space below the last flex child (the marquee) so the
+             absolutely-positioned scroll-indicator chevron sits BELOW the
+             marquee instead of overlapping it. */
+          padding-bottom: 64px;
         }
 
         /* Center the hero logo explicitly so it sits in the middle. */
@@ -392,7 +407,7 @@ export default function Home() {
 
         .scroll-indicator {
           position: absolute;
-          bottom: 32px;
+          bottom: 16px;
           left: 50%;
           transform: translateX(-50%);
           animation: chevronBounce 2s infinite;
@@ -497,29 +512,6 @@ export default function Home() {
           margin: 0;
         }
 
-        .trust-badges {
-          display: flex;
-          gap: var(--spacing-2);
-          justify-content: center;
-          flex-wrap: wrap;
-        }
-
-        .trust-badge {
-          display: inline-block;
-          background-color: var(--color-accent-pale);
-          color: var(--color-accent);
-          padding: 8px 16px;
-          border-radius: var(--radius-pill);
-          font-size: var(--text-xs);
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .trust-badge-sep {
-          color: var(--color-accent);
-        }
-
         .cta-banner {
           background-color: var(--color-dark);
           padding: var(--spacing-12) var(--spacing-6);
@@ -566,15 +558,6 @@ export default function Home() {
 
           .testimonial-quote {
             font-size: var(--text-2xl);
-          }
-
-          .trust-badges {
-            gap: var(--spacing-1);
-          }
-
-          .trust-badge {
-            font-size: 10px;
-            padding: 6px 12px;
           }
         }
       `}</style>
