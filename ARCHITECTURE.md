@@ -1,6 +1,6 @@
-# Architecture & Change Log — OpenInsight Marketing Website
+# Architecture — OpenInsight Marketing Website
 
-> This document explains **what the OpenInsight marketing website is**, **how it is structured**, and **exactly what changed in Round 9 (v0.9.0)**. It is intended for developers joining the project and for reviewers auditing the diff.
+> For developers joining the project. Explains **what this is**, **how it's structured**, **how data flows**, and **key decisions**.
 
 ---
 
@@ -9,207 +9,296 @@
 | Field | Value |
 |---|---|
 | Repo | `Adi103-ETAI/openinsight-web` |
-| Working branch | `web-insight` (do **not** commit to `main`) |
-| Role | **Marketing website** for OpenInsight — a pure static site that describes the product, captures early-access leads, and funnels doctors toward the real product app. |
-| Stack | Next.js 14 (App Router) · React 18 · TypeScript 5 · Tailwind CSS 4 · CSS Modules · CSS Variables |
-| Output | Static export (`output: 'export'`) — no server runtime required |
+| Working branch | `web-insight-3` (do **not** commit to `main`) |
+| Role | **Marketing website** for OpenInsight — captures early-access leads, handles contact messages, provides an admin dashboard. Funnels doctors toward the real product app. |
+| Stack | Next.js 14 (App Router) · React 18 · TypeScript 5 · Tailwind CSS 4 · CSS Modules |
+| Deployment | Vercel (serverless — API routes run as Vercel functions) |
+| Database | Supabase (PostgreSQL + Row-Level Security) |
+| Email | Resend (transactional email API) |
 | Sister repos | `openinsight` (FastAPI backend, `restruct` branch) · `openinsight-ui` (Next.js product app, `nextjs-ui` branch) |
-
-### Design system
-- **Typography**: DM Serif Display (headings) · DM Sans (body) — loaded from Google Fonts.
-- **Palette** (CSS variables in `app/globals.css`):
-  - `--color-accent` `#C56B4A` (terracotta) · `--color-accent-2` `#A3522F` (hover)
-  - `--color-dark` `#1C1B1A` · `--color-bg` `#FAFAF8` (warm white)
-  - `--color-surface` `#FFFFFF` · `--color-surface-2` `#F5F0E8`
-- **Spacing**: 8 px base unit (`--spacing-1` … `--spacing-16`).
-- **Radius / shadow / transition** tokens all defined as variables.
 
 ---
 
-## 2. Repository Structure (post-v0.9.0)
+## 2. System Architecture
+
+```
+                          ┌──────────────────────┐
+                          │   Vercel (hosting)   │
+                          │                      │
+  Browser ──────────────► │  Next.js App Router  │
+    │                     │  ├── Static pages     │
+    │                     │  └── API routes       │
+    │                     └──────┬───────────────┘
+    │                            │
+    │                     ┌──────┴──────┐
+    │                     ▼             ▼
+    │               ┌──────────┐  ┌──────────┐
+    │               │ Supabase │  │  Resend   │
+    │               │ (Postgres│  │  (Email)  │
+    │               │  + RLS)  │  │          │
+    │               └──────────┘  └──────────┘
+    │
+    └── Client-side: PostHog + Clarity analytics
+```
+
+**Key point:** This is NOT a static site. It uses Vercel serverless functions for API routes that talk to Supabase and Resend.
+
+---
+
+## 3. Data Flow
+
+### 3.1 Early Access Signup
+
+```
+Doctor fills form on /early-access
+         │
+         ▼
+POST /api/early-access
+  ├── Validate (server-side — never trust client)
+  ├── Insert into Supabase: early_access_submissions
+  ├── Send admin notification → ADMIN_NOTIFY_EMAIL
+  │     FROM: OpenInsight <hello@openinsight.in>
+  └── Send welcome email → doctor's inbox
+        FROM: Aditya <adii@openinsight.in>
+        "Thanks for signing up, Dr. X — I'll be in touch soon"
+```
+
+### 3.2 Contact Form
+
+```
+User fills form on /contact
+         │
+         ▼
+POST /api/contact
+  ├── Validate (server-side)
+  ├── Insert into Supabase: contact_messages
+  ├── Send admin notification → ADMIN_NOTIFY_EMAIL
+  │     FROM: OpenInsight <hello@openinsight.in>
+  └── Send auto-reply → user's inbox
+        FROM: Aditya <adii@openinsight.in>
+        "Got your message, X — I'll get back to you soon"
+```
+
+### 3.3 Admin Dashboard
+
+```
+Admin visits /admin
+         │
+         ▼
+Auth check via Supabase (JWT email ∈ admin_emails table)
+  ├── GET /api/admin/submissions → list all signups + messages
+  └── GET /api/admin/export → CSV download
+```
+
+---
+
+## 4. Email Architecture
+
+Two distinct FROM addresses (intentional design):
+
+| Address | Used For | Why |
+|---|---|---|
+| `OpenInsight <hello@openinsight.in>` | Admin notifications | System/brand identity for internal alerts |
+| `Aditya <adii@openinsight.in>` | User-facing emails | Personal touch — doctors see a person, not a brand |
+
+### Where emails land
+
+| Email | Goes To | Controlled By |
+|---|---|---|
+| Signup alert | `ADMIN_NOTIFY_EMAIL` env var | Set in Vercel env vars |
+| Contact alert | `ADMIN_NOTIFY_EMAIL` env var | Set in Vercel env vars |
+| Welcome to doctor | Doctor's email address | They typed it in the form |
+| Contact auto-reply | User's email address | They typed it in the form |
+| Replies to `adii@openinsight.in` | Needs GoDaddy email forwarding | DNS-level, not in code |
+
+**Important:** If `ADMIN_NOTIFY_EMAIL` is not set, admin notifications silently fail (code checks `if (!ADMIN_NOTIFY_EMAIL) return`).
+
+---
+
+## 5. Database Schema
+
+See `supabase/migrations/0001_init.sql` for the full DDL.
+
+### Tables
+
+**`early_access_submissions`** — Doctor signups
+
+| Column | Type | Notes |
+|---|---|---|
+| id | uuid | PK, auto-generated |
+| created_at | timestamptz | Auto |
+| full_name | text | Required |
+| email | text | Required, lowercased |
+| phone | text | Required, Indian mobile format |
+| persona | text | `doctor` / `student` / `professional` |
+| specialty | text | Required |
+| other_specialty | text | If specialty = 'other' |
+| institution | text | Required |
+| city | text | Required |
+| nmc_number | text | Optional |
+| use_case | text | Optional |
+| referral_source | text | Optional |
+| newsletter_opt_in | boolean | Default true |
+| status | text | `new` → `contacted` → `approved` / `rejected` |
+| ip_country | text | From Vercel header |
+| user_agent | text | Truncated to 500 chars |
+
+**`contact_messages`** — Contact form submissions
+
+| Column | Type | Notes |
+|---|---|---|
+| id | uuid | PK |
+| created_at | timestamptz | Auto |
+| name | text | Required |
+| email | text | Required |
+| subject | text | Optional |
+| message | text | Required |
+| status | text | `new` → `read` → `responded` / `archived` |
+| responded_at | timestamptz | When admin replied |
+
+**`admin_emails`** — Admin allowlist for RLS
+
+| Column | Type | Notes |
+|---|---|---|
+| email | text | PK |
+| created_at | timestamptz | Auto |
+
+### Row-Level Security
+
+- `early_access_submissions`: anyone can INSERT, only admin emails can SELECT/UPDATE/DELETE
+- `contact_messages`: anyone can INSERT, only admin emails can SELECT/UPDATE
+- `admin_emails`: anyone can SELECT (needed for RLS evaluation), only service role can INSERT
+
+---
+
+## 6. Repository Structure
 
 ```
 openinsight-web/
 ├── app/
-│   ├── layout.tsx              # Root layout: Nav + Footer + global widgets + SEO/JSON-LD
-│   ├── page.tsx                # Home (hero, features, demo, stats, testimonials, FAQ)
-│   ├── globals.css             # Single source of truth for design tokens + utilities
-│   ├── product/page.tsx        # Product overview + ComparisonTable
-│   ├── for-doctors/page.tsx    # Doctor personas & workflows
-│   ├── evidence/page.tsx       # Clinical evidence sources (dot-grid bg)
-│   ├── about/page.tsx          # Company story + timeline
-│   ├── early-access/page.tsx   # NMC-gated signup form (enhanced)
-│   ├── contact/page.tsx        # NEW: contact form + info
-│   ├── sitemap.ts              # NEW: sitemap.xml generator
-│   └── robots.ts               # NEW: robots.txt generator
-├── components/
-│   ├── Nav.tsx / .module.css       # Sticky nav + scroll-progress + glassmorphism
-│   ├── Footer.tsx / .module.css    # Footer + newsletter + Launch App CTA
-│   ├── FeatureCard.tsx / .module.css
-│   ├── Accordion.tsx / .module.css
-│   ├── EarlyAccessForm.tsx / .module.css   # Enhanced: progress bar + persistence
-│   ├── MockChatUI.tsx                      # (legacy, retained)
-│   ├── SectionReveal.tsx                   # Scroll-reveal + stagger
-│   ├── InteractiveDemo.tsx / .module.css   # NEW: tabbed demo + typewriter
-│   ├── FAQAccordion.tsx / .module.css      # NEW: 10 FAQs + search
-│   ├── ComparisonTable.tsx / .module.css   # NEW: 3-col capability matrix
-│   ├── TestimonialsCarousel.tsx / .module.css # NEW: 5-doctor carousel
-│   ├── StatsCounter.tsx / .module.css      # NEW: IntersectionObserver counters
-│   ├── ContactForm.tsx / .module.css        # NEW
-│   ├── CookieConsent.tsx / .module.css      # NEW
-│   ├── BackToTop.tsx / .module.css          # NEW
-│   └── AnnouncementBanner.tsx / .module.css # NEW
-├── public/logos/                # DarkGrey.png (dark bg) · LightYellow.png (light bg)
-├── next.config.js               # output: 'export', images.unoptimized
-├── tailwind.config.js
-├── CHANGELOG.md                 # Versioned changelog
-├── ARCHITECTURE.md              # This file
-├── IMPROVEMENTS_AND_SUGGESTIONS.md
-└── README.md
-```
-
-**16 components** (9 new in v0.9.0) · **8 pages** (1 new) · **2 SEO route files** (new) · **~6,100 lines** total.
-
----
-
-## 3. Page-by-page composition (Home)
-
-The homepage now composes the full marketing narrative:
-
-```
-layout.tsx
-├── <head> SEO meta + 2× JSON-LD (MedicalBusiness, WebSite)
-├── AnnouncementBanner        ← NEW (dismissible, 7-day localStorage)
-├── Nav                        ← scroll-progress bar + glassmorphism + Launch App CTA
-├── <main>
-│   └── page.tsx
-│       ├── Hero               ← EKG SVG + trust badges + gradient text
-│       ├── Problem cards
-│       ├── Features grid      ← FeatureCard × 6 (card-lift hover)
-│       ├── InteractiveDemo    ← NEW (Fast-Search / DeepInsight tabs)
-│       ├── StatsCounter       ← NEW (4 animated counters)
-│       ├── TestimonialsCarousel ← NEW (5 doctors, auto-rotate)
-│       ├── FAQAccordion       ← NEW (10 Q&A + search filter)
-│       └── Final CTA
-├── Footer                     ← newsletter + Launch App + gradient border
-├── BackToTop                  ← NEW (floating, 400px trigger)
-└── CookieConsent              ← NEW (bottom banner)
+│   ├── layout.tsx                    # Root layout: Nav + Footer + SEO + JSON-LD
+│   ├── page.tsx                      # Home page
+│   ├── globals.css                   # Design tokens + utility classes
+│   ├── product/page.tsx
+│   ├── for-doctors/page.tsx
+│   ├── evidence/page.tsx
+│   ├── about/page.tsx
+│   ├── early-access/page.tsx
+│   ├── contact/page.tsx
+│   ├── admin/page.tsx                # Auth-gated admin dashboard
+│   ├── api/
+│   │   ├── early-access/route.ts     # POST: signup → Supabase + Resend
+│   │   ├── contact/route.ts          # POST: contact → Supabase + Resend
+│   │   └── admin/
+│   │       ├── submissions/route.ts  # GET: list submissions
+│   │       └── export/route.ts       # GET: CSV export
+│   ├── sitemap.ts
+│   └── robots.ts
+├── components/                       # 16 React components (see README)
+├── lib/
+│   ├── resend.ts                     # 4 email functions + helpers
+│   ├── posthog/provider.tsx          # Analytics wrapper
+│   ├── clarity/script.tsx            # Clarity script loader
+│   └── supabase/
+│       ├── server.ts                 # Server client (service role key)
+│       ├── client.ts                 # Browser client (anon key)
+│       └── admin-auth.ts             # Admin auth check
+├── supabase/migrations/              # SQL migrations
+├── public/logos/                     # Brand assets
+├── .env.example                      # Env var template with docs
+└── next.config.js                    # Vercel deployment config
 ```
 
 ---
 
-## 4. What Changed in Round 9 (v0.9.0)
+## 7. Key Design Decisions
 
-### 4.1 Critical bug fix
-**`app/globals.css` had two full, conflicting passes.** Lines 1–528 defined the real design system; lines 530–824 redefined everything with **undefined** `--font-sans` / `--font-serif` variables and conflicting button styles. Because CSS source order wins, the rendered site was silently using the broken second pass. **Fix:** deleted the duplicate second pass, merged the 5 unique additions (focus-visible, scrollbar, `::selection`, labels, `slideInRight`) into one clean file. This alone materially improved typography and button sizing across every page.
+### 7.1 Vercel Serverless (not static export)
 
-### 4.2 New components (9)
+The site was originally static-export only. It now uses Vercel serverless functions because:
+- API routes (`/api/early-access`, `/api/contact`, `/api/admin/*`) need a server runtime
+- Supabase queries require the service role key (server-only)
+- Resend sends emails from the server (API key must stay secret)
 
-| Component | Lines | Purpose |
-|---|---|---|
-| `InteractiveDemo` | 271 | Tabbed Fast-Search vs DeepInsight demo with typewriter + clickable sample queries + citation chips |
-| `TestimonialsCarousel` | 248 | 5-doctor carousel, 5 s auto-rotate, prev/next + dots, pause-on-hover |
-| `ContactForm` | 223 | Validated contact form, `localStorage` persistence, accessible |
-| `ComparisonTable` | 208 | 3-column capability matrix, 9 rows, OpenInsight highlighted |
-| `FAQAccordion` | 193 | 10 India-specific FAQs + live search filter |
-| `StatsCounter` | 153 | 4 count-up stats via IntersectionObserver + rAF |
-| `AnnouncementBanner` | 104 | Top banner, 7-day dismissal, drives `--announcement-h` CSS var |
-| `CookieConsent` | 76 | Bottom GDPR-style banner, `localStorage` |
-| `BackToTop` | 66 | Floating terracotta button, 400 px trigger |
+`next.config.js` does NOT have `output: 'export'` — Vercel handles this automatically.
 
-### 4.3 New pages & routes
-- `/contact` — contact form + info + map placeholder.
-- `/sitemap.xml` + `/robots.txt` — generated by `app/sitemap.ts` / `app/robots.ts`.
+### 7.2 Two FROM addresses
 
-### 4.4 Styling additions (`globals.css`)
-- **Buttons**: `.btn-accent-glow` (pulse), `.btn-shimmer` (sweep), `.btn-ghost-accent`.
-- **Cards**: `.card-lift` (translateY + shadow + accent top-border).
-- **Reveal**: `.stagger-children` (nth-child delays).
-- **Text**: `.gradient-text`, `.hero-gradient-text`, `.text-balance`.
-- **Backgrounds**: `.bg-dot-grid`, `.bg-diagonal-lines`, `.bg-mesh-gradient`.
-- **Typography**: fluid `clamp()` sizing for h1–h3.
-- **Scrollbar / selection**: terracotta accents.
+Using `OpenInsight <hello@openinsight.in>` for system emails and `Aditya <adii@openinsight.in>` for user-facing emails is intentional:
+- Doctors see a personal email from the founder → builds trust
+- Admin notifications come from the brand → clear separation in your inbox
+- Both addresses use `@openinsight.in` (domain verified in Resend)
 
-### 4.5 Enhanced existing components
-- **Nav** — 3 px scroll-progress bar (rAF-throttled, ARIA progressbar), glassmorphism when scrolled (`blur(12px) saturate(1.1)`), animated sliding underline on links, Launch App ghost CTA (desktop), mobile-menu offset by `var(--announcement-h)`.
-- **Footer** — gradient top border, soft radial glow, `translateX(4px)` link hover, newsletter form (validation + `localStorage` + `aria-live`), prominent Launch App button.
-- **EarlyAccessForm** — live completion progress bar, `localStorage` persistence, conditional "specify specialty" field, required Terms consent checkbox, newsletter opt-in, checkmark success state.
-- **FeatureCard** — decorative corner accent, `card-lift` hover.
-- **SectionReveal** — stagger support + React 19 `JSX` namespace fix.
+### 7.3 Best-effort emails
 
-### 4.6 SEO & structured data
-- `metadataBase` + canonical + OG (`locale: 'en_IN'`) + Twitter card + 16 keywords.
-- **JSON-LD**: `MedicalBusiness` + `Organization` (founder, Pune address, `areaServed: India`, `sameAs`, `contactPoints`) and `WebSite` schema.
-- `sitemap.xml` (8 routes, priorities 1.0 → 0.6) + `robots.txt` with sitemap reference.
+All email sends are wrapped in `Promise.allSettled()` and errors are logged but don't fail the HTTP response. The Supabase row is the source of truth — if Resend is down, the data is still saved.
 
-### 4.7 Marketing ↔ Product alignment
-- **Launch App CTAs** in `Nav` + `Footer` → `https://app.openinsight.in` (`target="_blank" rel="noopener noreferrer"`). This is the first version that actually bridges the marketing site to the product app.
+### 7.4 Client-side draft persistence
 
-### 4.8 Build configuration
-- `next.config.js` → `output: 'export'` + `images.unoptimized: true`. The sandbox runtime kills `next dev` / `next start` within seconds, so static export + `python3 -m http.server 3001` is the QA path. `headers()` no longer apply (expected warning).
+`EarlyAccessForm` auto-saves drafts to `localStorage` so users don't lose progress if they navigate away. The draft is cleared after successful submission. No submission data is saved to localStorage — Supabase is the only source of truth.
 
 ---
 
-## 5. Data & State Model
+## 8. Design System
 
-The marketing site is **purely client-side** — there is no database and no server runtime. State lives in two places:
-
-| Store | Keys | Purpose |
-|---|---|---|
-| `localStorage` | `openinsight_early_access_submissions` | Array of EarlyAccessForm submissions |
-| `localStorage` | `openinsight_contact_submissions` | Array of ContactForm submissions |
-| `localStorage` | `openinsight_newsletter_signups` | Footer newsletter emails |
-| `localStorage` | `cookie_consent` | Cookie banner dismissal |
-| `localStorage` | `announcement_dismissed` | Timestamp; re-show after 7 days |
-| React state | — | Nav scroll position, carousel index, FAQ filter, etc. |
-
-> **⚠️ Limitation**: because there is no backend early-access endpoint on the `openinsight` (restruct) API, submissions are **not** sent anywhere. They only persist in the visitor's browser. See `IMPROVEMENTS_AND_SUGGESTIONS.md` §3.
+- **Typography**: DM Serif Display (headings) · DM Sans (body)
+- **Palette** (CSS variables in `app/globals.css`):
+  - `--color-accent` `#C56B4A` (terracotta)
+  - `--color-accent-2` `#A3522F` (hover)
+  - `--color-dark` `#1C1B1A`
+  - `--color-bg` `#FAFAF8` (warm white)
+  - `--color-surface` `#FFFFFF`
+- **Spacing**: 8px base unit (`--spacing-1` through `--spacing-16`)
+- See `DESIGN_SYSTEM.md` and `DESIGN_QUICK_REFERENCE.md` for full reference.
 
 ---
 
-## 6. Build & QA Workflow
+## 9. SEO & Structured Data
 
-```bash
-# Install
-npm install
+- `metadataBase` + canonical + OpenGraph + Twitter cards + 16 keywords
+- **JSON-LD**: `MedicalBusiness` + `Organization` and `WebSite` schemas
+- `sitemap.xml` (auto-generated, all routes with priorities)
+- `robots.txt` with sitemap reference
 
-# Build static export → ./out/
-npx next build        # 12 routes, 0 errors
+---
 
-# Serve for local QA (next dev/start are unstable in this sandbox)
-cd out && python3 -m http.server 3001
+## 10. Accessibility
 
-# QA via agent-browser
-agent-browser open http://localhost:3001/
-agent-browser screenshot qa-home.png
+- All interactive components have ARIA labels and keyboard support
+- Carousel supports ←/→, accordion supports Enter/Space
+- All animations respect `@media (prefers-reduced-motion: reduce)`
+- Semantic HTML throughout
+- Focus-visible styles with terracotta outline
+
+---
+
+## 11. Adding a New Page
+
+1. Create `app/your-page/page.tsx`
+2. Export `metadata` for SEO
+3. Add route to `app/sitemap.ts`
+4. If it needs a form → create API route in `app/api/your-page/route.ts`
+5. If it sends email → add functions to `lib/resend.ts`
+
+---
+
+## 12. Common Operations
+
+### Add a new admin user
+```sql
+INSERT INTO public.admin_emails (email) VALUES ('newadmin@example.com')
+ON CONFLICT (email) DO NOTHING;
 ```
 
-**Verification performed in v0.9.0:**
-- `npx next build` → 0 errors, 12 static routes.
-- `agent-browser` screenshots captured for home, product, for-doctors, evidence, about, early-access, contact.
-- VLM (glm-4.6v) analysis: homepage rated "polished and filled" (previously "sparse, excessive whitespace").
-- `grep` confirmed all new content present in compiled HTML (testimonials, stats, FAQ, comparison table, InteractiveDemo, Launch CTAs, JSON-LD).
+### Change the founder FROM address
+Update `RESEND_FOUNDER_EMAIL` in Vercel env vars. The code fallback is in `lib/resend.ts`.
 
----
+### Add a new email template
+1. Add the function in `lib/resend.ts`
+2. Import and call it from the relevant API route
+3. Wrap in `Promise.allSettled()` so email failures don't break the request
 
-## 7. Alignment with Sister Repos
-
-| Capability | Backend (`openinsight`) | Frontend (`openinsight-ui`) | **Marketing site (this repo)** |
-|---|---|---|---|
-| `/search` RAG | ✅ FastAPI | ✅ `/api/search` proxy | Advertised ✓ |
-| `/deep-insights` multi-agent | ✅ FastAPI | ❌ not called | Advertised ✓ (InteractiveDemo mocks it) |
-| `/vault` MongoDB CRUD | ✅ FastAPI | ❌ uses localStorage | Advertised ✓ |
-| `/reports/generate` PDF | ✅ FastAPI | ❌ not called | Advertised ✓ |
-| `/chat` streaming | ❌ no endpoint | ⚠️ mock tokens | n/a |
-| Early-access signup | ❌ no endpoint | n/a | ⚠️ localStorage only |
-| Link to product app | n/a | n/a | ✅ Launch App CTA (v0.9.0) |
-
-**Bottom line**: the marketing site is the most feature-complete of the three on its own terms, but it **advertises capabilities the product frontend doesn't yet wire up**. See `IMPROVEMENTS_AND_SUGGESTIONS.md` for the remediation plan.
-
----
-
-## 8. Accessibility & Performance Notes
-- Every new interactive component has ARIA labels and keyboard support (carousel ←/→, accordion Enter/Space, tabs roving tabindex).
-- All animations respect `@media (prefers-reduced-motion: reduce)` and the `--announcement-h` / `data-reduce-motion` hooks.
-- Static export → all pages are prerendered HTML; first-load JS shared chunk is 87.4 kB.
-- Images are PNG logos with `unoptimized: true` (static-export constraint). WebP/AVIF would require a build step.
+### Run the migration on a fresh Supabase project
+1. Copy `supabase/migrations/0001_init.sql`
+2. Paste into Supabase SQL Editor and run
+3. Add your admin email at the bottom (uncomment and edit the INSERT)

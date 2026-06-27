@@ -8,10 +8,10 @@
  *   │ Admin notifications     │ OpenInsight <hello@openinsight.in>           │
  *   │ (signup alert, contact) │ (system/brand — internal)                    │
  *   ├─────────────────────────┼──────────────────────────────────────────────┤
- *   │ Early-access welcome    │ OpenInsight <adii@openinsight.in>             │
+ *   │ Early-access welcome    │ Aditya <adii@openinsight.in>             │
  *   │ (doctor-facing)         │ (founder — builds trust)                     │
  *   ├─────────────────────────┼──────────────────────────────────────────────┤
- *   │ Contact auto-reply      │ OpenInsight <adii@openinsight.in>             │
+ *   │ Contact auto-reply      │ Aditya <adii@openinsight.in>             │
  *   │ (user-facing)           │ (founder — personal touch)                   │
  *   └─────────────────────────┴──────────────────────────────────────────────┘
  *
@@ -28,7 +28,7 @@ const SYSTEM_FROM = process.env.RESEND_FROM_EMAIL || 'OpenInsight <hello@openins
 
 // Founder address — for user-facing emails that build trust
 // (Adii personally welcoming doctors & replying to contact messages)
-const FOUNDER_FROM = process.env.RESEND_FOUNDER_EMAIL || 'OpenInsight <adii@openinsight.in>'
+const FOUNDER_FROM = process.env.RESEND_FOUNDER_EMAIL || 'Aditya <adii@openinsight.in>'
 
 // Where admin notification emails get sent (your inbox)
 const ADMIN_NOTIFY_EMAIL = process.env.ADMIN_NOTIFY_EMAIL
