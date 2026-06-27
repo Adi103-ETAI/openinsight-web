@@ -2,12 +2,16 @@
  * POST /api/contact
  *
  * Receives the contact form submission, inserts it into Supabase,
- * and sends a notification email via Resend to the admin.
+ * and sends two emails:
+ *   1. Admin notification (from hello@openinsight.in → admin inbox)
+ *   2. Auto-reply to the user (from adii@openinsight.in → user inbox)
+ *
+ * Both emails are best-effort — the DB row is the source of truth.
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
-import { Resend } from 'resend'
+import { sendContactNotification, sendContactAutoReply } from '@/lib/resend'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -72,56 +76,16 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  // ─── Send admin notification email (best-effort) ───────────────────────
-  const RESEND_API_KEY = process.env.RESEND_API_KEY
-  const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'OpenInsight <hello@openinsight.in>'
-  const ADMIN_NOTIFY_EMAIL = process.env.ADMIN_NOTIFY_EMAIL
-
-  if (RESEND_API_KEY && ADMIN_NOTIFY_EMAIL) {
-    try {
-      const resend = new Resend(RESEND_API_KEY)
-      await resend.emails.send({
-        from: FROM_EMAIL,
-        to: ADMIN_NOTIFY_EMAIL,
-        subject: `📩 Contact: ${row.subject}`,
-        text: `
-New contact form message.
-
-Name:    ${row.name}
-Email:   ${row.email}
-Subject: ${row.subject}
-
-Message:
-${row.message}
-
-— OpenInsight contact form
-        `.trim(),
-        html: `
-<div style="font-family: -apple-system, system-ui, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px;">
-  <h2 style="color: #C56B4A; margin-bottom: 16px;">📩 New Contact Message</h2>
-  <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-    <tr><td style="padding: 6px 12px 6px 0; color: #8A8884; font-weight: 500;">Name</td><td style="padding: 6px 0;">${escapeHtml(row.name)}</td></tr>
-    <tr><td style="padding: 6px 12px 6px 0; color: #8A8884; font-weight: 500;">Email</td><td style="padding: 6px 0;"><a href="mailto:${escapeHtml(row.email)}" style="color: #C56B4A;">${escapeHtml(row.email)}</a></td></tr>
-    <tr><td style="padding: 6px 12px 6px 0; color: #8A8884; font-weight: 500;">Subject</td><td style="padding: 6px 0;">${escapeHtml(row.subject)}</td></tr>
-  </table>
-  <h3 style="margin-top: 24px; color: #1C1B1A;">Message</h3>
-  <p style="color: #1C1B1A; line-height: 1.6; white-space: pre-wrap;">${escapeHtml(row.message)}</p>
-</div>
-        `.trim(),
-      })
-    } catch (e) {
-      console.error('[api/contact] email send failed:', e)
-    }
+  // ─── Send emails (non-blocking — don't fail the request if email breaks) ─
+  try {
+    await Promise.allSettled([
+      sendContactNotification(row),
+      sendContactAutoReply({ name: row.name, email: row.email }),
+    ])
+  } catch (e) {
+    console.error('[api/contact] email send failed:', e)
+    // Still return success — the row is in the DB, which is what matters
   }
 
   return NextResponse.json({ ok: true, id: data.id }, { status: 201 })
-}
-
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
 }
