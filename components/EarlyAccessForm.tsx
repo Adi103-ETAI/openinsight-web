@@ -20,7 +20,6 @@ interface FormState {
   newsletter: boolean
 }
 
-const STORAGE_KEY = 'openinsight_early_access_submissions'
 const DRAFT_KEY = 'openinsight_early_access_draft'
 
 // Phone, specialty, and institution are now REQUIRED for richer validation signal.
@@ -55,20 +54,12 @@ export default function EarlyAccessForm() {
   const [formState, setFormState] = useState<FormState>(EMPTY_FORM)
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [persistedCount, setPersistedCount] = useState(0)
   const [draftRestored, setDraftRestored] = useState(false)
   const [showSavedNote, setShowSavedNote] = useState(false)
 
-  // Load count of existing submissions + restore draft on mount
+  // Restore draft on mount
   useEffect(() => {
     if (typeof window === 'undefined') return
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY)
-      const arr = raw ? JSON.parse(raw) : []
-      if (Array.isArray(arr)) setPersistedCount(arr.length)
-    } catch {
-      setPersistedCount(0)
-    }
 
     try {
       const draftRaw = localStorage.getItem(DRAFT_KEY)
@@ -245,16 +236,11 @@ export default function EarlyAccessForm() {
       return
     }
 
-    // Local audit trail (in addition to the DB row)
+    // Clear draft after successful submission
     try {
-      const raw = localStorage.getItem(STORAGE_KEY)
-      const arr = raw ? JSON.parse(raw) : []
-      const next = Array.isArray(arr) ? [...arr, submission] : [submission]
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-      setPersistedCount(next.length)
       localStorage.removeItem(DRAFT_KEY)
     } catch {
-      /* storage may be full or unavailable; still show success */
+      /* ignore */
     }
 
     // Analytics: identify the user + fire submit event
@@ -297,12 +283,6 @@ export default function EarlyAccessForm() {
           Your early access request is in. We&apos;ll review it and send access details to{' '}
           <strong>{formState.email}</strong> within 48 hours.
         </p>
-        {persistedCount > 0 && (
-          <p className={styles.successNote}>
-            Submission saved locally. {persistedCount}{' '}
-            {persistedCount === 1 ? 'request' : 'requests'} recorded on this device.
-          </p>
-        )}
       </div>
     )
   }
