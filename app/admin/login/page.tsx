@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, Suspense, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function AdminLoginPage() {
@@ -27,7 +28,11 @@ export default function AdminLoginPage() {
 }
 
 function AdminLoginForm() {
-  const supabase = createClient()
+  const supabaseRef = useRef<SupabaseClient | null>(null)
+  const getSupabase = () => {
+    if (!supabaseRef.current) supabaseRef.current = createClient()
+    return supabaseRef.current
+  }
   const router = useRouter()
   const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
@@ -49,7 +54,7 @@ function AdminLoginForm() {
     setLoading(true)
     setError(null)
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await getSupabase().auth.signInWithPassword({
       email: email.trim().toLowerCase(),
       password,
     })
