@@ -37,6 +37,7 @@ const STATUS_COLORS: Record<string, string> = {
 
 export default function AdminDashboard() {
   const supabase = createClient()
+  const [authState, setAuthState] = useState<'checking' | 'authenticated'>('checking')
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -78,6 +79,7 @@ export default function AdminDashboard() {
         return
       }
       setAdminEmail(user.email)
+      setAuthState('authenticated')
       fetchSubmissions()
     })
   }, [fetchSubmissions, supabase])
@@ -126,6 +128,22 @@ export default function AdminDashboard() {
     .slice(0, 5)
 
   // ─── Render ─────────────────────────────────────────────
+  if (authState === 'checking') {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#1C1B1A',
+        color: '#8A8884',
+        fontSize: '14px',
+      }}>
+        Verifying access…
+      </div>
+    )
+  }
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#FAFAF8', color: '#1C1B1A' }}>
       {/* Header */}
