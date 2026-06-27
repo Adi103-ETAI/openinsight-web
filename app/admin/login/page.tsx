@@ -1,10 +1,32 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function AdminLoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#1C1B1A',
+          color: '#8A8884',
+          fontSize: '14px',
+        }}>
+          Loading…
+        </div>
+      }
+    >
+      <AdminLoginForm />
+    </Suspense>
+  )
+}
+
+function AdminLoginForm() {
   const supabase = createClient()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -37,7 +59,7 @@ export default function AdminLoginPage() {
       // Supabase returns "Invalid login credentials" for wrong password OR
       // non-existent user. Give a helpful hint.
       if (/invalid login credentials/i.test(error.message)) {
-        setError('Wrong email or password. If you don’t have an account yet, ask the project owner to create one for you in Supabase → Authentication → Users.')
+        setError('Wrong email or password. If you don\u2019t have an account yet, ask the project owner to create one for you in Supabase \u2192 Authentication \u2192 Users.')
       } else {
         setError(error.message)
       }
@@ -175,13 +197,13 @@ export default function AdminLoginPage() {
               opacity: loading ? 0.6 : 1,
             }}
           >
-            {loading ? 'Signing in…' : 'Sign in →'}
+            {loading ? 'Signing in\u2026' : 'Sign in \u2192'}
           </button>
         </form>
 
         <p style={{ fontSize: '11px', color: '#5A5955', marginTop: '24px', lineHeight: 1.5 }}>
-          Admin access is password-protected. Accounts are created manually in Supabase →
-          Authentication → Users, and the email must be in the <code style={{ color: '#8A8884' }}>ADMIN_EMAILS</code> allowlist.
+          Admin access is password-protected. Accounts are created manually in Supabase &rarr;
+          Authentication &rarr; Users, and the email must be in the <code style={{ color: '#8A8884' }}>ADMIN_EMAILS</code> allowlist.
           If you can&apos;t log in, ask the project owner to set up your account.
         </p>
       </div>
