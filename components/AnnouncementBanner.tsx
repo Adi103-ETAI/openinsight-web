@@ -118,7 +118,11 @@ export default function AnnouncementBanner() {
         <p className={styles.text}>
           OpenInsight is now accepting early access applications from
           NMC-registered doctors.{' '}
-          <Link href="/early-access" className={styles.link}>
+          <Link
+            href="/early-access"
+            className={styles.link}
+            onClick={handleDismiss}
+          >
             Apply today →
           </Link>
         </p>
