@@ -52,9 +52,16 @@ export default function EarlyAccessPage() {
 
       <style>{`
         .early-access-page {
+          /* The Nav is position:fixed (72px tall) and sits on top of the page
+             content. Without this top padding, the form's progress bar (and
+             the top of the form) slides under the fixed nav when the page is
+             short / centered. Offset by the nav height + any announcement
+             banner height so content always starts below the header. */
           min-height: 100vh;
           display: flex;
           align-items: stretch;
+          padding-top: calc(72px + var(--announcement-h, 0px));
+          box-sizing: border-box;
         }
 
         .early-access-container {

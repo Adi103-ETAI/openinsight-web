@@ -35,7 +35,7 @@ const sourceRegistry: SourceCategory[] = [
     category: 'Peer-Reviewed Indian Medical Journals',
     count: 17,
     status: 'Live',
-    description: 'Core and specialty journals from India\u2019s leading medical institutions and societies \u2014 indexed via IndMED and PubMed Central\u2019s India collection.',
+    description: 'Core and specialty journals from India’s leading medical institutions and societies — indexed via IndMED and PubMed Central’s India collection.',
     sources: [
       { group: 'Core General Medicine', items: [
         'Indian Journal of Medical Research (IJMR)',
@@ -58,7 +58,7 @@ const sourceRegistry: SourceCategory[] = [
       { group: 'Aggregators & Databases', items: [
         'IndMED (National Informatics Centre)',
         'Medknow Publications (Wolters Kluwer India)',
-        'PubMed Central \u2014 India collection',
+        'PubMed Central — India collection',
       ]},
     ],
   },
@@ -89,7 +89,7 @@ const sourceRegistry: SourceCategory[] = [
         'National Tuberculosis Elimination Programme (NTEP)',
         'National Vector Borne Disease Control Programme (NVBDCP)',
         'National AIDS Control Organisation (NACO)',
-        'National Health Mission (NHM) \u2014 program guidelines',
+        'National Health Mission (NHM) — program guidelines',
       ]},
     ],
   },
@@ -103,16 +103,16 @@ const sourceRegistry: SourceCategory[] = [
         'Indian Pharmacopoeia Commission (IPC)',
         'Indian Pharmacopoeia (IP)',
         'National Formulary of India (NFI)',
-        'CDSCO \u2014 SUGAM Portal',
+        'CDSCO — SUGAM Portal',
         'New Drugs & Clinical Trials Rules, 2019',
       ]},
       { group: 'Pharmacovigilance', items: [
         'Pharmacovigilance Programme of India (PvPI)',
-        'National Coordination Centre (NCC) \u2014 IPC',
+        'National Coordination Centre (NCC) — IPC',
         'VigiFlow / VigiBase (WHO-Uppsala Monitoring Centre)',
       ]},
       { group: 'Clinical Trials', items: [
-        'Clinical Trials Registry \u2014 India (CTRI)',
+        'Clinical Trials Registry — India (CTRI)',
       ]},
     ],
   },
@@ -129,9 +129,9 @@ const sourceRegistry: SourceCategory[] = [
         'Integrated Disease Surveillance Programme (IDSP)',
       ]},
       { group: 'Health Portals', items: [
-        'National Health Portal (NHP) \u2014 MoHFW',
-        'AYUSH Ministry \u2014 traditional medicine guidelines',
-        'Census of India \u2014 health demographics',
+        'National Health Portal (NHP) — MoHFW',
+        'AYUSH Ministry — traditional medicine guidelines',
+        'Census of India — health demographics',
       ]},
     ],
   },
@@ -154,7 +154,7 @@ const sourceRegistry: SourceCategory[] = [
       ]},
       { group: 'Guidelines', items: [
         'WHO Guidelines',
-        'NICE Guidelines (UK) \u2014 adapted where relevant',
+        'NICE Guidelines (UK) — adapted where relevant',
       ]},
     ],
   },
@@ -220,7 +220,7 @@ export default function EvidencePage() {
               </p>
               <h2 className="mt-4">India-deep, global-broad</h2>
               <p className="text-text-2 text-lg mt-4 max-w-2xl mx-auto">
-                59 sources across 5 categories \u2014 the complete corpus behind every OpenInsight answer. Click a category to expand.
+                59 sources across 5 categories — the complete corpus behind every OpenInsight answer. Click a category to expand.
               </p>
             </div>
           </SectionReveal>

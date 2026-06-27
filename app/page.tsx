@@ -318,7 +318,7 @@ export default function Home() {
           <SectionReveal delay={100}>
             <div className="faq-footer">
               <p>Still have a question?</p>
-              <Link href="/early-access" className="btn btn-ghost">
+              <Link href="/contact" className="btn btn-ghost">
                 Talk to us →
               </Link>
             </div>

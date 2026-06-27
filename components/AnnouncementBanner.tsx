@@ -64,6 +64,37 @@ export default function AnnouncementBanner() {
     }
   }, [visible])
 
+  // When the user scrolls past the banner, collapse --announcement-h to 0px
+  // so the fixed Nav slides up to top:0 (it has transition:top). This closes
+  // the empty gap that would otherwise sit above the Nav once the banner
+  // (which is in normal flow) has scrolled out of view. Restored on scroll-up.
+  useEffect(() => {
+    if (!visible) return
+    const el = bannerRef.current
+    if (!el) return
+
+    let ticking = false
+    const update = () => {
+      ticking = false
+      const bannerH = el.offsetHeight
+      // Once scrolled past the banner, pin the Nav to the very top.
+      if (window.scrollY >= bannerH) {
+        setAnnouncementHeight('0px')
+      } else {
+        setAnnouncementHeight(`${bannerH}px`)
+      }
+    }
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update)
+        ticking = true
+      }
+    }
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [visible])
+
   const handleDismiss = () => {
     setVisible(false)
     try {
@@ -87,7 +118,11 @@ export default function AnnouncementBanner() {
         <p className={styles.text}>
           OpenInsight is now accepting early access applications from
           NMC-registered doctors.{' '}
-          <Link href="/early-access" className={styles.link}>
+          <Link
+            href="/early-access"
+            className={styles.link}
+            onClick={handleDismiss}
+          >
             Apply today →
           </Link>
         </p>

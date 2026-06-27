@@ -20,11 +20,6 @@ const contactInfo = [
     email: 'support@openinsight.in',
     description: 'Onboarding help, NMC verification, and clinical content feedback.',
   },
-  {
-    label: 'Phone',
-    email: '+91 20 XXXX XXXX',
-    description: 'Mon–Fri, 10:00–18:00 IST. Available for verified doctors.',
-  },
 ]
 
 const officeHours = [

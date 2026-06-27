@@ -97,7 +97,7 @@ export default function Footer() {
               role="status"
               aria-live="polite"
             >
-              {status === 'ok' && '✓ Thanks — you\u2019re on the list.'}
+              {status === 'ok' && '✓ Thanks — you’re on the list.'}
               {status === 'err' && 'Please enter a valid email address.'}
               {status === 'idle' && 'No spam. Unsubscribe anytime.'}
             </p>
