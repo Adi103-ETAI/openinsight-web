@@ -393,13 +393,6 @@
   animation: fadeInUp 300ms ease-out;
 }
 
-.continueLaterNote {
-  font-size: var(--text-xs);
-  color: var(--color-text-3);
-  text-align: center;
-  line-height: 1.5;
-}
-
 /* === Polished success state === */
 .success {
   background: linear-gradient(180deg, var(--color-accent-pale) 0%, var(--color-surface) 100%);

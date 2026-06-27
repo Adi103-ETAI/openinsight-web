@@ -639,10 +639,6 @@ export default function EarlyAccessForm() {
           </p>
         )}
 
-        <p className={styles.continueLaterNote}>
-          Prefer to fill this on a different device? Your draft is saved locally in this browser — just
-          come back to <a href="/early-access" className={styles.inlineLink}>/early-access</a> later.
-        </p>
       </form>
     </div>
   )
