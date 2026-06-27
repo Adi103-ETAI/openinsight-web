@@ -29,6 +29,9 @@ const STATUS_COLORS: Record<string, string> = { new: '#3B82F6', contacted: '#F59
 const STATUS_LABELS: Record<string, string> = { new: 'New', contacted: 'Contacted', approved: 'Approved', rejected: 'Rejected' }
 const MULTI_COLORS = ['#C56B4A', '#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', '#6366F1', '#EC4899']
 
+// ─── Shared inline styles ───────────────────────────────
+const cardStyle: React.CSSProperties = { backgroundColor: 'white', border: '1px solid #E8E4DC', borderRadius: '12px', padding: '16px' }
+
 // ─── Main Component ─────────────────────────────────────
 export default function AdminDashboard() {
   const supabaseRef = useRef<SupabaseClient | null>(null)
@@ -93,34 +96,53 @@ export default function AdminDashboard() {
   const paginated = filteredSubmissions.slice((currentPage - 1) * pageSize, currentPage * pageSize)
 
   if (authState === 'checking') {
-    return <div className="min-h-screen flex items-center justify-center bg-[#1C1B1A]"><div className="text-center"><Spinner size={8} /><p className="text-[#8A8884] text-sm mt-3">Verifying access…</p></div></div>
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#1C1B1A' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ display: 'inline-block', width: '32px', height: '32px', border: '2px solid #C56B4A', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+          <p style={{ color: '#8A8884', fontSize: '14px', marginTop: '12px' }}>Verifying access…</p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F0E8]">
+    <div style={{ minHeight: '100vh', backgroundColor: '#F5F0E8' }}>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#1C1B1A] border-b border-[#2F2E2C]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#C56B4A] to-[#A5573A] flex items-center justify-center shadow">
+      <header style={{ position: 'sticky', top: 0, zIndex: 50, backgroundColor: '#1C1B1A', borderBottom: '1px solid #2F2E2C' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #C56B4A, #A5573A)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
             </div>
-            <div><p className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#C56B4A]">OpenInsight</p><p className="text-sm font-medium text-white">Validation Dashboard</p></div>
+            <div>
+              <p style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C56B4A', margin: 0 }}>OpenInsight</p>
+              <p style={{ fontSize: '14px', fontWeight: 500, color: '#FAFAF8', margin: 0 }}>Validation Dashboard</p>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-[#2B2B29]"><div className="w-1.5 h-1.5 rounded-full bg-emerald-400" /><span className="text-[#8A8884] text-[11px]">{adminEmail}</span></div>
-            <button onClick={handleSignOut} className="px-2.5 py-1 rounded-md text-[11px] font-medium border border-[#3F3E3C] text-[#A5A49E] bg-transparent hover:bg-[#2B2B29] transition-colors">Sign out</button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 10px', borderRadius: '999px', backgroundColor: '#2B2B29' }}>
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#34D399' }} />
+              <span style={{ color: '#8A8884', fontSize: '11px' }}>{adminEmail}</span>
+            </div>
+            <button onClick={handleSignOut} style={{ padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 500, border: '1px solid #3F3E3C', color: '#A5A49E', backgroundColor: 'transparent', cursor: 'pointer' }}>Sign out</button>
           </div>
         </div>
       </header>
 
       {/* Tabs */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-5">
-        <div className="flex gap-1 p-0.5 rounded-lg bg-[#E8E4DC] inline-flex">
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '20px 20px 0' }}>
+        <div style={{ display: 'inline-flex', gap: '2px', padding: '3px', borderRadius: '8px', backgroundColor: '#E8E4DC' }}>
           {(['overview', 'submissions'] as const).map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}
-              className="px-4 py-1.5 rounded-md text-[11px] font-semibold capitalize transition-all"
-              style={{ backgroundColor: activeTab === tab ? 'white' : 'transparent', color: activeTab === tab ? '#1C1B1A' : '#8A8884', boxShadow: activeTab === tab ? '0 1px 3px rgba(0,0,0,0.08)' : 'none' }}>
+              style={{
+                padding: '6px 16px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, textTransform: 'capitalize', cursor: 'pointer',
+                border: 'none', backgroundColor: activeTab === tab ? 'white' : 'transparent',
+                color: activeTab === tab ? '#1C1B1A' : '#8A8884',
+                boxShadow: activeTab === tab ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+              }}>
               {tab}
             </button>
           ))}
@@ -128,8 +150,8 @@ export default function AdminDashboard() {
       </div>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5">
-        {error && <div className="mb-4 p-3 rounded-lg text-sm bg-red-50 border border-red-200 text-red-800">{error}</div>}
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '16px 20px 32px' }}>
+        {error && <div style={{ padding: '10px', borderRadius: '8px', fontSize: '13px', backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5', color: '#991B1B', marginBottom: '12px' }}>{error}</div>}
         {activeTab === 'overview' ? <OverviewTab stats={stats} submissions={submissions} loading={loading} /> : (
           <SubmissionsTab submissions={filteredSubmissions} paginated={paginated} loading={loading}
             filterPersona={filterPersona} setFilterPersona={setFilterPersona} filterStatus={filterStatus} setFilterStatus={setFilterStatus}
@@ -145,71 +167,79 @@ export default function AdminDashboard() {
 // OVERVIEW TAB
 // ═══════════════════════════════════════════════════════
 function OverviewTab({ stats, submissions, loading }: { stats: Stats | null; submissions: Submission[]; loading: boolean }) {
-  if (loading && !stats) return <div className="py-16 flex justify-center"><Spinner /></div>
+  if (loading && !stats) return <Spinner />
   if (!stats) return null
 
   return (
-    <div className="space-y-5">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
       {/* KPI Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
         <KpiCard label="Total Signups" value={stats.total} color="#C56B4A" sub="All time" />
         <KpiCard label="This Week" value={stats.thisWeek} color="#3B82F6" sub="Last 7 days" />
         <KpiCard label="Newsletter" value={`${stats.newsletterOptInRate}%`} color="#10B981" sub={`${stats.newsletterOptIn} of ${stats.total}`} />
         <KpiCard label="Conversion" value={`${stats.total > 0 ? Math.round(((stats.statusCounts.approved || 0) / stats.total) * 100) : 0}%`} color="#8B5CF6" sub={`${stats.statusCounts.approved || 0} approved`} />
       </div>
 
-      {/* Charts Row 1: Donuts */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      {/* Donut Row */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
         <DonutCard title="Persona Distribution" data={Object.entries(stats.personaCounts).map(([k, v]) => ({ name: PERSONA_LABEL[k] || k, value: v, color: PERSONA_COLORS[k] || '#8A8884' }))} />
         <DonutCard title="Status Pipeline" data={Object.entries(stats.statusCounts).map(([k, v]) => ({ name: STATUS_LABELS[k] || k, value: v, color: STATUS_COLORS[k] || '#8A8884' }))} />
       </div>
 
       {/* Signup Timeline */}
-      <Card title="Signup Trend" sub="Daily signups — last 30 days">
-        {stats.signupTimeline.some(d => d.count > 0) ? (
-          <MiniAreaChart data={stats.signupTimeline} />
-        ) : <EmptyState />}
-      </Card>
-
-      {/* Row: Cities + Referrals */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Card title="Top Cities" sub="Signups by city">
-          {stats.topCities.length > 0 ? <HorizontalBars items={stats.topCities} colors={MULTI_COLORS} /> : <EmptyState />}
-        </Card>
-        <Card title="Referral Sources" sub="How people discover OpenInsight">
-          {stats.topReferrals.length > 0 ? <HorizontalBars items={stats.topReferrals} colors={['#3B82F6']} /> : <EmptyState />}
-        </Card>
+      <div style={cardStyle}>
+        <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1C1B1A', margin: '0 0 2px' }}>Signup Trend</h3>
+        <p style={{ fontSize: '11px', color: '#A5A49E', margin: '0 0 12px' }}>Daily signups — last 30 days</p>
+        {stats.signupTimeline.some(d => d.count > 0) ? <MiniAreaChart data={stats.signupTimeline} /> : <EmptyState />}
       </div>
 
-      {/* Row: Specialties + Countries + Recent */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <Card title="Specialties" sub="Medical specialties">
-          {stats.topSpecialties.length > 0 ? <HorizontalBars items={stats.topSpecialties} colors={MULTI_COLORS} /> : <EmptyState />}
-        </Card>
-        <Card title="Countries" sub="Signup origin">
-          {stats.topCountries.length > 0 ? <ProgressBar items={stats.topCountries} colors={MULTI_COLORS} /> : <EmptyState />}
-        </Card>
-        <Card title="Recent Signups" sub="Latest submissions">
-          <div className="space-y-2">
+      {/* Cities + Referrals */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+        <div style={cardStyle}>
+          <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1C1B1A', margin: '0 0 2px' }}>Top Cities</h3>
+          <p style={{ fontSize: '11px', color: '#A5A49E', margin: '0 0 12px' }}>Signups by city</p>
+          {stats.topCities.length > 0 ? <HBar items={stats.topCities} colors={MULTI_COLORS} /> : <EmptyState />}
+        </div>
+        <div style={cardStyle}>
+          <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1C1B1A', margin: '0 0 2px' }}>Referral Sources</h3>
+          <p style={{ fontSize: '11px', color: '#A5A49E', margin: '0 0 12px' }}>How people discover OpenInsight</p>
+          {stats.topReferrals.length > 0 ? <HBar items={stats.topReferrals} colors={['#3B82F6']} /> : <EmptyState />}
+        </div>
+      </div>
+
+      {/* Specialties + Countries + Recent */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+        <div style={cardStyle}>
+          <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1C1B1A', margin: '0 0 2px' }}>Specialties</h3>
+          <p style={{ fontSize: '11px', color: '#A5A49E', margin: '0 0 12px' }}>Medical specialties</p>
+          {stats.topSpecialties.length > 0 ? <HBar items={stats.topSpecialties} colors={MULTI_COLORS} /> : <EmptyState />}
+        </div>
+        <div style={cardStyle}>
+          <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1C1B1A', margin: '0 0 2px' }}>Countries</h3>
+          <p style={{ fontSize: '11px', color: '#A5A49E', margin: '0 0 12px' }}>Signup origin</p>
+          {stats.topCountries.length > 0 ? <PBar items={stats.topCountries} colors={MULTI_COLORS} /> : <EmptyState />}
+        </div>
+        <div style={cardStyle}>
+          <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1C1B1A', margin: '0 0 2px' }}>Recent Signups</h3>
+          <p style={{ fontSize: '11px', color: '#A5A49E', margin: '0 0 12px' }}>Latest submissions</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {submissions.slice(0, 5).map(s => (
-              <div key={s.id} className="flex items-center gap-2.5 p-2 rounded-lg bg-[#FAFAF8]">
-                <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0"
-                  style={{ backgroundColor: `${PERSONA_COLORS[s.persona] || '#8A8884'}18`, color: PERSONA_COLORS[s.persona] || '#8A8884' }}>
+              <div key={s.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 8px', borderRadius: '8px', backgroundColor: '#FAFAF8' }}>
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 700, flexShrink: 0, backgroundColor: `${PERSONA_COLORS[s.persona] || '#8A8884'}18`, color: PERSONA_COLORS[s.persona] || '#8A8884' }}>
                   {s.full_name?.charAt(0)?.toUpperCase() || '?'}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[11px] font-semibold truncate text-[#1C1B1A]">{s.full_name}</p>
-                  <p className="text-[10px] truncate text-[#8A8884]">{s.city} · {PERSONA_LABEL[s.persona] || s.persona}</p>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: '11px', fontWeight: 600, margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: '#1C1B1A' }}>{s.full_name}</p>
+                  <p style={{ fontSize: '10px', margin: 0, color: '#8A8884', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.city} · {PERSONA_LABEL[s.persona] || s.persona}</p>
                 </div>
-                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap"
-                  style={{ backgroundColor: `${STATUS_COLORS[s.status] || '#8A8884'}15`, color: STATUS_COLORS[s.status] || '#8A8884' }}>
+                <span style={{ fontSize: '9px', fontWeight: 700, padding: '2px 8px', borderRadius: '999px', whiteSpace: 'nowrap', backgroundColor: `${STATUS_COLORS[s.status] || '#8A8884'}15`, color: STATUS_COLORS[s.status] || '#8A8884' }}>
                   {STATUS_LABELS[s.status] || s.status}
                 </span>
               </div>
             ))}
             {submissions.length === 0 && <EmptyState />}
           </div>
-        </Card>
+        </div>
       </div>
     </div>
   )
@@ -226,72 +256,70 @@ function SubmissionsTab({ submissions, paginated, loading, filterPersona, setFil
   totalPages: number; fetchSubmissions: () => void
 }) {
   return (
-    <div className="space-y-3">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center justify-between">
-        <div className="flex flex-wrap gap-2 items-center">
-          <div className="relative">
-            <svg className="absolute left-2.5 top-1/2 -translate-y-1/2" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A5A49E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" placeholder="Search…" value={searchQuery} onChange={e => { setSearchQuery(e.target.value); setCurrentPage(1) }}
-              className="pl-8 pr-2 py-1.5 rounded-lg text-xs border bg-white border-[#E8E4DC] text-[#1C1B1A] w-[180px] focus:outline-none focus:ring-2 focus:ring-[#C56B4A]/30" />
-          </div>
-          <select value={filterPersona} onChange={e => setFilterPersona(e.target.value)} className="px-2 py-1.5 rounded-lg text-xs border bg-white border-[#E8E4DC] text-[#1C1B1A] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C56B4A]/30">
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'center' }}>
+          <input type="text" placeholder="Search name, email, city…" value={searchQuery} onChange={e => { setSearchQuery(e.target.value); setCurrentPage(1) }}
+            style={{ padding: '6px 10px', borderRadius: '8px', fontSize: '12px', border: '1px solid #E8E4DC', backgroundColor: 'white', color: '#1C1B1A', width: '200px', outline: 'none' }} />
+          <select value={filterPersona} onChange={e => setFilterPersona(e.target.value)} style={{ padding: '6px 8px', borderRadius: '8px', fontSize: '12px', border: '1px solid #E8E4DC', backgroundColor: 'white', color: '#1C1B1A', cursor: 'pointer' }}>
             <option value="">All personas</option><option value="doctor">Doctors</option><option value="student">Students</option><option value="professional">Professionals</option>
           </select>
-          <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="px-2 py-1.5 rounded-lg text-xs border bg-white border-[#E8E4DC] text-[#1C1B1A] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C56B4A]/30">
+          <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ padding: '6px 8px', borderRadius: '8px', fontSize: '12px', border: '1px solid #E8E4DC', backgroundColor: 'white', color: '#1C1B1A', cursor: 'pointer' }}>
             <option value="">All statuses</option><option value="new">New</option><option value="contacted">Contacted</option><option value="approved">Approved</option><option value="rejected">Rejected</option>
           </select>
-          <button onClick={fetchSubmissions} className="px-2 py-1.5 rounded-lg text-xs border bg-white border-[#E8E4DC] text-[#5A5955] hover:bg-[#FAFAF8]">↻</button>
+          <button onClick={fetchSubmissions} style={{ padding: '6px 10px', borderRadius: '8px', fontSize: '12px', border: '1px solid #E8E4DC', backgroundColor: 'white', color: '#5A5955', cursor: 'pointer' }}>↻ Refresh</button>
         </div>
-        <a href="/api/admin/export" className="px-3 py-1.5 rounded-lg text-[11px] font-semibold no-underline inline-flex items-center gap-1 bg-[#C56B4A] text-white hover:bg-[#A5573A] transition-colors">
-          ↓ Export CSV
-        </a>
+        <a href="/api/admin/export" style={{ padding: '6px 14px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px', backgroundColor: '#C56B4A', color: 'white' }}>↓ Export CSV</a>
       </div>
 
-      <p className="text-[11px] text-[#A5A49E]">{submissions.length} result{submissions.length !== 1 ? 's' : ''}</p>
+      <p style={{ fontSize: '11px', color: '#A5A49E', margin: 0 }}>{submissions.length} result{submissions.length !== 1 ? 's' : ''}</p>
 
       {/* Table */}
-      <div className="rounded-xl overflow-hidden bg-white border border-[#E8E4DC]">
-        {loading ? <div className="py-12 flex justify-center"><Spinner /></div> : submissions.length === 0 ? (
-          <div className="py-16 text-center text-[#A5A49E]"><p className="text-sm">No submissions yet</p></div>
+      <div style={{ borderRadius: '12px', overflow: 'hidden', backgroundColor: 'white', border: '1px solid #E8E4DC' }}>
+        {loading ? <Spinner /> : submissions.length === 0 ? (
+          <div style={{ padding: '48px 16px', textAlign: 'center', color: '#A5A49E' }}><p style={{ fontSize: '14px', margin: 0 }}>No submissions yet</p></div>
         ) : (
           <>
-            <div className="hidden md:grid grid-cols-12 gap-1 px-4 py-2.5 text-[10px] font-bold uppercase tracking-wider bg-[#F5F0E8] text-[#8A8884]">
-              <div className="col-span-2">Date</div><div className="col-span-2">Name</div><div className="col-span-2">Persona</div><div className="col-span-2">City</div><div className="col-span-1">Specialty</div><div className="col-span-1">Status</div><div className="col-span-2 text-right">Action</div>
+            {/* Header */}
+            <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr 100px 100px 100px 80px 60px', gap: '4px', padding: '8px 16px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: '#F5F0E8', color: '#8A8884', borderBottom: '1px solid #E8E4DC' }}>
+              <span>Date</span><span>Name</span><span>Persona</span><span>City</span><span>Specialty</span><span>Status</span><span></span>
             </div>
             {paginated.map(s => (
               <Fragment key={s.id}>
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-1 px-4 py-2.5 items-center cursor-pointer hover:bg-[#FAFAF8] border-b border-[#F0ECE4] transition-colors"
-                  onClick={() => setExpandedId(expandedId === s.id ? null : s.id)}>
-                  <div className="md:col-span-2 text-[11px] text-[#8A8884]">{new Date(s.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: '2-digit' })}</div>
-                  <div className="md:col-span-2 flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0" style={{ backgroundColor: `${PERSONA_COLORS[s.persona] || '#8A8884'}18`, color: PERSONA_COLORS[s.persona] || '#8A8884' }}>{s.full_name?.charAt(0)?.toUpperCase()}</div>
-                    <span className="text-xs font-semibold truncate text-[#1C1B1A]">{s.full_name}</span>
+                <div onClick={() => setExpandedId(expandedId === s.id ? null : s.id)}
+                  style={{ display: 'grid', gridTemplateColumns: '80px 1fr 100px 100px 100px 80px 60px', gap: '4px', padding: '10px 16px', alignItems: 'center', cursor: 'pointer', borderBottom: '1px solid #F0ECE4', fontSize: '12px' }}>
+                  <span style={{ color: '#8A8884', fontSize: '11px' }}>{new Date(s.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
+                    <div style={{ width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 700, flexShrink: 0, backgroundColor: `${PERSONA_COLORS[s.persona] || '#8A8884'}18`, color: PERSONA_COLORS[s.persona] || '#8A8884' }}>{s.full_name?.charAt(0)?.toUpperCase()}</div>
+                    <span style={{ fontWeight: 600, color: '#1C1B1A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.full_name}</span>
                   </div>
-                  <div className="md:col-span-2"><span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ backgroundColor: `${PERSONA_COLORS[s.persona] || '#8A8884'}15`, color: PERSONA_COLORS[s.persona] || '#8A8884' }}>{PERSONA_LABEL[s.persona]}</span></div>
-                  <div className="md:col-span-2 text-xs text-[#5A5955]">{s.city}</div>
-                  <div className="md:col-span-1 text-[11px] truncate text-[#8A8884]">{s.specialty || '—'}</div>
-                  <div className="md:col-span-1"><span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ backgroundColor: `${STATUS_COLORS[s.status] || '#8A8884'}15`, color: STATUS_COLORS[s.status] || '#8A8884' }}>{STATUS_LABELS[s.status]}</span></div>
-                  <div className="md:col-span-2 text-right"><button onClick={e => { e.stopPropagation(); setExpandedId(expandedId === s.id ? null : s.id) }} className="text-[11px] font-semibold text-[#C56B4A] hover:underline">{expandedId === s.id ? '▲ Hide' : '▼ Details'}</button></div>
+                  <span style={{ display: 'inline-block', padding: '2px 8px', borderRadius: '999px', fontSize: '10px', fontWeight: 700, backgroundColor: `${PERSONA_COLORS[s.persona] || '#8A8884'}15`, color: PERSONA_COLORS[s.persona] || '#8A8884' }}>{PERSONA_LABEL[s.persona]}</span>
+                  <span style={{ color: '#5A5955' }}>{s.city}</span>
+                  <span style={{ color: '#8A8884', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.specialty || '—'}</span>
+                  <span style={{ display: 'inline-block', padding: '2px 8px', borderRadius: '999px', fontSize: '10px', fontWeight: 700, backgroundColor: `${STATUS_COLORS[s.status] || '#8A8884'}15`, color: STATUS_COLORS[s.status] || '#8A8884' }}>{STATUS_LABELS[s.status]}</span>
+                  <button onClick={e => { e.stopPropagation(); setExpandedId(expandedId === s.id ? null : s.id) }} style={{ fontSize: '11px', fontWeight: 600, color: '#C56B4A', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>{expandedId === s.id ? '▲' : '▼'}</button>
                 </div>
                 {expandedId === s.id && (
-                  <div className="bg-[#FAFAF8] border-b border-[#E8E4DC] px-5 py-4">
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3 text-[11px]">
-                      <div><span className="font-bold text-[#8A8884] uppercase tracking-wider text-[9px] block mb-0.5">Email</span><a href={`mailto:${s.email}`} className="text-[#C56B4A]">{s.email}</a></div>
-                      <div><span className="font-bold text-[#8A8884] uppercase tracking-wider text-[9px] block mb-0.5">Phone</span><span className="text-[#1C1B1A]">{s.phone || '—'}</span></div>
-                      <div><span className="font-bold text-[#8A8884] uppercase tracking-wider text-[9px] block mb-0.5">Institution</span><span className="text-[#1C1B1A]">{s.institution || '—'}</span></div>
-                      <div><span className="font-bold text-[#8A8884] uppercase tracking-wider text-[9px] block mb-0.5">NMC Number</span><span className="text-[#1C1B1A]">{s.nmc_number || '—'}</span></div>
-                      <div><span className="font-bold text-[#8A8884] uppercase tracking-wider text-[9px] block mb-0.5">Referral</span><span className="text-[#1C1B1A]">{s.referral_source || '—'}</span></div>
-                      <div><span className="font-bold text-[#8A8884] uppercase tracking-wider text-[9px] block mb-0.5">Country</span><span className="text-[#1C1B1A]">{s.ip_country || '—'}</span></div>
-                      <div><span className="font-bold text-[#8A8884] uppercase tracking-wider text-[9px] block mb-0.5">Newsletter</span><span className="text-[#1C1B1A]">{s.newsletter_opt_in ? '✓ Yes' : '✗ No'}</span></div>
-                      <div><span className="font-bold text-[#8A8884] uppercase tracking-wider text-[9px] block mb-0.5">Submitted</span><span className="text-[#1C1B1A]">{new Date(s.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST</span></div>
+                  <div style={{ backgroundColor: '#FAFAF8', borderBottom: '1px solid #E8E4DC', padding: '16px 20px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '12px', fontSize: '11px' }}>
+                      <Detail label="Email" value={<a href={`mailto:${s.email}`} style={{ color: '#C56B4A' }}>{s.email}</a>} />
+                      <Detail label="Phone" value={s.phone || '—'} />
+                      <Detail label="Institution" value={s.institution || '—'} />
+                      <Detail label="NMC Number" value={s.nmc_number || '—'} />
+                      <Detail label="Referral" value={s.referral_source || '—'} />
+                      <Detail label="Country" value={s.ip_country || '—'} />
+                      <Detail label="Newsletter" value={s.newsletter_opt_in ? '✓ Subscribed' : '✗ No'} />
+                      <Detail label="Submitted" value={new Date(s.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + ' IST'} />
                     </div>
-                    {s.use_case && <div className="mb-3 p-3 rounded-lg bg-white border border-[#E8E4DC]"><p className="text-[9px] font-bold text-[#8A8884] uppercase tracking-wider mb-1">Use case</p><p className="text-xs text-[#1C1B1A] leading-relaxed">{s.use_case}</p></div>}
-                    <div className="flex gap-1.5">
+                    {s.use_case && <div style={{ padding: '10px 12px', borderRadius: '8px', backgroundColor: 'white', border: '1px solid #E8E4DC', marginBottom: '10px' }}><p style={{ fontSize: '10px', fontWeight: 700, color: '#8A8884', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 4px' }}>Use case</p><p style={{ fontSize: '12px', color: '#1C1B1A', margin: 0, lineHeight: 1.5 }}>{s.use_case}</p></div>}
+                    <div style={{ display: 'flex', gap: '6px' }}>
                       {(['new', 'contacted', 'approved', 'rejected'] as const).map(st => (
                         <button key={st} onClick={() => updateStatus(s.id, st)}
-                          className="px-3 py-1 rounded-lg text-[11px] font-semibold transition-all"
-                          style={{ border: `1.5px solid ${s.status === st ? STATUS_COLORS[st] : '#E8E4DC'}`, backgroundColor: s.status === st ? `${STATUS_COLORS[st]}12` : 'white', color: s.status === st ? STATUS_COLORS[st] : '#8A8884' }}>
+                          style={{ padding: '4px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, cursor: 'pointer',
+                            border: `1.5px solid ${s.status === st ? STATUS_COLORS[st] : '#E8E4DC'}`,
+                            backgroundColor: s.status === st ? `${STATUS_COLORS[st]}12` : 'white',
+                            color: s.status === st ? STATUS_COLORS[st] : '#8A8884' }}>
                           {STATUS_LABELS[st]}
                         </button>
                       ))}
@@ -301,14 +329,14 @@ function SubmissionsTab({ submissions, paginated, loading, filterPersona, setFil
               </Fragment>
             ))}
             {totalPages > 1 && (
-              <div className="flex items-center justify-between px-4 py-2.5 border-t border-[#F0ECE4]">
-                <p className="text-[11px] text-[#8A8884]">Page {currentPage} of {totalPages}</p>
-                <div className="flex gap-1">
-                  <button onClick={() => setCurrentPage(Math.max(1, currentPage - 1))} disabled={currentPage === 1} className="px-2 py-1 rounded text-[11px] border border-[#E8E4DC] bg-white text-[#5A5955] disabled:opacity-40">←</button>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 16px', borderTop: '1px solid #F0ECE4' }}>
+                <span style={{ fontSize: '11px', color: '#8A8884' }}>Page {currentPage} of {totalPages}</span>
+                <div style={{ display: 'flex', gap: '4px' }}>
+                  <button onClick={() => setCurrentPage(Math.max(1, currentPage - 1))} disabled={currentPage === 1} style={{ padding: '4px 8px', borderRadius: '4px', fontSize: '11px', border: '1px solid #E8E4DC', backgroundColor: 'white', color: '#5A5955', cursor: 'pointer', opacity: currentPage === 1 ? 0.4 : 1 }}>←</button>
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-                    <button key={p} onClick={() => setCurrentPage(p)} className="w-6 h-6 rounded text-[11px] font-semibold" style={{ backgroundColor: p === currentPage ? '#C56B4A' : 'white', color: p === currentPage ? 'white' : '#5A5955', border: p === currentPage ? 'none' : '1px solid #E8E4DC' }}>{p}</button>
+                    <button key={p} onClick={() => setCurrentPage(p)} style={{ width: '28px', height: '28px', borderRadius: '4px', fontSize: '11px', fontWeight: 600, cursor: 'pointer', border: p === currentPage ? 'none' : '1px solid #E8E4DC', backgroundColor: p === currentPage ? '#C56B4A' : 'white', color: p === currentPage ? 'white' : '#5A5955' }}>{p}</button>
                   ))}
-                  <button onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))} disabled={currentPage === totalPages} className="px-2 py-1 rounded text-[11px] border border-[#E8E4DC] bg-white text-[#5A5955] disabled:opacity-40">→</button>
+                  <button onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))} disabled={currentPage === totalPages} style={{ padding: '4px 8px', borderRadius: '4px', fontSize: '11px', border: '1px solid #E8E4DC', backgroundColor: 'white', color: '#5A5955', cursor: 'pointer', opacity: currentPage === totalPages ? 0.4 : 1 }}>→</button>
                 </div>
               </div>
             )}
@@ -320,53 +348,42 @@ function SubmissionsTab({ submissions, paginated, loading, filterPersona, setFil
 }
 
 // ═══════════════════════════════════════════════════════
-// LIGHTWEIGHT CHART COMPONENTS (No recharts!)
+// LIGHTWEIGHT CHARTS (Pure SVG/CSS, zero dependencies)
 // ═══════════════════════════════════════════════════════
 
-// Donut chart using pure SVG
-function DonutChart({ data, size = 140, strokeWidth = 24 }: { data: { name: string; value: number; color: string }[]; size?: number; strokeWidth?: number }) {
-  const total = data.reduce((sum, d) => sum + d.value, 0)
+function DonutChart({ data, size = 120, stroke = 18 }: { data: { name: string; value: number; color: string }[]; size?: number; stroke?: number }) {
+  const total = data.reduce((s, d) => s + d.value, 0)
   if (total === 0) return <EmptyState />
-  const radius = (size - strokeWidth) / 2
-  const circumference = 2 * Math.PI * radius
+  const r = (size - stroke) / 2
+  const C = 2 * Math.PI * r
   let offset = 0
-
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="mx-auto block">
-      {data.map((d, i) => {
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ display: 'block', margin: '0 auto' }}>
+      {data.filter(d => d.value > 0).map((d, i) => {
         const pct = d.value / total
-        const dashLength = pct * circumference
-        const gap = 4 // small gap between segments
-        const el = (
-          <circle key={i} cx={size / 2} cy={size / 2} r={radius} fill="none"
-            stroke={d.color} strokeWidth={strokeWidth}
-            strokeDasharray={`${Math.max(0, dashLength - gap)} ${circumference - dashLength + gap}`}
-            strokeDashoffset={-offset}
-            transform={`rotate(-90 ${size / 2} ${size / 2})`}
-            strokeLinecap="round"
-          />
-        )
-        offset += dashLength
+        const dash = pct * C
+        const el = <circle key={i} cx={size/2} cy={size/2} r={r} fill="none" stroke={d.color} strokeWidth={stroke} strokeDasharray={`${Math.max(0, dash - 3)} ${C - dash + 3}`} strokeDashoffset={-offset} transform={`rotate(-90 ${size/2} ${size/2})`} strokeLinecap="round" />
+        offset += dash
         return el
       })}
-      <text x={size / 2} y={size / 2} textAnchor="middle" dominantBaseline="central" className="text-lg font-bold" fill="#1C1B1A">{total}</text>
+      <text x={size/2} y={size/2} textAnchor="middle" dominantBaseline="central" fontSize="20" fontWeight="800" fill="#1C1B1A">{total}</text>
     </svg>
   )
 }
 
 function DonutCard({ title, data }: { title: string; data: { name: string; value: number; color: string }[] }) {
   return (
-    <div className="rounded-xl p-4 bg-white border border-[#E8E4DC]">
-      <h3 className="text-xs font-bold text-[#1C1B1A] mb-0.5">{title}</h3>
-      <p className="text-[10px] text-[#A5A49E] mb-3">Breakdown</p>
-      <div className="flex items-center gap-4">
-        <DonutChart data={data.filter(d => d.value > 0)} size={120} strokeWidth={20} />
-        <div className="flex flex-col gap-1.5">
+    <div style={cardStyle}>
+      <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1C1B1A', margin: '0 0 2px' }}>{title}</h3>
+      <p style={{ fontSize: '11px', color: '#A5A49E', margin: '0 0 12px' }}>Breakdown</p>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <DonutChart data={data.filter(d => d.value > 0)} size={110} stroke={16} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
           {data.map(d => (
-            <div key={d.name} className="flex items-center gap-2">
-              <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: d.color }} />
-              <span className="text-[11px] text-[#5A5955]">{d.name}</span>
-              <span className="text-[11px] font-bold text-[#1C1B1A]">{d.value}</span>
+            <div key={d.name} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: d.color, flexShrink: 0 }} />
+              <span style={{ fontSize: '11px', color: '#5A5955' }}>{d.name}</span>
+              <span style={{ fontSize: '11px', fontWeight: 700, color: '#1C1B1A' }}>{d.value}</span>
             </div>
           ))}
         </div>
@@ -375,66 +392,43 @@ function DonutCard({ title, data }: { title: string; data: { name: string; value
   )
 }
 
-// Mini area chart using pure SVG
 function MiniAreaChart({ data }: { data: { date: string; count: number }[] }) {
   const maxVal = Math.max(...data.map(d => d.count), 1)
-  const w = 600
-  const h = 120
-  const px = 30 // padding
-  const chartW = w - px * 2
-  const chartH = h - 20
-
+  const w = 600, h = 100, px = 25
+  const chartW = w - px * 2, chartH = h - 16
   const points = data.map((d, i) => ({
     x: px + (i / Math.max(data.length - 1, 1)) * chartW,
-    y: 10 + chartH - (d.count / maxVal) * chartH,
+    y: 8 + chartH - (d.count / maxVal) * chartH,
   }))
-
   const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ')
-  const areaPath = `${linePath} L${points[points.length - 1].x},${10 + chartH} L${points[0].x},${10 + chartH} Z`
-
+  const areaPath = `${linePath} L${points[points.length - 1].x},${8 + chartH} L${points[0].x},${8 + chartH} Z`
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-auto" preserveAspectRatio="xMidYMid meet">
-      <defs>
-        <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#C56B4A" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#C56B4A" stopOpacity="0.02" />
-        </linearGradient>
-      </defs>
-      {/* Grid lines */}
-      {[0, 0.25, 0.5, 0.75, 1].map(pct => (
-        <line key={pct} x1={px} y1={10 + chartH * (1 - pct)} x2={w - px} y2={10 + chartH * (1 - pct)} stroke="#E8E4DC" strokeWidth="1" />
-      ))}
-      {/* Area fill */}
-      <path d={areaPath} fill="url(#areaGrad)" />
-      {/* Line */}
-      <path d={linePath} fill="none" stroke="#C56B4A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      {/* Dots on data points */}
-      {points.filter((_, i) => data[i]?.count > 0).map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r="3.5" fill="#C56B4A" stroke="white" strokeWidth="2" />
-      ))}
-      {/* X axis labels */}
+    <svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: 'auto', display: 'block' }} preserveAspectRatio="xMidYMid meet">
+      <defs><linearGradient id="aGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#C56B4A" stopOpacity="0.25"/><stop offset="100%" stopColor="#C56B4A" stopOpacity="0.02"/></linearGradient></defs>
+      {[0, 0.5, 1].map(pct => <line key={pct} x1={px} y1={8 + chartH * (1 - pct)} x2={w - px} y2={8 + chartH * (1 - pct)} stroke="#E8E4DC" strokeWidth="1"/>)}
+      <path d={areaPath} fill="url(#aGrad)"/>
+      <path d={linePath} fill="none" stroke="#C56B4A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      {points.filter((_, i) => data[i]?.count > 0).map((p, i) => <circle key={i} cx={p.x} cy={p.y} r="4" fill="#C56B4A" stroke="white" strokeWidth="2"/>)}
       {data.filter((_, i) => i % 7 === 0 || i === data.length - 1).map((d, i) => {
         const idx = data.indexOf(d)
         const x = px + (idx / Math.max(data.length - 1, 1)) * chartW
-        return <text key={i} x={x} y={h - 2} textAnchor="middle" fontSize="10" fill="#A5A49E">{d.date.slice(5)}</text>
+        return <text key={i} x={x} y={h - 1} textAnchor="middle" fontSize="10" fill="#A5A49E">{d.date.slice(5)}</text>
       })}
     </svg>
   )
 }
 
-// Horizontal bar chart using divs (most reliable!)
-function HorizontalBars({ items, colors }: { items: { city?: string; source?: string; specialty?: string; count: number }[]; colors: string[] }) {
+function HBar({ items, colors }: { items: Record<string, any>[]; colors: string[] }) {
   const max = Math.max(...items.map(i => i.count), 1)
-  const label = (item: any) => item.city || item.source || item.specialty || ''
+  const getLabel = (item: any) => item.city || item.source || item.specialty || ''
   return (
-    <div className="space-y-2">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
       {items.slice(0, 8).map((item, i) => (
-        <div key={i} className="flex items-center gap-2">
-          <span className="text-[11px] font-medium w-20 truncate text-[#5A5955] text-right">{label(item)}</span>
-          <div className="flex-1 h-5 rounded-full bg-[#E8E4DC] overflow-hidden">
-            <div className="h-full rounded-full transition-all duration-500 flex items-center justify-end pr-1.5"
-              style={{ width: `${Math.max((item.count / max) * 100, 12)}%`, backgroundColor: colors[i % colors.length] }}>
-              <span className="text-[9px] font-bold text-white">{item.count}</span>
+        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '11px', fontWeight: 500, width: '70px', textAlign: 'right', color: '#5A5955', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flexShrink: 0 }}>{getLabel(item)}</span>
+          <div style={{ flex: 1, height: '20px', borderRadius: '999px', backgroundColor: '#E8E4DC', overflow: 'hidden' }}>
+            <div style={{ height: '100%', borderRadius: '999px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '6px', minWidth: '28px', transition: 'width 0.5s', width: `${Math.max((item.count / max) * 100, 10)}%`, backgroundColor: colors[i % colors.length] }}>
+              <span style={{ fontSize: '9px', fontWeight: 700, color: 'white' }}>{item.count}</span>
             </div>
           </div>
         </div>
@@ -443,19 +437,18 @@ function HorizontalBars({ items, colors }: { items: { city?: string; source?: st
   )
 }
 
-// Progress bars for countries
-function ProgressBar({ items, colors }: { items: { country: string; count: number }[]; colors: string[] }) {
+function PBar({ items, colors }: { items: { country: string; count: number }[]; colors: string[] }) {
   const max = Math.max(...items.map(i => i.count), 1)
   return (
-    <div className="space-y-2.5">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       {items.slice(0, 5).map((item, i) => (
         <div key={item.country}>
-          <div className="flex justify-between text-[11px] mb-1">
-            <span className="font-medium text-[#5A5955]">{item.country}</span>
-            <span className="font-bold text-[#1C1B1A]">{item.count}</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: '3px' }}>
+            <span style={{ fontWeight: 500, color: '#5A5955' }}>{item.country}</span>
+            <span style={{ fontWeight: 700, color: '#1C1B1A' }}>{item.count}</span>
           </div>
-          <div className="h-2 rounded-full bg-[#E8E4DC] overflow-hidden">
-            <div className="h-full rounded-full" style={{ width: `${(item.count / max) * 100}%`, backgroundColor: colors[i % colors.length] }} />
+          <div style={{ height: '6px', borderRadius: '999px', backgroundColor: '#E8E4DC', overflow: 'hidden' }}>
+            <div style={{ height: '100%', borderRadius: '999px', width: `${(item.count / max) * 100}%`, backgroundColor: colors[i % colors.length], transition: 'width 0.5s' }} />
           </div>
         </div>
       ))}
@@ -469,31 +462,34 @@ function ProgressBar({ items, colors }: { items: { country: string; count: numbe
 
 function KpiCard({ label, value, color, sub }: { label: string; value: number | string; color: string; sub: string }) {
   return (
-    <div className="rounded-xl p-4 bg-white border border-[#E8E4DC]">
-      <div className="flex items-center justify-between mb-2">
-        <p className="text-[10px] font-bold uppercase tracking-wider text-[#8A8884]">{label}</p>
-        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
+    <div style={{ ...cardStyle, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+        <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#8A8884' }}>{label}</span>
+        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: color }} />
       </div>
-      <p className="text-2xl font-extrabold" style={{ color }}>{value}</p>
-      <p className="text-[10px] text-[#A5A49E] mt-0.5">{sub}</p>
+      <span style={{ fontSize: '24px', fontWeight: 800, color, lineHeight: 1 }}>{value}</span>
+      <span style={{ fontSize: '10px', color: '#A5A49E', marginTop: '4px' }}>{sub}</span>
     </div>
   )
 }
 
-function Card({ title, sub, children }: { title: string; sub: string; children: React.ReactNode }) {
+function Detail({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="rounded-xl p-4 bg-white border border-[#E8E4DC]">
-      <h3 className="text-xs font-bold text-[#1C1B1A]">{title}</h3>
-      <p className="text-[10px] text-[#A5A49E] mb-3">{sub}</p>
-      {children}
+    <div>
+      <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#8A8884', margin: '0 0 2px' }}>{label}</p>
+      <p style={{ fontSize: '12px', color: '#1C1B1A', margin: 0 }}>{value}</p>
     </div>
   )
 }
 
 function EmptyState() {
-  return <div className="py-8 text-center text-[11px] text-[#A5A49E]">No data yet</div>
+  return <div style={{ padding: '24px 0', textAlign: 'center', fontSize: '12px', color: '#A5A49E' }}>No data yet</div>
 }
 
-function Spinner({ size = 6 }: { size?: number }) {
-  return <div className={`inline-block w-${size} h-${size} border-2 border-[#C56B4A] border-t-transparent rounded-full animate-spin`} />
+function Spinner() {
+  return (
+    <div style={{ padding: '48px 0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ width: '24px', height: '24px', border: '2px solid #C56B4A', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+    </div>
+  )
 }
