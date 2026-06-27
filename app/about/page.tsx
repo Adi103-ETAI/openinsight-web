@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import SectionReveal from '@/components/SectionReveal'
+import styles from './about.module.css'
 
 export const metadata: Metadata = {
   title: 'About | OpenInsight',
@@ -10,7 +11,7 @@ export default function AboutPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="about-hero">
+      <section className={styles['about-hero']}>
         <div className="container text-center">
           <h1 style={{ fontStyle: 'italic' }}>
             Built by someone who couldn't get in.
@@ -22,10 +23,10 @@ export default function AboutPage() {
       </section>
 
       {/* Story */}
-      <section className="story-section">
+      <section className={styles['story-section']}>
         <div className="container max-w-3xl mx-auto">
           <SectionReveal>
-            <div className="story-text">
+            <div className={styles['story-text']}>
               <p>
                 OpenInsight was started by Aditya Singh, a first-year BCA student and founder of SentArc Labs in Pune, who came to medicine as a NEET non-qualifier. He couldn't enter the domain as a practitioner — so he built a tool for the people who did.
               </p>
@@ -38,28 +39,28 @@ export default function AboutPage() {
       </section>
 
       {/* Company */}
-      <section className="company-section">
+      <section className={styles['company-section']}>
         <div className="container max-w-2xl mx-auto text-center">
           <SectionReveal>
-            <h2 className="company-title">
+            <h2 className={styles['company-title']}>
               <img
                 src="/logos/sentarc-symbol.svg"
                 alt=""
                 aria-hidden="true"
-                className="company-title-symbol"
+                className={styles['company-title-symbol']}
               />
               <span>SentArc Labs</span>
             </h2>
-            <div className="company-details">
-              <div className="company-detail">
+            <div className={styles['company-details']}>
+              <div className={styles['company-detail']}>
                 <h4>Location</h4>
                 <p>Pune, India</p>
               </div>
-              <div className="company-detail">
+              <div className={styles['company-detail']}>
                 <h4>Focus</h4>
                 <p>Applied AI for Indian healthcare</p>
               </div>
-              <div className="company-detail">
+              <div className={styles['company-detail']}>
                 <h4>Mission</h4>
                 <p>Make world-class clinical tools accessible to every Indian doctor</p>
               </div>
@@ -69,7 +70,7 @@ export default function AboutPage() {
       </section>
 
       {/* Vision */}
-      <section className="vision-section">
+      <section className={styles['vision-section']}>
         <div className="container max-w-3xl mx-auto">
           <SectionReveal>
             <div className="text-center mb-12">
@@ -79,7 +80,7 @@ export default function AboutPage() {
           </SectionReveal>
 
           <SectionReveal>
-            <div className="vision-stack">
+            <div className={styles['vision-stack']}>
               {[
                 {
                   number: 1,
@@ -112,9 +113,9 @@ export default function AboutPage() {
                   subtitle: 'Institutional layer',
                 },
               ].map((item, idx) => (
-                <div key={idx} className="vision-item">
-                  <div className="vision-number">{item.number}</div>
-                  <div className="vision-content">
+                <div key={idx} className={styles['vision-item']}>
+                  <div className={styles['vision-number']}>{item.number}</div>
+                  <div className={styles['vision-content']}>
                     <h4>{item.title}</h4>
                     <p>{item.subtitle}</p>
                   </div>
@@ -124,157 +125,6 @@ export default function AboutPage() {
           </SectionReveal>
         </div>
       </section>
-
-      <style>{`
-        .about-hero {
-          background-color: var(--color-surface);
-          padding: var(--spacing-12) var(--spacing-6);
-          text-align: center;
-        }
-
-        .about-hero h1 {
-          max-width: 700px;
-          margin: 0 auto;
-        }
-
-        .story-section {
-          background-color: var(--color-surface-2);
-          padding: var(--spacing-12) var(--spacing-6);
-        }
-
-        .story-text {
-          display: flex;
-          flex-direction: column;
-          gap: var(--spacing-4);
-        }
-
-        .story-text p {
-          font-size: var(--text-lg);
-          line-height: var(--lh-base);
-          color: var(--color-text-2);
-          margin: 0;
-        }
-
-        .company-section {
-          background-color: var(--color-surface);
-          padding: var(--spacing-12) var(--spacing-6);
-        }
-
-        .company-section h2 {
-          margin: 0;
-        }
-
-        /* SentArc symbol mark placed before the wordmark, matching the
-           sentarc-labs-wordmark-alt.svg layout. The wordmark is scaled up
-           with a large absolute clamp (not em on the h2) so it genuinely
-           fills the section instead of looking lost in whitespace. The
-           symbol is sized larger than the text so it reads as the dominant
-           brand mark. */
-        .company-title {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.2em;
-          color: var(--color-text);
-          font-family: var(--font-display);
-          font-size: clamp(2.75rem, 6vw + 1rem, 5rem); /* 44px -> 80px fluid */
-          line-height: 1.05;
-          font-weight: 400;
-          letter-spacing: -0.015em;
-        }
-
-        .company-title-symbol {
-          width: 1.25em;
-          height: 1.25em;
-          flex-shrink: 0;
-          display: block;
-          /* Nudge the symbol down slightly so its optical centre aligns
-             with the text's cap-height midline, like the reference wordmark. */
-          transform: translateY(0.02em);
-        }
-
-        .company-details {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: var(--spacing-6);
-          /* Generous separation from the "SentArc Labs" title above so the
-             column headers read as belonging to their own content, not the
-             title. (Fixes "too close to sentarclabs".) */
-          margin-top: var(--spacing-12);
-        }
-
-        .company-detail {
-          display: flex;
-          flex-direction: column;
-          gap: var(--spacing-1);
-        }
-
-        .company-detail h4 {
-          color: var(--color-accent);
-          margin: 0;
-          font-size: var(--text-lg);
-        }
-
-        .company-detail p {
-          color: var(--color-text-2);
-          margin: 0;
-          font-size: var(--text-base);
-        }
-
-        .vision-section {
-          background-color: var(--color-surface-2);
-          padding: var(--spacing-12) var(--spacing-6);
-        }
-
-        .vision-stack {
-          display: flex;
-          flex-direction: column;
-          gap: var(--spacing-2);
-        }
-
-        .vision-item {
-          display: flex;
-          gap: var(--spacing-4);
-          align-items: start;
-          padding: var(--spacing-4);
-          background-color: var(--color-surface);
-          border-radius: var(--radius-lg);
-          border-left: 4px solid var(--color-accent);
-        }
-
-        .vision-number {
-          min-width: 40px;
-          width: 40px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: var(--color-accent-pale);
-          color: var(--color-accent);
-          border-radius: 50%;
-          font-weight: 600;
-          font-size: var(--text-lg);
-          flex-shrink: 0;
-        }
-
-        .vision-content h4 {
-          margin: 0 0 4px 0;
-          color: var(--color-text);
-          font-size: var(--text-lg);
-        }
-
-        .vision-content p {
-          margin: 0;
-          color: var(--color-text-2);
-          font-size: var(--text-sm);
-        }
-
-        @media (max-width: 768px) {
-          .company-details {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
     </div>
   )
 }
