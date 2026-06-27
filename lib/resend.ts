@@ -145,7 +145,7 @@ export async function sendSignupWelcome({ fullName, email }: { fullName: string;
   const text = `
 Hi ${firstName},
 
-I'm Adii — I founded OpenInsight, and I wanted to personally thank you for
+I'm Adii — Founder and CEO of OpenInsight, and I wanted to personally thank you for
 requesting early access.
 
 A bit about why we're building this: I've seen firsthand how hard it is for
@@ -164,7 +164,7 @@ A couple of things in the meantime:
 Looking forward to having you on board.
 
 — Adii
-Founder, OpenInsight
+Founder & CEO, OpenInsight
 https://openinsight.in
 `.trim()
 
@@ -176,7 +176,7 @@ https://openinsight.in
   <p style="color: #1C1B1A; line-height: 1.7;">Hi ${escapeHtml(firstName)},</p>
 
   <p style="color: #1C1B1A; line-height: 1.7;">
-    I'm <strong>Adii</strong> — I founded OpenInsight, and I wanted to personally thank you for
+    I'm <strong>Adii</strong> — Founder and CEO of OpenInsight, and I wanted to personally thank you for
     requesting early access.
   </p>
 
@@ -206,7 +206,7 @@ https://openinsight.in
 
   <p style="margin-top: 24px; color: #8A8884; font-size: 13px; line-height: 1.6;">
     — Adii<br/>
-    Founder, OpenInsight<br/>
+    Founder & CEO, OpenInsight<br/>
     <a href="https://openinsight.in" style="color: #C56B4A;">openinsight.in</a>
   </p>
 </div>
@@ -289,7 +289,7 @@ export async function sendContactAutoReply({
   const text = `
 Hi ${firstName},
 
-Thanks for reaching out to OpenInsight. I'm Adii, the founder — I just saw
+Thanks for reaching out to OpenInsight. I'm Adii, Founder and CEO — I just saw
 your message come in and wanted to let you know it's in the right hands.
 
 I personally read every message that comes through our contact form, and I'll
@@ -300,7 +300,7 @@ or reach me at support@openinsight.in.
 Talk soon.
 
 — Adii
-Founder, OpenInsight
+Founder & CEO, OpenInsight
 https://openinsight.in
 `.trim()
 
@@ -312,7 +312,7 @@ https://openinsight.in
   <p style="color: #1C1B1A; line-height: 1.7;">Hi ${escapeHtml(firstName)},</p>
 
   <p style="color: #1C1B1A; line-height: 1.7;">
-    Thanks for reaching out to OpenInsight. I'm <strong>Adii</strong>, the founder —
+    Thanks for reaching out to OpenInsight. I'm <strong>Adii</strong>, Founder and CEO —
     I just saw your message come in and wanted to let you know it's in the right hands.
   </p>
 
@@ -333,7 +333,7 @@ https://openinsight.in
 
   <p style="margin-top: 24px; color: #8A8884; font-size: 13px; line-height: 1.6;">
     — Adii<br/>
-    Founder, OpenInsight<br/>
+    Founder & CEO, OpenInsight<br/>
     <a href="https://openinsight.in" style="color: #C56B4A;">openinsight.in</a>
   </p>
 </div>
